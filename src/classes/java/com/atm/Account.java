@@ -15,7 +15,9 @@ public class Account
 
     public boolean withdraw(double amount)
     {
-        if (this.balance >= amount) {
+        amount = Math.abs(amount);
+        if (this.balance >= amount)
+        {
             this.balance -= amount;
             return true;
         }
@@ -25,9 +27,10 @@ public class Account
         }
     }
 
-    public void deposit(int amount)
+    public void deposit(double amount)
     {
-        this.balance += Math.abs(amount);
+        amount = Math.abs(amount);
+        this.balance += amount;
     }
 
     public int getNumber()

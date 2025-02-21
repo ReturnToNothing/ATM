@@ -1,16 +1,17 @@
 package com.atm;
 
+import java.utl.ArrayList
+
 public class Bank  //make it protected
 {
     int maxAccounts = 10;
-    int numAccounts = 0;
 
-    Account[] accounts;
+    ArrayList<Account> accounts;
     Account account;
 
     public Bank()
     {
-        this.accounts = new Account[this.maxAccounts];
+        this.accounts = new ArrayList<Account>;
         this.account = this.accounts[0];
     }
 
@@ -21,10 +22,10 @@ public class Bank  //make it protected
 
     private boolean addAccount(Account account)
     {
-        if (this.numAccounts < this.maxAccounts)
+        if (this.accounts.size() < this.maxAccounts)
         {
-            this.numAccounts++;
-            this.accounts[this.numAccounts] = account;
+            Account newAccount = this.createAccount(number, password);
+            this.accounts.add(account);
             return true;
         }
         else
@@ -40,7 +41,6 @@ public class Bank  //make it protected
 
     public boolean addAccount(int number, int password)
     {
-        Account newAccount = this.createAccount(number, password);
         return this.addAccount(newAccount);
     }
 
@@ -48,55 +48,59 @@ public class Bank  //make it protected
     {
         this.logout();
 
-        // Iterates stored accounts to match with the parameters; number and password.
+        // Iterates a list of accounts to match with the parameters and instance variables; number and password.
         for (Account account : accounts)
         {
-            if (account.getNumber() == number) {
-                if (account.getPassword() == password) {
+            if (account.getNumber() == number)
+            {
+                if (account.getPassword() == password)
+                {
                     this.account = account;
                 }
             }
         }
         // Otherwise, if these conditions are not matched;
-        // then the account isn't registered or invalid
+        // then the account isn't registered or unmatched information
         return false;
     }
 
     public void logout()
     {
-        if (this.IsLogged())
+        if (!this.IsLogged())
         {
-          this.account = null;
+            return;
         }
+
+        this.account = null;
     }
 
-    public boolean deposit(double amount)
+    public void deposit(double amount)
     {
-        if (this.IsLogged())
+        if (!this.IsLogged())
         {
-            return this.account.withdraw(amount);
+            return;
         }
 
-        return false;
+        this.account.deposit(amount);
     }
 
     public boolean withdraw(double amount)
     {
-        if (this.IsLogged())
+        if (!this.IsLogged())
         {
-            return this.account.withdraw(amount);
+            return false;
         }
 
-        return false;
+        return this.account.withdraw(amount);
     }
 
     public double getBalance()
     {
-        if (this.IsLogged())
+        if (!this.IsLogged())
         {
-            return this.account.getBalance();
+            return -1.00f;
         }
 
-        return -1.00f;
+        return this.account.getBalance();
     }
 }
