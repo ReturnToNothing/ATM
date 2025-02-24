@@ -168,10 +168,11 @@ public class View
 
     private void buttonClicked(ActionEvent event)
     {
-        Button button = (Button) event.getSource();
+        Button button = (Button)event.getSource();
         if (this.controller != null)
         {
             String label = button.getText();
+            System.out.println(label);
             this.controller.process(label);
         }
     }

@@ -1,6 +1,6 @@
 package com.atm;
 
-import java.utl.ArrayList
+import java.util.ArrayList;
 
 public class Bank  //make it protected
 {
@@ -11,8 +11,8 @@ public class Bank  //make it protected
 
     public Bank()
     {
-        this.accounts = new ArrayList<Account>;
-        this.account = this.accounts[0];
+        this.accounts = new ArrayList<Account>();
+        this.account = null;
     }
 
     private Account createAccount(int number, int password)
@@ -20,7 +20,7 @@ public class Bank  //make it protected
         return new Account(number, password);
     }
 
-    private boolean addAccount(Account account)
+    public boolean addAccount(int number, int password)
     {
         if (this.accounts.size() < this.maxAccounts)
         {
@@ -28,20 +28,13 @@ public class Bank  //make it protected
             this.accounts.add(account);
             return true;
         }
-        else
-        {
-            return false;
-        }
+
+        return false;
     }
 
     public boolean IsLogged()
     {
         return this.account != null;
-    }
-
-    public boolean addAccount(int number, int password)
-    {
-        return this.addAccount(newAccount);
     }
 
     public boolean login(int number, int password)
