@@ -172,7 +172,6 @@ public class View
         if (this.controller != null)
         {
             String label = button.getText();
-            System.out.println(label);
             this.controller.process(label);
         }
     }

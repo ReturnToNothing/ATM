@@ -11,7 +11,8 @@ public class Controller
     public void process(String action)
     {
         // Using switch statement to evaluate each keys assigned within the UI.
-        switch (action) {
+        switch (action)
+        {
             case "1":
             case "2":
             case "3":

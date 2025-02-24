@@ -17,10 +17,11 @@ public class Model
 
     public Model(Bank bank)
     {
+        restart("Welcome to ATM");
         this.bank = bank;
     }
 
-    private void display()
+    public void display()
     {
         this.view.update();
     }
@@ -46,8 +47,12 @@ public class Model
     {
         char character = label.charAt(0);
 
-        this.input *= 10 + character - 48;
+        this.input = this.input * 10 + character - 48;
         this.display1 = "" + this.input;
+
+        System.out.println(character);
+        System.out.println(this.input);
+        System.out.println(this.display1);
 
         this.display();
     }

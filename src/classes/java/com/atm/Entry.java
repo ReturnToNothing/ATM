@@ -46,6 +46,7 @@ public class Entry extends Application
         view.controller = controller;
         view.model = model;
         model.view = view;
+        model.display();
 
     }
 }
