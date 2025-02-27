@@ -1,5 +1,6 @@
 package com.atm;
 
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import javafx.event.ActionEvent;
@@ -7,10 +8,6 @@ import javafx.event.ActionEvent;
 import javafx.scene.Scene;
 import javafx.scene.Node;
 
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 
 import javafx.scene.layout.GridPane;
@@ -21,14 +18,14 @@ public class View
     public Controller controller;
     public Model model;
 
-    private final int height = 500;
-    private final int width = 250;
+    private final int height = 420;
+    private final int width = 500;
 
     private GridPane grid;
     private TilePane tile;
     private Label title;
     private TextField message;
-    private TextField reply;
+    private TextArea reply;
     private ScrollPane scrollPane;
 
     public View(Stage stage)
@@ -41,15 +38,15 @@ public class View
         stage.centerOnScreen();
 
         String[][] labels = {
-                {"7", "8", "9", "", "Dep", ""},
+                {"1", "2", "3", "", "Dep", ""},
                 {"4", "5", "6", "", "W/D", ""},
-                {"1", "2", "3", "", "Bal", "Fin"},
+                {"7", "8", "9", "", "Bal", "Fin"},
                 {"CLR", "0", "", "", "", "Ent"}
         };
 
         this.title = createLabel("Title");
         this.message = createTextField("Message", 0, false);
-        this.reply = createTextField("Reply", 0, false);
+        this.reply = createTextArea("Reply", 0, false);
         this.scrollPane = createScrollPane("ScrollPane", this.reply);
 
         Button[][] buttons = createButtonGrid(labels);
@@ -58,6 +55,7 @@ public class View
         this.grid = createGridPane("Layout", this.title, this.message, this.scrollPane, this.tile);
 
         Scene scene = new Scene(this.grid, width, height);
+        scene.getStylesheets().add("atm.css");
         stage.setScene(scene);
         stage.show();
     }
@@ -74,7 +72,7 @@ public class View
         int currentRow = 0;
         for (Node instance : instances)
         {
-            grid.add(instance, 0, currentRow++);
+            grid.add(instance, 0, ++currentRow);
         }
 
         return grid;
@@ -93,6 +91,7 @@ public class View
                 // Filter nullable instance within the table; ignoring empty labels.
                 if (button != null)
                 {
+                    System.out.println(button.getText());
                     tile.getChildren().add(button);
                 }
             }
@@ -120,6 +119,19 @@ public class View
         textField.setEditable(editable);
 
         return textField;
+    }
+
+    private TextArea createTextArea(String id, int columns, boolean editable)
+    {
+        TextArea textArea = new TextArea();
+
+        textArea.setPrefColumnCount(columns);
+        textArea.setText(id);
+        textArea.setId(id);
+
+        textArea.setEditable(editable);
+
+        return textArea;
     }
 
     private ScrollPane createScrollPane(String id, Node content)
@@ -151,15 +163,15 @@ public class View
                 if (!label.isEmpty())
                 {
                     Button newButton = new Button(label);
-                    newButton.setId(label);
+                    newButton.setId("button");
                     newButton.setOnAction(this::buttonClicked);
                     buttons[row][col] = newButton;
                 }
                 else
                 {
-                    Text newText = new Text();
+                    Button newText = new Button(" ");
                     newText.setId("empty" + row + col);
-                    buttons[row][col] = null;
+                    buttons[row][col] = newText;
                 }
             }
         }
