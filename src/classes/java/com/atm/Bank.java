@@ -25,7 +25,7 @@ public class Bank  //make it protected
         if (this.accounts.size() < this.maxAccounts)
         {
             Account newAccount = this.createAccount(number, password);
-            this.accounts.add(account);
+            this.accounts.add(newAccount);
             return true;
         }
 
@@ -44,6 +44,7 @@ public class Bank  //make it protected
         // Iterates a list of accounts to match with the parameters and instance variables; number and password.
         for (Account account : accounts)
         {
+            System.out.println(account);
             if (account != null)
             {
                 if (account.getNumber() == number)
@@ -51,6 +52,7 @@ public class Bank  //make it protected
                     if (account.getPassword() == password)
                     {
                         this.account = account;
+                        return true;
                     }
                 }
             }
