@@ -72,7 +72,7 @@ public class Model
                 this.accountNumber = this.input;
                 this.input = 0;
 
-                this.setState(States.ACCOUNT_NO);
+                this.setState(States.PASSWORD_NO);
 
                 this.display1 = "";
                 this.display2 = "Now enter your password\nFollowed by \"Ent\"";

@@ -44,16 +44,19 @@ public class Bank  //make it protected
         // Iterates a list of accounts to match with the parameters and instance variables; number and password.
         for (Account account : accounts)
         {
-            if (account.getNumber() == number)
+            if (account != null)
             {
-                if (account.getPassword() == password)
+                if (account.getNumber() == number)
                 {
-                    this.account = account;
+                    if (account.getPassword() == password)
+                    {
+                        this.account = account;
+                    }
                 }
             }
         }
         // Otherwise, if these conditions are not matched;
-        // then the account isn't registered or unmatched information
+        // then the account isn't registered due to unmatched information
         return false;
     }
 
