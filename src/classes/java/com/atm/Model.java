@@ -1,11 +1,14 @@
 package com.atm;
 
+import java.util.Objects;
+
 public class Model
 {
     public View view;
     private Bank bank;
 
     States state = States.ACCOUNT_NO;
+    States subState = States.WITHDRAWAL;
 
     int input = 0;
     int accountNumber = -1;
@@ -35,9 +38,19 @@ public class Model
         }
     }
 
+    private void setSubState(States newState)
+    {
+        if (!this.subState.equals(newState))
+        {
+            States oldState = this.subState;
+            this.subState = newState;
+        }
+    }
+
     private void restart(String message)
     {
         this.setState(States.ACCOUNT_NO);
+        this.setSubState(States.DEFAULT);
         this.input = 0;
         this.display1 = message;
         this.display2 = "Enter your account number\nFollowed by \"Ent\"";
@@ -49,10 +62,6 @@ public class Model
 
         this.input = this.input * 10 + character - 48;
         this.display1 = "" + this.input;
-
-        System.out.println(character);
-        System.out.println(this.input);
-        System.out.println(this.display1);
 
         this.display();
     }
@@ -85,13 +94,35 @@ public class Model
                 if (this.bank.login(this.accountNumber, this.accountPassword))
                 {
                     this.setState(States.LOGGED_IN);
-                    this.display2 = "Accepted\nNow enter the transaction you require";
+                    this.display2 = "Accepted\n\nNow enter the transaction you require:\nWithdraw followed by \"W/D\"\nDeposit followed by \"Dep\"\nCheck balance followed by \"Bal\"";
                 }
                 else
                 {
                     this.restart("Unknown account/password");
                 }
             case States.LOGGED_IN:
+                if (this.subState.equals(States.WITHDRAWAL))
+                {
+                    if (this.input > 0)
+                    {
+                        if (this.bank.withdraw(this.input))
+                        {
+                            this.display2 = "You have Withdrawn: " + this.input + "\n\nNow enter the additional transaction you require:\nWithdraw followed by \"W/D\"\nDeposit followed by \"Dep\"\nCheck balance followed by \"Bal\"";
+                            this.setSubState(States.DEFAULT);
+                        }
+                        else
+                        {
+                            this.display2 = "Insufficient funds.\nNow try again followed by \"Ent\"";
+                        }
+                    }
+                    else
+                    {
+                        this.display2 = "negative/zero value is unacceptable.\nNow try again followed by \"Ent\"";
+                    }
+
+                    this.input = 0;
+                    this.display1 = "";
+                }
         }
         this.display();
     }
@@ -100,17 +131,13 @@ public class Model
     {
         if (this.state.equals(States.LOGGED_IN))
         {
-            if (this.bank.withdraw(this.input))
+            if (this.subState.equals(States.WITHDRAWAL))
             {
-                this.display2 = "Withdrawn: " + this.input;
+                this.input = 0;
+                this.display1 = "";
+                this.display2 = "How much do you want to Withdraw?\nNow enter the amount followed by \"Ent\"";
+                this.setSubState(States.WITHDRAWAL);
             }
-            else
-            {
-                this.display2 = "You do not have sufficient funds";
-            }
-
-            this.input = 0;
-            this.display1 = "";
         }
         else
         {
