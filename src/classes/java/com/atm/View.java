@@ -41,7 +41,7 @@ public class View
                 {"1", "2", "3", "", "Dep", ""},
                 {"4", "5", "6", "", "W/D", ""},
                 {"7", "8", "9", "", "Bal", "Fin"},
-                {"CLR", "0", "", "", "", "Ent"}
+                {"CLR", "0", "00", "", "", "Ent"}
         };
 
         this.title = createLabel("Title");
@@ -91,7 +91,6 @@ public class View
                 // Filter nullable instance within the table; ignoring empty labels.
                 if (button != null)
                 {
-                    System.out.println(button.getText());
                     tile.getChildren().add(button);
                 }
             }
@@ -170,7 +169,7 @@ public class View
                 else
                 {
                     Button newText = new Button(" ");
-                    newText.setId("empty" + row + col);
+                    newText.setId("empty");
                     buttons[row][col] = newText;
                 }
             }
