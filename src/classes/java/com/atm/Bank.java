@@ -15,16 +15,16 @@ public class Bank  //make it protected
         this.account = null;
     }
 
-    private Account createAccount(int number, int password)
+    private Account createAccount(int number, int password, States type)
     {
-        return new Account(number, password);
+        return new Account(number, password, type);
     }
 
-    public boolean addAccount(int number, int password)
+    public boolean addAccount(int number, int password, States type)
     {
         if (this.accounts.size() < this.maxAccounts)
         {
-            Account newAccount = this.createAccount(number, password);
+            Account newAccount = this.createAccount(number, password, type);
             this.accounts.add(newAccount);
             return true;
         }
@@ -72,21 +72,21 @@ public class Bank  //make it protected
         this.account = null;
     }
 
-    public void deposit(double amount)
-    {
-        if (!this.IsLogged())
-        {
-            return;
-        }
-
-        this.account.deposit(amount);
-    }
-
-    public boolean withdraw(double amount)
+    public boolean deposit(double amount)
     {
         if (!this.IsLogged())
         {
             return false;
+        }
+
+        return this.account.deposit(amount);
+    }
+
+    public Status withdraw(double amount)
+    {
+        if (!this.IsLogged())
+        {
+            return Status.UNSUCCESSFUL;
         }
 
         return this.account.withdraw(amount);
