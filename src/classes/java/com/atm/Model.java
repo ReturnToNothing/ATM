@@ -7,6 +7,11 @@ public class Model
     public View view;
     private Bank bank;
 
+    // Using the State Design Pattern by separating the internal state into substates,
+    // which alters the logical behavior based on two defined pattern.
+    // Currently, the Model's internal state transitions linearly from state to substate.
+    // Reference:
+    // https://onjavahell.blogspot.com/2009/05/simple-example-of-state-design-pattern.html
     States state = States.ACCOUNT_NO;
     States subState = States.WITHDRAWAL;
 
@@ -20,7 +25,7 @@ public class Model
 
     public Model(Bank bank)
     {
-        restart("Welcome to ATM");
+        restart("Welcome to ATM: Enter your account number");
         this.bank = bank;
     }
 
@@ -33,7 +38,7 @@ public class Model
     {
         if (!this.state.equals(newState))
         {
-            States oldState = this.state;
+            //States oldState = this.state; currently unused.
             this.state = newState;
         }
     }
@@ -42,7 +47,7 @@ public class Model
     {
         if (!this.subState.equals(newState))
         {
-            States oldState = this.subState;
+            //States oldState = this.subState;  currently unused.
             this.subState = newState;
         }
     }
@@ -101,27 +106,74 @@ public class Model
                     this.restart("Unknown account/password");
                 }
             case States.LOGGED_IN:
-                if (this.subState.equals(States.WITHDRAWAL))
-                {
-                    if (this.input > 0)
-                    {
-                        if (this.bank.withdraw(this.input))
+                switch (this.subState) {
+                    case States.WITHDRAWAL:
+
+                        // input is specified as the amount of cash to withdraw.
+
+                        Status withdrawStatus = this.bank.withdraw(this.input);
+
+                        System.out.println(withdrawStatus);
+
+                         switch (withdrawStatus)
+                         {
+                             case Status.UNSUCCESSFUL:
+                                 this.display2 = "Unexpected state alteration occurred; this account is currently logged off.";
+                                 this.setSubState(States.DEFAULT);
+                                 break;
+                             case Status.SUCCESSFUL:
+                                 this.display2 = "You have Withdrawn: " + this.input + "\n\nNow enter the additional transaction you require:\nWithdraw followed by \"W/D\"\nDeposit followed by \"Dep\"\nCheck balance followed by \"Bal\"\nLogout followed by \"Fin\"";
+                                 this.setSubState(States.DEFAULT);
+                                 break;
+                             case Status.INSUFFICIENT_FUNDS:
+                                 this.display2 = "Insufficient funds occurred.\nNow try again followed by \"Ent\"";
+                                 break;
+                             case Status.EXCEEDS_LIMIT:
+                                 this.display2 = "Withdrawal has exceeded the threshold limit.\nBasic Accounts exceeds under 100\nPrime Accounts exceeds under 1000\nNow try again followed by \"Ent\"";
+                                 break;
+                         }
+
+                        this.input = 0;
+                        this.display1 = "";
+                        break;
+                    case States.DEPOSIT:
+                        // input is specified as the amount of cash to deposit.
+                        if (this.input > 0)
                         {
-                            this.display2 = "You have Withdrawn: " + this.input + "\n\nNow enter the additional transaction you require:\nWithdraw followed by \"W/D\"\nDeposit followed by \"Dep\"\nCheck balance followed by \"Bal\"";
-                            this.setSubState(States.DEFAULT);
+                            if (this.bank.deposit(this.input))
+                            {
+                                this.display2 = "You have deposited: " + this.input + "\n\nNow enter the additional transaction you require:\nWithdraw followed by \"W/D\"\nDeposit followed by \"Dep\"\nCheck balance followed by \"Bal\"\nLogout followed by \"Fin\"";
+                                this.setSubState(States.DEFAULT);
+                            }
+                            else
+                            {
+                                this.display2 = "Deposit limit has exceeded over x.\nNow try again followed by \"Ent\"";
+                            }
                         }
                         else
                         {
-                            this.display2 = "Insufficient funds.\nNow try again followed by \"Ent\"";
+                            this.display2 = "Negative float is unacceptable.\nNow try again followed by \"Ent\"";
                         }
-                    }
-                    else
-                    {
-                        this.display2 = "negative/zero value is unacceptable.\nNow try again followed by \"Ent\"";
-                    }
 
-                    this.input = 0;
-                    this.display1 = "";
+                        this.input = 0;
+                        this.display1 = "";
+                        break;
+                    case States.BALANCE:
+                        // input isn't specified as it's currently unused for now.
+                        double balance = this.bank.getBalance();
+
+                        if (balance > 0)
+                        {
+                            this.display2 = "Your balance is currently: " + balance + "\n\nNow enter the additional transaction you require:\nWithdraw followed by \"W/D\"\nDeposit followed by \"Dep\"\nCheck balance followed by \"Bal\"\nLogout followed by \"Fin\"";
+                        }
+                        else
+                        {
+                            this.display2 = "Your balance is currently: " + balance + "\nWhich has previously been overdrawn\nNow enter the additional transaction you require:\nWithdraw followed by \"W/D\"\nDeposit followed by \"Dep\"\nCheck balance followed by \"Bal\"\nLogout followed by \"Fin\"";
+                        }
+
+                        this.input = 0;
+                        this.display1 = "";
+                        break;
                 }
         }
         this.display();
@@ -131,7 +183,7 @@ public class Model
     {
         if (this.state.equals(States.LOGGED_IN))
         {
-            if (this.subState.equals(States.WITHDRAWAL))
+            if (!this.subState.equals(States.WITHDRAWAL))
             {
                 this.input = 0;
                 this.display1 = "";
@@ -151,10 +203,13 @@ public class Model
     {
         if (this.state.equals(States.LOGGED_IN))
         {
-            this.bank.deposit(this.input);
-            this.display1 = "";
-            this.display2 = "Deposited: " + this.input;
-            this.input = 0;
+            if (!this.subState.equals(States.DEPOSIT))
+            {
+                this.input = 0;
+                this.display1 = "";
+                this.display2 = "How much do you want to deposit?\nNow enter the amount followed by \"Ent\"";
+                this.setSubState(States.DEPOSIT);
+            }
         }
         else
         {
@@ -166,10 +221,16 @@ public class Model
 
     public void processBalance()
     {
+
         if (this.state.equals(States.LOGGED_IN))
         {
-            this.input = 0;
-            this.display2 = "Your balance is: " + this.bank.getBalance();
+            if (!this.subState.equals(States.BALANCE))
+            {
+                this.input = 0;
+                this.display1 = "";
+                this.display2 = "Do you want a summary of your balance? (input isn't required for now)\nNow enter the amount followed by \"Ent\"";
+                this.setSubState(States.BALANCE);
+            }
         }
         else
         {
@@ -184,8 +245,9 @@ public class Model
         if (this.state.equals(States.LOGGED_IN))
         {
             this.setState(States.ACCOUNT_NO);
+            this.setSubState(States.DEFAULT);
             this.input = 0;
-            this.display2 = "Welcome: Enter your account number";
+            this.display2 = "Welcome to ATM: Enter your account number";
             this.bank.logout();
         }
         else
@@ -198,7 +260,7 @@ public class Model
 
     public void processUnknownKey(String action)
     {
-        this.restart("Invalid command");
+        this.restart("Invalid command: " + action);
         this.display();
     }
 }
