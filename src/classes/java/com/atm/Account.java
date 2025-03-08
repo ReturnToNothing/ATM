@@ -5,9 +5,9 @@ public class Account
     private final int number;
     private final int password;
     private double balance;
-    private States type;
+    private Types type;
 
-    public Account(int number, int password, States type)
+    public Account(int number, int password, Types type)
     {
         this.number = number;
         this.password = password;
@@ -15,49 +15,14 @@ public class Account
         this.type = type;
     }
 
-    public Status withdraw(double amount)
+    public void withdraw(double amount)
     {
-        double limit = 100;
-        boolean overdraft = false;
-
-        amount = Math.abs(amount);
-
-        if (this.type.equals(States.PRIME))
-        {
-            limit = 1000;
-            overdraft = true;
-        }
-
-        // Check if the requested withdrawal exceeds the limit.
-        if (amount > limit)
-        {
-            return Status.EXCEEDS_LIMIT; // Withdrawal amount exceeds the allowed limit.
-        }
-
-        // Verify if the withdrawal can be processed, bypassed if overdraft is allowed.
-        if (this.balance >= amount || overdraft)
-        {
-            this.balance -= amount;
-            return Status.SUCCESSFUL;
-        }
-        else
-        {
-            return Status.INSUFFICIENT_FUNDS;
-        }
+        this.balance -= amount;
     }
 
-    public boolean deposit(double amount)
+    public void deposit(double amount)
     {
-        amount = Math.abs(amount);
-        if (amount <= 1000)
-        {
-            this.balance += amount;
-            return false;
-        }
-        else
-        {
-            return false;
-        }
+        this.balance += amount;
     }
 
     public int getNumber()
@@ -73,5 +38,10 @@ public class Account
     public double getBalance()
     {
         return this.balance;
+    }
+
+    public Types getType()
+    {
+        return this.type;
     }
 }
