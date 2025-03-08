@@ -1,6 +1,9 @@
 package com.atm;
 
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
 import javafx.event.ActionEvent;
@@ -8,10 +11,11 @@ import javafx.event.ActionEvent;
 import javafx.scene.Scene;
 import javafx.scene.Node;
 
-import javafx.scene.text.Text;
-
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.TilePane;
+
+import java.net.URL;
+import java.util.Objects;
 
 public class View
 {
@@ -22,7 +26,9 @@ public class View
     private final int width = 500;
 
     private GridPane grid;
-    private TilePane tile;
+    private GridPane grid2;
+    private TilePane buttonTile;
+    private TilePane actionTile;
     private Label title;
     private TextField message;
     private TextArea reply;
@@ -37,22 +43,46 @@ public class View
         stage.setWidth(width);
         stage.centerOnScreen();
 
+        // numerical numbers ranging from 1-9
+        String[][] digits = {
+                {"1", "2", "3",},
+                {"4", "5", "6",},
+                {"7", "8", "9"}
+        };
+
+        // action buttons
+        String[][] actions = {
+                {"enter",},
+                {"clear",},
+                {"cancel"}
+        };
+
+        /*
         String[][] labels = {
                 {"1", "2", "3", "", "Dep", ""},
                 {"4", "5", "6", "", "W/D", ""},
                 {"7", "8", "9", "", "Bal", "Fin"},
                 {"CLR", "0", "00", "", "", "Ent"}
         };
+         */
 
         this.title = createLabel("Title");
         this.message = createTextField("Message", 0, false);
         this.reply = createTextArea("Reply", 0, false);
         this.scrollPane = createScrollPane("ScrollPane", this.reply);
 
-        Button[][] buttons = createButtonGrid(labels);
+        Button[][] digitButtons = createButtonGrid(digits);
+        Button[][] actionButtons = createButtonGrid(actions);
 
-        this.tile = createTilePane("Buttons", buttons);
-        this.grid = createGridPane("Layout", this.title, this.message, this.scrollPane, this.tile);
+        styleButtons(digitButtons);
+        styleButtons(actionButtons);
+
+        this.buttonTile = createTilePane("Buttons", digitButtons);
+        this.actionTile = createTilePane("Actions", actionButtons);
+
+        this.grid2 = createGridPane("Layout", false, this.buttonTile, this.actionTile);
+        this.grid = createGridPane("Layout", true, this.title, this.message, this.scrollPane, this.grid2);
+        this.grid.setAlignment(Pos.CENTER);
 
         Scene scene = new Scene(this.grid, width, height);
         scene.getStylesheets().add("atm.css");
@@ -60,7 +90,7 @@ public class View
         stage.show();
     }
 
-    private GridPane createGridPane(String id, Node... instances)
+    private GridPane createGridPane(String id, boolean row, Node... instances)
     {
         GridPane grid = new GridPane();
         grid.setId(id);
@@ -70,9 +100,16 @@ public class View
         incrementally applying their position in columns and rows.
          */
         int currentRow = 0;
+        int currentCol = 0;
         for (Node instance : instances)
         {
-            grid.add(instance, 0, ++currentRow);
+            if (row) {
+                grid.add(instance, 0, ++currentRow);
+            }
+            else
+            {
+                grid.add(instance, ++currentCol, 0);
+            };
         }
 
         return grid;
@@ -145,6 +182,46 @@ public class View
         return scrollPane;
     }
 
+    private ImageView fetchButtonImage(String id)
+    {
+        // concatenating the path by appending the specified id before searching the image's URL.
+        String imagePath = "/com/atm/" + id + ".png";
+        URL URLPath = getClass().getResource(imagePath);
+
+        // adding exception since fetching invalid path could potentially crash out.
+        if (URLPath == null)
+        {
+            return new ImageView();
+        }
+
+        // finally, set the image into the imageView before applying it's size.
+        Image newImage = new Image(URLPath.toExternalForm());
+        ImageView newImageView = new ImageView(newImage);
+        newImageView.setPreserveRatio(true);
+        newImageView.setFitHeight(60f);
+        newImageView.setFitWidth(60f);
+
+        return newImageView;
+    }
+
+    private void styleButtons(Button[][] instances)
+    {
+        // Iterating through the nested table containing buttons.
+        for (Button[] row : instances)
+        {
+            for (Button button : row)
+            {
+                // Filter nullable instance within the table; ignoring empty labels.
+                if (button != null)
+                {
+                    String id = button.getId();
+                    ImageView imageId = fetchButtonImage(id);
+                    button.setGraphic(imageId);
+                }
+            }
+        }
+    }
+
     private Button[][] createButtonGrid(String[][] labels)
     {
         int rows = labels.length;
@@ -161,9 +238,10 @@ public class View
                 // label's length condition, accepting non-empty labels.
                 if (!label.isEmpty())
                 {
-                    Button newButton = new Button(label);
-                    newButton.setId("button");
+                    Button newButton = new Button();
+                    newButton.setId(label);
                     newButton.setOnAction(this::buttonClicked);
+
                     buttons[row][col] = newButton;
                 }
                 else
@@ -182,7 +260,7 @@ public class View
         Button button = (Button)event.getSource();
         if (this.controller != null)
         {
-            String label = button.getText();
+            String label = button.getId();
             this.controller.process(label);
         }
     }
