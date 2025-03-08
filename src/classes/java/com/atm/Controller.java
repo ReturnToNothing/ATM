@@ -11,6 +11,7 @@ public class Controller
     public void process(String action)
     {
         // Using switch statement to evaluate each keys assigned within the UI.
+        System.out.println(action);
         switch (action)
         {
             case "1":
@@ -25,10 +26,10 @@ public class Controller
             case "0":
                 this.model.processNumber(action);
                 break;
-            case "CLR":
+            case "clear":
                 this.model.processClear();
                 break;
-            case "Ent":
+            case "enter":
                 this.model.processEnter();
                 break;
             case "W/D":
@@ -40,7 +41,7 @@ public class Controller
             case "Bal":
                 this.model.processBalance();
                 break;
-            case "Fin":
+            case "cancel":
                 this.model.processFinish();
                 break;
             default:
