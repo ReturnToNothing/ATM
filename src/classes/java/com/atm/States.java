@@ -12,8 +12,4 @@ public enum States
     WITHDRAWAL,
     DEPOSIT,
     BALANCE,
-
-    // Account's internal type; determines the benefits of providing additional features or certain restrictions.
-    BASIC,
-    PRIME
 }
