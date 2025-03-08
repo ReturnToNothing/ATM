@@ -7,9 +7,9 @@ public class Model
     public View view;
     private Bank bank;
 
-    // Using the State Design Pattern by separating the internal state into substates,
-    // which alters the logical behavior based on two defined pattern.
-    // Currently, the Model's internal state transitions linearly from state to substate.
+    // Using the State Design Pattern by extending the internal state of the model.
+    // By defining two states that alters the logical behavior allows to perform different patterns.
+    // Currently, the model's internal state linearly extends after the sequence of inserting number/password before login in.
     // Reference:
     // https://onjavahell.blogspot.com/2009/05/simple-example-of-state-design-pattern.html
     States state = States.ACCOUNT_NO;
