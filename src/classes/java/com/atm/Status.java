@@ -2,9 +2,14 @@ package com.atm;
 
 public enum Status
 {
+    // Bank's internal basic status for each method.
     UNSUCCESSFUL,
+    SUCCESSFUL,
+
+    // Bank's internal status based on deposit.
+    EXCEEDS_DEPOSIT,
+
     // Bank's internal status based on withdrawal.
-    SUCCESSFUL,                // Withdrawal was successful
-    INSUFFICIENT_FUNDS,     // Not enough balance, and no overdraft allowed
-    EXCEEDS_LIMIT,          // Requested withdrawal amount exceeds the allowed limit
+    INSUFFICIENT_FUNDS,
+    EXCEEDS_WITHDRAWAL,
 }
