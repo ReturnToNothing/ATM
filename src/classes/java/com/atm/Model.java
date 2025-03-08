@@ -34,12 +34,18 @@ public class Model
         this.view.update();
     }
 
-    private void setState(States newState)
+    private void setState(States newState, boolean extended)
     {
-        if (!this.state.equals(newState))
+        if (extended) {
+            if (!this.subState.equals(newState)) {
+                this.subState = newState;
+            }
+        }
+        else
         {
-            //States oldState = this.state; currently unused.
-            this.state = newState;
+            if (!this.state.equals(newState)) {
+                this.state = newState;
+            }
         }
     }
 
@@ -54,11 +60,11 @@ public class Model
 
     private void restart(String message)
     {
-        this.setState(States.ACCOUNT_NO);
-        this.setSubState(States.DEFAULT);
+        this.setState(States.ACCOUNT_NO, false);
+        this.setState(States.DEFAULT, true);
         this.input = 0;
         this.display1 = message;
-        this.display2 = "Enter your account number\nFollowed by \"Ent\"";
+        this.display2 = "Enter your account number\nFollowed by \"ENTER\"";
     }
 
     public void processNumber(String label)
@@ -74,7 +80,7 @@ public class Model
     public void processClear()
     {
         this.input = 0;
-        this.display1 = "";
+        this.display1 = "0";
         this.display();
     }
 
@@ -83,23 +89,39 @@ public class Model
         switch (this.state)
         {
             case States.ACCOUNT_NO:
+                if (this.input <= 0)
+                {
+                    this.input = 0;
+                    this.display1 = "0";
+                    this.display2 = "Please enter a number greater than zero.\nEnter your account number\nFollowed by \"ENTER\"";
+                    break;
+                }
+
                 this.accountNumber = this.input;
                 this.input = 0;
 
-                this.setState(States.PASSWORD_NO);
+                this.setState(States.PASSWORD_NO, false);
 
-                this.display1 = "";
+                this.display1 = "0";
                 this.display2 = "Now enter your password\nFollowed by \"Ent\"";
                 break;
             case States.PASSWORD_NO:
+                if (this.input <= 0)
+                {
+                    this.input = 0;
+                    this.display1 = "0";
+                    this.display2 = "Please enter a number greater than zero.\nNow enter your password\nFollowed by \"ENTER\"";
+                    break;
+                }
+
                 this.accountPassword = this.input;
                 this.input = 0;
-                this.display1 = "";
+                this.display1 = "0";
 
                 if (this.bank.login(this.accountNumber, this.accountPassword))
                 {
-                    this.setState(States.LOGGED_IN);
                     this.display2 = "Accepted\n\nNow enter the transaction you require:\nWithdraw followed by \"W/D\"\nDeposit followed by \"Dep\"\nCheck balance followed by \"Bal\"";
+                    this.setState(States.LOGGED_IN, false);
                 }
                 else
                 {
@@ -119,17 +141,17 @@ public class Model
                          {
                              case Status.UNSUCCESSFUL:
                                  this.display2 = "Unexpected state alteration occurred; this account is currently logged off.";
-                                 this.setSubState(States.DEFAULT);
+                                 this.setState(States.DEFAULT, true);
                                  break;
                              case Status.SUCCESSFUL:
                                  this.display2 = "You have Withdrawn: " + this.input + "\n\nNow enter the additional transaction you require:\nWithdraw followed by \"W/D\"\nDeposit followed by \"Dep\"\nCheck balance followed by \"Bal\"\nLogout followed by \"Fin\"";
-                                 this.setSubState(States.DEFAULT);
+                                 this.setState(States.DEFAULT, true);
                                  break;
                              case Status.INSUFFICIENT_FUNDS:
                                  this.display2 = "Insufficient funds occurred.\nNow try again followed by \"Ent\"";
                                  break;
-                             case Status.EXCEEDS_LIMIT:
-                                 this.display2 = "Withdrawal has exceeded the threshold limit.\nBasic Accounts exceeds under 100\nPrime Accounts exceeds under 1000\nNow try again followed by \"Ent\"";
+                             case Status.EXCEEDS_WITHDRAWAL:
+                                 this.display2 = "Withdrawal has exceeded its threshold limit.\nBasic Accounts exceeds under 100\nPrime Accounts exceeds under 1000\nNow try again followed by \"Ent\"";
                                  break;
                          }
 
@@ -137,29 +159,35 @@ public class Model
                         this.display1 = "";
                         break;
                     case States.DEPOSIT:
+
                         // input is specified as the amount of cash to deposit.
-                        if (this.input > 0)
+
+                        Status depositStatus = this.bank.deposit(this.input);
+
+                        System.out.println(depositStatus);
+
+                        switch (depositStatus)
                         {
-                            if (this.bank.deposit(this.input))
-                            {
+                            case Status.UNSUCCESSFUL:
+                                this.display2 = "Unexpected state alteration occurred; this account is currently logged off.";
+                                this.setState(States.DEFAULT, true);
+                                break;
+                            case Status.SUCCESSFUL:
                                 this.display2 = "You have deposited: " + this.input + "\n\nNow enter the additional transaction you require:\nWithdraw followed by \"W/D\"\nDeposit followed by \"Dep\"\nCheck balance followed by \"Bal\"\nLogout followed by \"Fin\"";
-                                this.setSubState(States.DEFAULT);
-                            }
-                            else
-                            {
-                                this.display2 = "Deposit limit has exceeded over x.\nNow try again followed by \"Ent\"";
-                            }
-                        }
-                        else
-                        {
-                            this.display2 = "Negative float is unacceptable.\nNow try again followed by \"Ent\"";
+                                this.setState(States.DEFAULT, true);
+                                break;
+                            case Status.EXCEEDS_DEPOSIT:
+                                this.display2 = "Deposit has exceeded its threshold limit.\nNow try again followed by \"Ent\"";
+                                break;
                         }
 
                         this.input = 0;
                         this.display1 = "";
                         break;
                     case States.BALANCE:
+
                         // input isn't specified as it's currently unused for now.
+
                         double balance = this.bank.getBalance();
 
                         if (balance > 0)
@@ -170,6 +198,8 @@ public class Model
                         {
                             this.display2 = "Your balance is currently: " + balance + "\nWhich has previously been overdrawn\nNow enter the additional transaction you require:\nWithdraw followed by \"W/D\"\nDeposit followed by \"Dep\"\nCheck balance followed by \"Bal\"\nLogout followed by \"Fin\"";
                         }
+
+                        this.setState(States.DEFAULT, true);
 
                         this.input = 0;
                         this.display1 = "";
@@ -188,7 +218,7 @@ public class Model
                 this.input = 0;
                 this.display1 = "";
                 this.display2 = "How much do you want to Withdraw?\nNow enter the amount followed by \"Ent\"";
-                this.setSubState(States.WITHDRAWAL);
+                this.setState(States.WITHDRAWAL, true);
             }
         }
         else
@@ -208,7 +238,7 @@ public class Model
                 this.input = 0;
                 this.display1 = "";
                 this.display2 = "How much do you want to deposit?\nNow enter the amount followed by \"Ent\"";
-                this.setSubState(States.DEPOSIT);
+                this.setState(States.DEPOSIT, true);
             }
         }
         else
@@ -229,7 +259,7 @@ public class Model
                 this.input = 0;
                 this.display1 = "";
                 this.display2 = "Do you want a summary of your balance? (input isn't required for now)\nNow enter the amount followed by \"Ent\"";
-                this.setSubState(States.BALANCE);
+                this.setState(States.BALANCE, true);
             }
         }
         else
@@ -244,9 +274,10 @@ public class Model
     {
         if (this.state.equals(States.LOGGED_IN))
         {
-            this.setState(States.ACCOUNT_NO);
-            this.setSubState(States.DEFAULT);
+            this.setState(States.ACCOUNT_NO, false);
+            this.setState(States.DEFAULT, true);
             this.input = 0;
+            this.display1 = "0";
             this.display2 = "Welcome to ATM: Enter your account number";
             this.bank.logout();
         }
