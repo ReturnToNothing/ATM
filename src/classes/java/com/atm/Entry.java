@@ -19,10 +19,10 @@ public class Entry extends Application
             5678,
             2222
     };
-    private States[] types = {
-            States.PRIME,
-            States.PRIME,
-            States.PRIME,
+    private Types[] types = {
+            Types.BASIC,
+            Types.PRIME,
+            Types.PRIME,
     };
 
     public static void main(String[] args)
@@ -39,8 +39,8 @@ public class Entry extends Application
         {
             int number = numbers[index];
             int password = passwords[index];
-            States state = types[index];
-            bank.addAccount(number, password, state);
+            Types type = types[index];
+            bank.addAccount(number, password, type);
         }
 
         Model model = new Model(bank);
@@ -53,6 +53,5 @@ public class Entry extends Application
         view.model = model;
         model.view = view;
         model.display();
-
     }
 }
