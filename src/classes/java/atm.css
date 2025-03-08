@@ -1,19 +1,25 @@
 <!--Ignore the typo for vgap and hgap-->
 <!--Anything below here is the style of the ATM-->
+
 #Layout {
     -fx-grid-lines-visible: false;
     -fx-hgap: 5;
     -fx-vgap: 5;
     -fx-padding: 10;
 }
-
 #Buttons {
-    -fx-pref-columns: 6;
+    -fx-pref-columns: 3;
     -fx-pref-tile-width: 75;
-    -fx-hgap: 5;
-    -fx-vgap: 5;
+    -fx-hgap: -10;
+    -fx-vgap: -5;
 }
-
+#Actions {
+    -fx-pref-columns: 1;
+    -fx-pref-tile-width: 75;
+    -fx-hgap: -10;
+    -fx-vgap: -5;
+}
 .button {
+    -fx-background-color: transparent;
     -fx-font: bold 10pt "courier new";
 }
