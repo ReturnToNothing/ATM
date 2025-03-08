@@ -15,12 +15,12 @@ public class Bank  //make it protected
         this.account = null;
     }
 
-    private Account createAccount(int number, int password, States type)
+    private Account createAccount(int number, int password, Types type)
     {
         return new Account(number, password, type);
     }
 
-    public boolean addAccount(int number, int password, States type)
+    public boolean addAccount(int number, int password, Types type)
     {
         if (this.accounts.size() < this.maxAccounts)
         {
@@ -34,7 +34,7 @@ public class Bank  //make it protected
 
     public boolean IsLogged()
     {
-        return this.account != null;
+        return this.account == null;
     }
 
     public boolean login(int number, int password)
@@ -64,7 +64,7 @@ public class Bank  //make it protected
 
     public void logout()
     {
-        if (!this.IsLogged())
+        if (this.IsLogged())
         {
             return;
         }
@@ -72,29 +72,68 @@ public class Bank  //make it protected
         this.account = null;
     }
 
-    public boolean deposit(double amount)
+    public Status deposit(double amount)
     {
-        if (!this.IsLogged())
-        {
-            return false;
-        }
-
-        return this.account.deposit(amount);
-    }
-
-    public Status withdraw(double amount)
-    {
-        if (!this.IsLogged())
+        if (this.IsLogged())
         {
             return Status.UNSUCCESSFUL;
         }
 
-        return this.account.withdraw(amount);
+        amount = Math.abs(amount);
+
+        if (amount <= 1000)
+        {
+            this.account.deposit(amount);
+            return Status.SUCCESSFUL;
+        }
+        else
+        {
+            return Status.EXCEEDS_DEPOSIT;
+        }
+    }
+
+    public Status withdraw(double amount)
+    {
+        if (this.IsLogged())
+        {
+            return Status.UNSUCCESSFUL;
+        }
+
+        amount = Math.abs(amount);
+
+        double balance = this.account.getBalance();
+        Types type = this.account.getType();
+
+        double limit = 100;
+        boolean overdraft = false;
+
+        if (type.equals(Types.PRIME))
+        {
+            limit = 1000;
+            overdraft = true;
+        }
+
+        // Check if the requested withdrawal exceeds the limit.
+        if (amount > limit)
+        {
+            return Status.EXCEEDS_WITHDRAWAL; // Withdrawal amount exceeds the allowed limit.
+        }
+
+        // Verify if the withdrawal can be processed, bypassed if overdraft is allowed.
+        if (balance >= amount || overdraft)
+        {
+            this.account.withdraw(amount);
+            return Status.SUCCESSFUL;
+        }
+        else
+        {
+            return Status.INSUFFICIENT_FUNDS;
+        }
     }
 
     public double getBalance()
     {
-        if (!this.IsLogged())
+        if (this.IsLogged())
         {
             return -1.00f;
         }
