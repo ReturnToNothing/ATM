@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
+import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
@@ -20,6 +21,8 @@ import javafx.scene.Scene;
 import javafx.scene.Node;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class View
@@ -39,15 +42,14 @@ public class View
     private TextArea reply;
     private ScrollPane scrollPane;
 
-    private Button startButton;
-    private Button backButton;
 
     // First slide
-    private Label Intro;
+    private BorderPane firstLayer;
+    private BorderPane secondLayer;
+    private GridPane inputLayer;
 
     public View(Stage stage)
     {
-
         stage.setTitle("ATM");
         stage.getIcons().add(fetchImage("Icon", 126, 126));
 
@@ -55,36 +57,14 @@ public class View
         stage.setWidth(width);
         stage.centerOnScreen();
 
-        BorderPane firstLayer = addFirstLayer();
-        BorderPane secondLayer = addSecondLayer();
-        BorderPane inputLayer = addInputLayer();
+        // BorderPane introLayer = addIntroLayer();
+        firstLayer = addFirstLayer();
+        secondLayer = addSecondLayer();
+        inputLayer = addInputLayer();
 
+        // Each layer is stacked from the opposite order
         StackPane root = new StackPane(firstLayer, secondLayer, inputLayer);
         Scene scene = new Scene(root, width, height);
-
-        Timeline slideIn = new Timeline(
-                new KeyFrame(Duration.seconds(0.4),
-                        new KeyValue(secondLayer.translateXProperty(), 0, Interpolator.EASE_BOTH)
-                ),
-                new KeyFrame(Duration.seconds(1),
-                        new KeyValue(inputLayer.translateYProperty(), 0, Interpolator.EASE_BOTH)
-                )
-        );
-
-        Timeline slideOut = new Timeline(
-                new KeyFrame(Duration.seconds(0.3),
-                        new KeyValue(secondLayer.translateXProperty(), width, Interpolator.EASE_IN)
-                ),
-                new KeyFrame(Duration.seconds(0.3),
-                        new KeyValue(inputLayer.translateYProperty(), height, Interpolator.EASE_IN)
-                )
-        );
-
-        // Start transition when startButton is clicked
-        startButton.setOnAction(e -> slideIn.play());
-
-        // Go back when backButton is clicked
-        backButton.setOnAction(e -> slideOut.play());
 
 /*
         // numerical numbers ranging from 1-9
@@ -135,6 +115,51 @@ public class View
         stage.show();
     }
 
+    public void slideIn()
+    {
+        Timeline slideIn = new Timeline(
+                new KeyFrame(Duration.seconds(0.4),
+                        new KeyValue(secondLayer.translateXProperty(), 0, Interpolator.EASE_BOTH)
+                ),
+                new KeyFrame(Duration.seconds(1),
+                        new KeyValue(inputLayer.translateYProperty(), 0, Interpolator.EASE_BOTH)
+                )
+        );
+        slideIn.playFromStart();
+    }
+
+    public void slideOut()
+    {
+        Timeline slideOut = new Timeline(
+                new KeyFrame(Duration.seconds(0.3),
+                        new KeyValue(secondLayer.translateXProperty(), width, Interpolator.EASE_IN)
+                ),
+                new KeyFrame(Duration.seconds(0.3),
+                        new KeyValue(inputLayer.translateYProperty(), height, Interpolator.EASE_IN)
+                )
+        );
+        slideOut.playFromStart();
+    }
+
+    private BorderPane addIntroLayer()
+    {
+        ImageView introIcon = new ImageView(fetchImage("Icon", 80, 80));
+        introIcon.setId("introIcon");
+        introIcon.setPreserveRatio(true);
+
+        VBox middleContainer = new VBox(introIcon);
+        middleContainer.setId("middleContainer");
+        middleContainer.setAlignment(Pos.CENTER);
+
+        BorderPane introLayer = new BorderPane();
+        introLayer.setId("introLayer");
+        introLayer.setCenter(middleContainer);
+        introLayer.setPrefSize(width, height);
+        introLayer.getStylesheets().add("atm.css");
+
+        return introLayer;
+    }
+
     private BorderPane addFirstLayer()
     {
         ImageView introView = new ImageView(fetchImage("poster", 290, 360));
@@ -146,8 +171,9 @@ public class View
         //could possibly change specific text into a chosen color...
         introLabel.setId("introLabel");
 
-        startButton = new Button("Log In");
+        Button startButton = new Button("Log In");
         startButton.setId("startButton");
+        startButton.setOnAction(this::buttonClicked);
 
         Button createButton = new Button("Sign In");
         createButton.setId("createButton");
@@ -196,8 +222,9 @@ public class View
 
     private BorderPane addSecondLayer()
     {
-        backButton = new Button("<");
+        Button backButton = new Button("<");
         backButton.setId("backButton");
+        backButton.setOnAction(this::buttonClicked);
 
         Label loginLabel = new Label("Log In");
         loginLabel.setId("loginLabel");
@@ -210,6 +237,9 @@ public class View
 
         Separator separator1 = new Separator();
         separator1.setId("separator");
+
+        Separator separator2 = new Separator();
+        separator2.setId("separator");
 
         Button enterButton = new Button("Enter with your current PIN");
         enterButton.setId("enterButton");
@@ -244,7 +274,7 @@ public class View
         HBox pinHBox = new HBox(20, pinFields);
         pinHBox.setId("pinHBox");
 
-        VBox centerContainer = new VBox(20, pinHBox, enterButton);
+        VBox centerContainer = new VBox(20, pinHBox, enterButton, separator2);
         centerContainer.setId("centerContainer");
         centerContainer.setAlignment(Pos.TOP_LEFT);
 
@@ -261,7 +291,7 @@ public class View
         return secondLayer;
     }
 
-    private BorderPane addInputLayer()
+    private GridPane addInputLayer()
     {
 
         Separator separator = new Separator();
@@ -271,7 +301,7 @@ public class View
         String[][] digits = {
                 {"1", "2", "3",},
                 {"4", "5", "6",},
-                {"4", "5", "6",},
+                {"7", "8", "9",},
                 {" ", "0", " "}
         };
 
@@ -293,15 +323,10 @@ public class View
             }
         }
 
-        GridPane bottomContainer = createGridPane("inputLayout", false, buttonTile);
-        bottomContainer.setAlignment(Pos.BOTTOM_CENTER);
-        bottomContainer.setMouseTransparent(false);
-
-        BorderPane inputLayer = new BorderPane();
-        inputLayer.setId("inputLayer");
-        inputLayer.setBottom(bottomContainer);
+        GridPane inputLayer = createGridPane("inputLayer", false, buttonTile);
+        inputLayer.setAlignment(Pos.BOTTOM_CENTER);
         inputLayer.getStylesheets().add("atm.css");
-        inputLayer.setMouseTransparent(true); //alternative way to reduce the entire layout rather the whole page.
+        inputLayer.setPickOnBounds(false);
 
         // Initially position inputLayer off-screen to the bottom.
         inputLayer.setTranslateY(height);
@@ -458,7 +483,7 @@ public class View
                 {
                     Button button = new Button(label);
                     button.setId("button");
-                    //button.setOnAction(this::buttonClicked);
+                    button.setOnAction(this::buttonClicked);
                     buttons[row][col] = button;
                 }
                 else
@@ -477,7 +502,8 @@ public class View
         Button button = (Button)event.getSource();
         if (this.controller != null)
         {
-            String label = button.getId();
+            String label = button.getText();
+            System.out.println(label);
             this.controller.process(label);
         }
     }
@@ -486,6 +512,106 @@ public class View
     {
         if (this.model != null)
         {
+            States state = this.model.state;
+
+            switch (state)
+            {
+                case States.ACCOUNT_NO: // Update the Login's PIN
+                    int input = this.model.input;
+                    BorderPane secondLayer = this.secondLayer;
+
+                    List<TextField> textFields = new ArrayList<TextField>(4);
+
+                    secondLayer.lookupAll("#pinField").forEach(node -> {
+                        textFields.add((TextField) node);
+                    });
+
+                    String inputString = String.valueOf(input);
+
+                    for (int index = 0; index < textFields.size(); index++)
+                    {
+                        TextField textField = textFields.get(index);
+
+                        textField.getStyleClass().remove("glowing");
+
+                        if (index < inputString.length() && !inputString.equals("0"))
+                        {
+                            // Set the TextField to the corresponding digit in the input
+                            textField.setText(" " + String.valueOf(inputString.charAt(index)));
+                        }
+                        else
+                        {
+                            // If there are no digits left to assign, clear the TextField (keep it empty)
+                            textField.setText("");
+                        }
+
+
+                        if (index == inputString.length())
+                        {
+                            textField.getStyleClass().add("glowing");
+                        }
+                    }
+
+
+
+                    /*
+                    // Initially reseting the values;
+                    for (TextField node : textFields)
+                    {
+                        if (input <= 0)
+                        {
+                            node.setText("");
+                        }
+                        else
+                        {
+                            node.setText(String.valueOf(input));
+                        }
+                    }
+*/
+
+
+
+                    //Searching through the second layer's children, only include buttons;
+
+
+
+
+/*
+                    for (Node layer : secondLayer.getChildren())
+                    {
+
+                        if (Objects.equals(layer.getId(), "centerContainer")) {
+                            VBox container = layer.get
+                            for (Node container : (Vbox)layer.getChildren())
+                            {
+                                System.out.println(node.getId());
+                                if (node instanceof TextField)
+                                {
+                                    textFields.add((TextField) node);
+                                }
+                            }
+                        }
+                    }
+
+*/
+                    System.out.println(textFields);
+
+
+                    /*
+                    for (Node node : secondLayer.getChildren())
+                        if (node instanceof TextField)
+                        {
+                            textFields.add((TextField) node);
+                        }
+                    {
+                    }
+                        */
+                    break;
+            }
+
+
+
+
             /*
             String message1 = this.model.title;
             this.title.setText(message1);

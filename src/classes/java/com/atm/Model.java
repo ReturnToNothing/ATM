@@ -12,8 +12,8 @@ public class Model
     // Currently, the model's internal state linearly extends after the sequence of inserting number/password before login in.
     // Reference:
     // https://onjavahell.blogspot.com/2009/05/simple-example-of-state-design-pattern.html
-    States state = States.ACCOUNT_NO;
-    States subState = States.WITHDRAWAL;
+    States state = States.DEFAULT;
+    States subState = States.DEFAULT;
 
     int input = 0;
     int accountNumber = -1;
@@ -60,7 +60,7 @@ public class Model
 
     private void restart(String message)
     {
-        this.setState(States.ACCOUNT_NO, false);
+        this.setState(States.DEFAULT, false);
         this.setState(States.DEFAULT, true);
         this.input = 0;
         this.display1 = message;
@@ -81,6 +81,40 @@ public class Model
     {
         this.input = 0;
         this.display1 = "0";
+        this.display();
+    }
+
+    public void processReturn()
+    {
+        if (this.state.equals(States.ACCOUNT_NO))
+        {
+            System.out.println("Currently at welcome page");
+            this.view.slideOut();
+            restart("Welcome");
+        }
+
+        this.display();
+    }
+
+    public void processLogin()
+    {
+
+        if (!this.state.equals(States.ACCOUNT_NO))
+        {
+            //this.input = 0;
+            //this.display1 = "";
+            //this.display2 = "How much do you want to Withdraw?\nNow enter the amount followed by \"Ent\"";
+
+
+            System.out.println("Currently at the Login page");
+            this.view.slideIn();
+            this.setState(States.ACCOUNT_NO, false);
+        }
+        else
+        {
+            this.restart("You are already at the login");
+        }
+
         this.display();
     }
 
@@ -289,6 +323,7 @@ public class Model
         this.display();
     }
 
+    //Should be cautious about this method, since it doesn't revert the slides.
     public void processUnknownKey(String action)
     {
         this.restart("Invalid command: " + action);

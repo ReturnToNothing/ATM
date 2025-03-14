@@ -11,7 +11,6 @@ public class Controller
     public void process(String action)
     {
         // Using switch statement to evaluate each keys assigned within the UI.
-        System.out.println(action);
         switch (action)
         {
             case "1":
@@ -43,6 +42,12 @@ public class Controller
                 break;
             case "cancel":
                 this.model.processFinish();
+                break;
+            case "Log In":
+                this.model.processLogin();
+                break;
+            case "<":
+                this.model.processReturn();
                 break;
             default:
                 this.model.processUnknownKey(action);
