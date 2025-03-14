@@ -1,18 +1,23 @@
 package com.atm;
 
+import javafx.animation.Interpolator;
+import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
 import javafx.event.ActionEvent;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
+import javafx.util.Duration;
 
 import javafx.scene.Scene;
 import javafx.scene.Node;
-
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.TilePane;
 
 import java.net.URL;
 import java.util.Objects;
@@ -22,8 +27,8 @@ public class View
     public Controller controller;
     public Model model;
 
-    private final int height = 420;
-    private final int width = 500;
+    private final int height = 640;
+    private final int width = 360;
 
     private GridPane grid;
     private GridPane grid2;
@@ -34,15 +39,54 @@ public class View
     private TextArea reply;
     private ScrollPane scrollPane;
 
+    private Button startButton;
+    private Button backButton;
+
+    // First slide
+    private Label Intro;
+
     public View(Stage stage)
     {
 
         stage.setTitle("ATM");
+        stage.getIcons().add(fetchImage("Icon", 126, 126));
 
         stage.setHeight(height);
         stage.setWidth(width);
         stage.centerOnScreen();
 
+        BorderPane firstLayer = addFirstLayer();
+        BorderPane secondLayer = addSecondLayer();
+        BorderPane inputLayer = addInputLayer();
+
+        StackPane root = new StackPane(firstLayer, secondLayer, inputLayer);
+        Scene scene = new Scene(root, width, height);
+
+        Timeline slideIn = new Timeline(
+                new KeyFrame(Duration.seconds(0.4),
+                        new KeyValue(secondLayer.translateXProperty(), 0, Interpolator.EASE_BOTH)
+                ),
+                new KeyFrame(Duration.seconds(1),
+                        new KeyValue(inputLayer.translateYProperty(), 0, Interpolator.EASE_BOTH)
+                )
+        );
+
+        Timeline slideOut = new Timeline(
+                new KeyFrame(Duration.seconds(0.3),
+                        new KeyValue(secondLayer.translateXProperty(), width, Interpolator.EASE_IN)
+                ),
+                new KeyFrame(Duration.seconds(0.3),
+                        new KeyValue(inputLayer.translateYProperty(), height, Interpolator.EASE_IN)
+                )
+        );
+
+        // Start transition when startButton is clicked
+        startButton.setOnAction(e -> slideIn.play());
+
+        // Go back when backButton is clicked
+        backButton.setOnAction(e -> slideOut.play());
+
+/*
         // numerical numbers ranging from 1-9
         String[][] digits = {
                 {"1", "2", "3",},
@@ -64,7 +108,7 @@ public class View
                 {"7", "8", "9", "", "Bal", "Fin"},
                 {"CLR", "0", "00", "", "", "Ent"}
         };
-         */
+
 
         this.title = createLabel("Title");
         this.message = createTextField("Message", 0, false);
@@ -85,9 +129,184 @@ public class View
         this.grid.setAlignment(Pos.CENTER);
 
         Scene scene = new Scene(this.grid, width, height);
-        scene.getStylesheets().add("atm.css");
+*/
+        stage.setResizable(false);
         stage.setScene(scene);
         stage.show();
+    }
+
+    private BorderPane addFirstLayer()
+    {
+        ImageView introView = new ImageView(fetchImage("poster", 290, 360));
+        introView.setId("introView");
+        introView.setPreserveRatio(true);
+
+        //might later add another stack for this label to fix with its negative padding.
+        Label introLabel = new Label("Welcome to the ATM");
+        //could possibly change specific text into a chosen color...
+        introLabel.setId("introLabel");
+
+        startButton = new Button("Log In");
+        startButton.setId("startButton");
+
+        Button createButton = new Button("Sign In");
+        createButton.setId("createButton");
+
+        Button optionButton = new Button("...");
+        optionButton.setId("optionButton");
+
+        Button lastButton = new Button("Create Account");
+        lastButton.setId("lastButton");
+
+        Separator separator = new Separator();
+        separator.setId("separator");
+
+        Separator separator1 = new Separator();
+        separator1.setId("separator");
+
+        Separator separator2 = new Separator();
+        separator2.setId("separator");
+
+        StackPane optionStack = new StackPane(optionButton);
+        optionStack.setId("optionStack");
+        optionStack.setAlignment(Pos.CENTER_RIGHT);
+
+        VBox topContainer = new VBox(10, optionStack, introLabel, separator, startButton, createButton, separator1);
+        topContainer.setId("topContainer");
+        topContainer.setAlignment(Pos.CENTER);
+
+        VBox middleContainer = new VBox(introView);
+        middleContainer.setId("middleContainer");
+        middleContainer.setAlignment(Pos.CENTER);
+
+        VBox bottomContainer = new VBox(10, separator2, lastButton);
+        bottomContainer.setId("bottomContainer");
+        bottomContainer.setAlignment(Pos.BOTTOM_CENTER);
+
+        BorderPane firstLayer = new BorderPane();
+        firstLayer.setId("firstLayer");
+        firstLayer.setTop(topContainer);
+        firstLayer.setCenter(middleContainer);
+        firstLayer.setBottom(bottomContainer);
+        firstLayer.setPrefSize(width, height);
+        firstLayer.getStylesheets().add("atm.css");
+
+        return firstLayer;
+    }
+
+    private BorderPane addSecondLayer()
+    {
+        backButton = new Button("<");
+        backButton.setId("backButton");
+
+        Label loginLabel = new Label("Log In");
+        loginLabel.setId("loginLabel");
+
+        Label messageLabel = new Label("Enter your Account PIN");
+        messageLabel.setId("messageLabel");
+
+        Separator separator = new Separator();
+        separator.setId("separator");
+
+        Separator separator1 = new Separator();
+        separator1.setId("separator");
+
+        Button enterButton = new Button("Enter with your current PIN");
+        enterButton.setId("enterButton");
+
+        StackPane returnStack = new StackPane(backButton);
+        returnStack.setId("returnStack");
+        returnStack.setAlignment(Pos.CENTER_RIGHT);
+
+        StackPane loginStack = new StackPane(loginLabel);
+        loginStack.setId("loginStack");
+        loginStack.setAlignment(Pos.CENTER_LEFT);
+
+        StackPane messageStack = new StackPane(messageLabel);
+        messageStack.setId("loginStack");
+        messageStack.setAlignment(Pos.CENTER_LEFT);
+
+        VBox topContainer = new VBox(10, returnStack, loginStack, separator, messageStack);
+        topContainer.setId("topContainer");
+        topContainer.setAlignment(Pos.CENTER);
+
+        // Generating Six textboxes in a row before inserting them into a Hbox, these acts as inputs.
+        TextField[] pinFields = new TextField[6];
+        for (int index = 0; index < 6; index++)
+        {
+            pinFields[index] = new TextField();
+            pinFields[index].setId("pinField");
+            pinFields[index].setPrefWidth(40);
+            pinFields[index].setPrefHeight(40);
+            pinFields[index].setEditable(false);
+        }
+
+        HBox pinHBox = new HBox(20, pinFields);
+        pinHBox.setId("pinHBox");
+
+        VBox centerContainer = new VBox(20, pinHBox, enterButton);
+        centerContainer.setId("centerContainer");
+        centerContainer.setAlignment(Pos.TOP_LEFT);
+
+        BorderPane secondLayer = new BorderPane();
+        secondLayer.setId("secondLayer");
+        secondLayer.setTop(topContainer);
+        secondLayer.setCenter(centerContainer);
+        secondLayer.setPrefSize(width, height);
+        secondLayer.getStylesheets().add("atm.css");
+
+        // Initially position secondLayer off-screen to the left side.
+        secondLayer.setTranslateX(width);
+
+        return secondLayer;
+    }
+
+    private BorderPane addInputLayer()
+    {
+
+        Separator separator = new Separator();
+        separator.setId("separator");
+
+        // numerical numbers ranging from 1-9
+        String[][] digits = {
+                {"1", "2", "3",},
+                {"4", "5", "6",},
+                {"4", "5", "6",},
+                {" ", "0", " "}
+        };
+
+        Button[][] digitButtons = createButtonGrid(digits);
+        //styleButtons(digitButtons);
+
+        TilePane buttonTile = new TilePane();
+        buttonTile.setId("Buttons");
+
+        for (Button[] row : digitButtons)
+        {
+            for (Button button : row)
+            {
+                // Filter nullable instance within the table; ignoring empty labels.
+                if (button != null)
+                {
+                    buttonTile.getChildren().add(button);
+                }
+            }
+        }
+
+        GridPane bottomContainer = createGridPane("inputLayout", false, buttonTile);
+        bottomContainer.setAlignment(Pos.BOTTOM_CENTER);
+        bottomContainer.setMouseTransparent(false);
+
+        BorderPane inputLayer = new BorderPane();
+        inputLayer.setId("inputLayer");
+        inputLayer.setBottom(bottomContainer);
+        inputLayer.getStylesheets().add("atm.css");
+        inputLayer.setMouseTransparent(true); //alternative way to reduce the entire layout rather the whole page.
+
+        // Initially position inputLayer off-screen to the bottom.
+        inputLayer.setTranslateY(height);
+
+        return inputLayer;
     }
 
     private GridPane createGridPane(String id, boolean row, Node... instances)
@@ -182,7 +401,7 @@ public class View
         return scrollPane;
     }
 
-    private ImageView fetchButtonImage(String id)
+    private Image fetchImage(String id, double height, double width)
     {
         // concatenating the path by appending the specified id before searching the image's URL.
         String imagePath = "/com/atm/" + id + ".png";
@@ -191,17 +410,11 @@ public class View
         // adding exception since fetching invalid path could potentially crash out.
         if (URLPath == null)
         {
-            return new ImageView();
+            return new Image("");
         }
 
         // finally, set the image into the imageView before applying it's size.
-        Image newImage = new Image(URLPath.toExternalForm());
-        ImageView newImageView = new ImageView(newImage);
-        newImageView.setPreserveRatio(true);
-        newImageView.setFitHeight(60f);
-        newImageView.setFitWidth(60f);
-
-        return newImageView;
+        return new Image(URLPath.toExternalForm());
     }
 
     private void styleButtons(Button[][] instances)
@@ -215,8 +428,13 @@ public class View
                 if (button != null)
                 {
                     String id = button.getId();
-                    ImageView imageId = fetchButtonImage(id);
-                    button.setGraphic(imageId);
+
+                    Image imageId = fetchImage(id, 5, 5);
+                    ImageView imageView = new ImageView(imageId);
+                    imageView.setPreserveRatio(true);
+                    imageView.setFitWidth(30f);
+                    imageView.setFitHeight(30f);
+                    button.setGraphic(imageView);
                 }
             }
         }
@@ -238,11 +456,10 @@ public class View
                 // label's length condition, accepting non-empty labels.
                 if (!label.isEmpty())
                 {
-                    Button newButton = new Button();
-                    newButton.setId(label);
-                    newButton.setOnAction(this::buttonClicked);
-
-                    buttons[row][col] = newButton;
+                    Button button = new Button(label);
+                    button.setId("button");
+                    //button.setOnAction(this::buttonClicked);
+                    buttons[row][col] = button;
                 }
                 else
                 {
@@ -269,12 +486,15 @@ public class View
     {
         if (this.model != null)
         {
+            /*
             String message1 = this.model.title;
             this.title.setText(message1);
             String message2 = this.model.display1;
             this.message.setText(message2);
             String message3 = this.model.display2;
             this.reply.setText(message3);
+
+             */
         }
     }
 }

@@ -1,17 +1,20 @@
 <!--Ignore the typo for vgap and hgap-->
 <!--Anything below here is the style of the ATM-->
 
+
+
 #Layout {
     -fx-grid-lines-visible: false;
     -fx-hgap: 5;
     -fx-vgap: 5;
     -fx-padding: 10;
 }
-#Buttons {
-    -fx-pref-columns: 3;
-    -fx-pref-tile-width: 75;
-    -fx-hgap: -10;
-    -fx-vgap: -5;
+#inputLayout {
+    -fx-background-color: white;
+    -fx-grid-lines-visible: false;
+    -fx-hgap: 5;
+    -fx-vgap: 5;
+    -fx-padding: 10;
 }
 #Actions {
     -fx-pref-columns: 1;
@@ -19,7 +22,183 @@
     -fx-hgap: -10;
     -fx-vgap: -5;
 }
-.button {
-    -fx-background-color: transparent;
-    -fx-font: bold 10pt "courier new";
+.root {
+    -fx-background-color: white;
 }
+
+#firstLayer {
+    -fx-background-color: white;
+}
+#secondLayer {
+    -fx-background-color: white;
+}
+#inputLayer {
+    -fx-background-color: transparent;
+}
+
+#topContainer {
+    -fx-background-color: linear-gradient(to bottom, #164ea1 0%, white 5%);
+}
+#bottomContainer {
+    -fx-background-color: linear-gradient(to top, #164ea1 0%, white 10%);
+}
+
+#introLabel {
+    -fx-font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    -fx-font-size: 1.8em;
+    -fx-font-weight: 700;
+
+    -fx-padding: 0em 0em 0em -5em;
+}
+#loginLabel {
+    -fx-font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    -fx-font-size: 1.8em;
+    -fx-font-weight: 700;
+
+    -fx-padding: 0em .7em
+}
+#messageLabel {
+    -fx-font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    -fx-font-size: 1.2em;
+    -fx-font-weight: 700;
+
+    -fx-padding: 0em 0.7em
+}
+#pinField {
+-fx-background-radius: 8px;
+-fx-border-radius: 2px;
+-fx-font-size: 1.2em;
+-fx-text-alignment: center;
+}
+.separator {
+    -fx-pref-height: 2px;
+}
+#optionButton {
+    -fx-background-color: transparent;
+    -fx-font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    -fx-text-fill: black;
+    -fx-font-size: 2em;
+    -fx-font-weight: 700;
+
+    -fx-padding: 0em 0.5em;
+}
+#optionButton:hover {
+    -fx-text-fill: #164ea1;
+}
+
+#backButton {
+    -fx-background-color: transparent;
+    -fx-font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    -fx-text-fill: black;
+    -fx-font-size: 2em;
+    -fx-font-weight: 700;
+
+    -fx-padding: 0em 0.5em;
+}
+#backButton:hover {
+    -fx-text-fill: #164ea1;
+}
+
+#startButton {
+     -fx-font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+     -fx-font-weight: 700;
+     -fx-font-size: 1.2em;
+
+     -fx-background-color: #A0ADBC;
+     -fx-text-fill: white;
+
+     -fx-pref-width: 320px;
+     -fx-pref-height: 40px;
+}
+#enterButton {
+     -fx-font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+     -fx-font-weight: 700;
+     -fx-font-size: 1.2em;
+
+     -fx-background-color: #A0ADBC;
+     -fx-text-fill: white;
+
+     -fx-pref-width: 320px;
+     -fx-pref-height: 40px;
+}
+#enterButton:hover {
+    -fx-background-color: #164ea1;
+    -fx-text-fill: white;
+}
+#startButton:hover {
+    -fx-background-color: #164ea1;
+    -fx-text-fill: white;
+}
+#createButton {
+     -fx-font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+     -fx-font-weight: 700;
+     -fx-font-size: 1.2em;
+
+     -fx-background-color: white;
+     -fx-text-fill: #A0ADBC;
+
+     -fx-border-color: #A0ADBC;
+     -fx-border-width: 4px;
+     -fx-border-radius: 2px;
+
+     -fx-pref-width: 320px;
+     -fx-pref-height: 40px;
+}
+
+#createButton:hover {
+    -fx-border-color: #164ea1;
+    -fx-text-fill: #164ea1;
+}
+
+#lastButton {
+     -fx-font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+     -fx-font-weight: 700;
+     -fx-font-size: 1.2em;
+
+     -fx-background-color: white;
+     -fx-text-fill: black;
+
+     -fx-border-color: #A0ADBC;
+     -fx-border-width: 4px;
+     -fx-border-radius: 2px;
+
+     -fx-pref-width: 320px;
+     -fx-pref-height: 40px;
+}
+
+#centerContainer {
+-fx-padding: 1em 1em;
+}
+#middleContainer {
+     -fx-padding: 1em 0em;
+}
+#bottomContainer {
+     -fx-padding: 1em 0em;
+}
+#lastButton:hover {
+    -fx-border-color: #164ea1;
+    -fx-text-fill: black;
+}
+
+#button {
+     -fx-background-color: #D0D7E0;
+     -fx-background-radius: 4px;
+
+     -fx-font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+     -fx-text-fill: black;
+     -fx-font-size: 1.5em;
+     -fx-font-weight: 700;
+
+     -fx-pref-width: 90;
+     -fx-pref-height: 1em;
+}
+#button:hover {
+     -fx-background-color: #164ea1;
+}
+#Buttons {
+    -fx-pref-columns: 3;
+    -fx-pref-tile-width: 90;
+    -fx-hgap: 5;
+    -fx-vgap: 5;
+}
+
