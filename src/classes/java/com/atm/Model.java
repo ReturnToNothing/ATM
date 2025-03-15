@@ -71,6 +71,12 @@ public class Model
     {
         char character = label.charAt(0);
 
+        // maximum input is below six digits
+        if (String.valueOf(this.input).length() >= 6)
+        {
+           return;
+        }
+
         this.input = this.input * 10 + character - 48;
         this.display1 = "" + this.input;
 
@@ -84,37 +90,86 @@ public class Model
         this.display();
     }
 
-    public void processReturn()
+    public boolean validateInput(int input)
     {
-        if (this.state.equals(States.ACCOUNT_NO))
+        String inputString = String.valueOf(input);
+
+        if (inputString.length() < 6)
         {
-            System.out.println("Currently at welcome page");
-            this.view.slideOut();
-            restart("Welcome");
+            System.out.println("❌ Input requires six digits: "+ input);
+            return false;
         }
 
+        return true;
+    }
+
+    public void processLogIn()
+    {
+        switch (this.state)
+        {
+            // Each state's transition should at least reset the display and the input.
+            case States.DEFAULT:
+                System.out.println("Opening the PIN page");
+
+                this.input = 0;
+                this.display1 = "";
+                this.display2 = "LogInPIN";
+
+                this.setState(States.ACCOUNT_NO, false);
+
+                this.view.slideIn(States.DEFAULT);
+                break;
+            case States.ACCOUNT_NO:
+                System.out.println("Currently at PASS page");
+
+                if (!validateInput(this.input))
+                {
+                    this.input = 0;
+                    this.display1 = "";
+                    this.display2 = "LogInPASS";
+                    this.display();
+                    return;
+                }
+
+                this.input = 0;
+                this.display1 = "";
+                this.display2 = "LogInPASS";
+
+                this.setState(States.PASSWORD_NO, false);
+
+                this.view.slideIn(States.ACCOUNT_NO);
+                break;
+        }
         this.display();
     }
 
-    public void processLogin()
+    public void processLogout()
     {
-
-        if (!this.state.equals(States.ACCOUNT_NO))
+        switch (this.state)
         {
-            //this.input = 0;
-            //this.display1 = "";
-            //this.display2 = "How much do you want to Withdraw?\nNow enter the amount followed by \"Ent\"";
+            case States.ACCOUNT_NO:
+                System.out.println("Closing the PIN page");
 
+                this.input = 0;
+                this.display1 = "";
+                this.display2 = "LogOut";
 
-            System.out.println("Currently at the Login page");
-            this.view.slideIn();
-            this.setState(States.ACCOUNT_NO, false);
+                this.setState(States.DEFAULT, false);
+
+                this.view.slideOut(States.ACCOUNT_NO);
+                break;
+            case States.PASSWORD_NO:
+                System.out.println("Currently at PASS");
+
+                this.input = 0;
+                this.display1 = "";
+                this.display2 = "LogOut";
+
+                this.setState(States.ACCOUNT_NO, false);
+
+                this.view.slideOut(States.PASSWORD_NO);
+                break;
         }
-        else
-        {
-            this.restart("You are already at the login");
-        }
-
         this.display();
     }
 
@@ -328,5 +383,8 @@ public class Model
     {
         this.restart("Invalid command: " + action);
         this.display();
+    }
+
+    private record equals() {
     }
 }
