@@ -45,13 +45,14 @@ public class View
 
     // First slide
     private BorderPane firstLayer;
-    private BorderPane secondLayer;
+    private HBox secondLayer;
+    private HBox thirdLayer;
     private GridPane inputLayer;
 
     public View(Stage stage)
     {
         stage.setTitle("ATM");
-        stage.getIcons().add(fetchImage("Icon", 126, 126));
+        stage.getIcons().add(fetchImage("Icon", 256, 256));
 
         stage.setHeight(height);
         stage.setWidth(width);
@@ -60,12 +61,12 @@ public class View
         // BorderPane introLayer = addIntroLayer();
         firstLayer = addFirstLayer();
         secondLayer = addSecondLayer();
+        thirdLayer = addThirdLayer();
         inputLayer = addInputLayer();
 
         // Each layer is stacked from the opposite order
-        StackPane root = new StackPane(firstLayer, secondLayer, inputLayer);
+        StackPane root = new StackPane(firstLayer, secondLayer, thirdLayer, inputLayer);
         Scene scene = new Scene(root, width, height);
-
 /*
         // numerical numbers ranging from 1-9
         String[][] digits = {
@@ -115,17 +116,59 @@ public class View
         stage.show();
     }
 
-    public void slideIn()
+    public void slideIn(States state)
     {
-        Timeline slideIn = new Timeline(
-                new KeyFrame(Duration.seconds(0.4),
-                        new KeyValue(secondLayer.translateXProperty(), 0, Interpolator.EASE_BOTH)
-                ),
-                new KeyFrame(Duration.seconds(1),
-                        new KeyValue(inputLayer.translateYProperty(), 0, Interpolator.EASE_BOTH)
-                )
+        KeyValue slideInput = new KeyValue(inputLayer.translateYProperty(), 0, Interpolator.EASE_BOTH);
+        KeyValue slideSecondLayer = new KeyValue(secondLayer.translateXProperty(), -50, Interpolator.EASE_BOTH);
+        KeyValue slideThirdLayer = new KeyValue(thirdLayer.translateXProperty(), -50, Interpolator.EASE_BOTH);
+
+        // A slide animation for the secondLayer, including enabling the InputLayer.
+        Timeline slideInPIN = new Timeline(
+                new KeyFrame(Duration.seconds(1), slideInput),
+        new KeyFrame(Duration.seconds(0.7), slideSecondLayer)
         );
-        slideIn.playFromStart();
+
+        Timeline slideInPASS = new Timeline(
+                new KeyFrame(Duration.seconds(1), slideInput),
+                new KeyFrame(Duration.seconds(0.7), slideThirdLayer)
+        );
+
+        switch (state)
+        {
+            case States.DEFAULT:
+                slideInPIN.playFromStart();
+                break;
+            case States.ACCOUNT_NO:
+                slideInPASS.playFromStart();
+                break;
+        }
+    }
+
+    public void slideOut(States state)
+    {
+        KeyValue slideInput = new KeyValue(inputLayer.translateYProperty(), height, Interpolator.EASE_BOTH);
+        KeyValue slideSecondLayer = new KeyValue(secondLayer.translateXProperty(), width, Interpolator.EASE_BOTH);
+        KeyValue slideThirdLayer = new KeyValue(thirdLayer.translateXProperty(), width, Interpolator.EASE_BOTH);
+
+        // A slide animation for the secondLayer, including enabling the InputLayer.
+        Timeline slideOutPIN = new Timeline(
+                new KeyFrame(Duration.seconds(1), slideInput),
+                new KeyFrame(Duration.seconds(0.5), slideSecondLayer)
+        );
+
+        Timeline slideOutPASS = new Timeline(
+                new KeyFrame(Duration.seconds(0.5), slideThirdLayer)
+        );
+
+        switch (state)
+        {
+            case States.ACCOUNT_NO:
+                slideOutPIN.playFromStart();
+                break;
+            case States.PASSWORD_NO:
+                slideOutPASS.playFromStart();
+                break;
+        }
     }
 
     public void slideOut()
@@ -173,7 +216,7 @@ public class View
 
         Button startButton = new Button("Log In");
         startButton.setId("startButton");
-        startButton.setOnAction(this::buttonClicked);
+        startButton.setOnAction(event -> buttonClicked(event, "LogIn"));
 
         Button createButton = new Button("Sign In");
         createButton.setId("createButton");
@@ -220,11 +263,11 @@ public class View
         return firstLayer;
     }
 
-    private BorderPane addSecondLayer()
+    private HBox addSecondLayer()
     {
         Button backButton = new Button("<");
         backButton.setId("backButton");
-        backButton.setOnAction(this::buttonClicked);
+        backButton.setOnAction(event -> buttonClicked(event, "LogOut"));
 
         Label loginLabel = new Label("Log In");
         loginLabel.setId("loginLabel");
@@ -241,8 +284,12 @@ public class View
         Separator separator2 = new Separator();
         separator2.setId("separator");
 
+        Separator separator3 = new Separator();
+        separator3.setId("separator");
+
         Button enterButton = new Button("Enter with your current PIN");
         enterButton.setId("enterButton");
+        enterButton.setOnAction(event -> buttonClicked(event, "LogIn"));
 
         StackPane returnStack = new StackPane(backButton);
         returnStack.setId("returnStack");
@@ -256,9 +303,85 @@ public class View
         messageStack.setId("loginStack");
         messageStack.setAlignment(Pos.CENTER_LEFT);
 
-        VBox topContainer = new VBox(10, returnStack, loginStack, separator, messageStack);
+        // Generating Six textboxes in a row before inserting them into a Hbox, these acts as inputs.
+        TextField[] pinFields = new TextField[6];
+        for (int index = 0; index < 6; index++)
+        {
+            pinFields[index] = new TextField();
+            pinFields[index].setId("pinField");
+            pinFields[index].setPrefWidth(60);
+            pinFields[index].setPrefHeight(60);
+            pinFields[index].setEditable(false);
+        }
+
+        HBox pinHBox = new HBox(20, pinFields);
+        pinHBox.setId("pinHBox");
+
+        VBox topContainer = new VBox(10, returnStack, loginStack, separator1, messageStack, pinHBox, enterButton, separator2);
         topContainer.setId("topContainer");
         topContainer.setAlignment(Pos.CENTER);
+
+        VBox bottomContainer = new VBox(separator3);
+        bottomContainer.setId("bottomContainer");
+        bottomContainer.setAlignment(Pos.TOP_CENTER);
+
+        BorderPane secondLayer = new BorderPane();
+        secondLayer.setId("secondLayer");
+        secondLayer.setTop(topContainer);
+        secondLayer.setBottom(bottomContainer);
+        secondLayer.setPrefSize(width, height);
+        secondLayer.setTranslateX(50);
+
+        HBox gradientLayer = new HBox(secondLayer);
+        gradientLayer.setId("gradientLayer");
+        gradientLayer.getStylesheets().add("atm.css");
+
+        // Initially position secondLayer off-screen to the left side.
+        gradientLayer.setTranslateX(width);
+
+        return gradientLayer;
+    }
+
+    private HBox addThirdLayer()
+    {
+        // Exactly similar to the secondLayer, except we simply configure the labels.
+        Button backButton = new Button("<");
+        backButton.setId("backButton");
+        backButton.setOnAction(event -> buttonClicked(event, "LogOut"));
+
+        Label loginLabel = new Label("Log In");
+        loginLabel.setId("loginLabel");
+
+        Label messageLabel = new Label("Enter your Account PASS");
+        messageLabel.setId("messageLabel");
+
+        Separator separator = new Separator();
+        separator.setId("separator");
+
+        Separator separator1 = new Separator();
+        separator1.setId("separator");
+
+        Separator separator2 = new Separator();
+        separator2.setId("separator");
+
+        Separator separator3 = new Separator();
+        separator3.setId("separator");
+
+        Button enterButton = new Button("Enter with your current PASS");
+        enterButton.setId("enterButton");
+        enterButton.setOnAction(event -> buttonClicked(event, "LogIn"));
+
+        StackPane returnStack = new StackPane(backButton);
+        returnStack.setId("returnStack");
+        returnStack.setAlignment(Pos.CENTER_RIGHT);
+
+        StackPane loginStack = new StackPane(loginLabel);
+        loginStack.setId("loginStack");
+        loginStack.setAlignment(Pos.CENTER_LEFT);
+
+        StackPane messageStack = new StackPane(messageLabel);
+        messageStack.setId("loginStack");
+        messageStack.setAlignment(Pos.CENTER_LEFT);
 
         // Generating Six textboxes in a row before inserting them into a Hbox, these acts as inputs.
         TextField[] pinFields = new TextField[6];
@@ -266,34 +389,41 @@ public class View
         {
             pinFields[index] = new TextField();
             pinFields[index].setId("pinField");
-            pinFields[index].setPrefWidth(40);
-            pinFields[index].setPrefHeight(40);
+            pinFields[index].setPrefWidth(60);
+            pinFields[index].setPrefHeight(60);
             pinFields[index].setEditable(false);
         }
 
         HBox pinHBox = new HBox(20, pinFields);
         pinHBox.setId("pinHBox");
 
-        VBox centerContainer = new VBox(20, pinHBox, enterButton, separator2);
-        centerContainer.setId("centerContainer");
-        centerContainer.setAlignment(Pos.TOP_LEFT);
+        VBox topContainer = new VBox(10, returnStack, loginStack, separator1, messageStack, pinHBox, enterButton, separator2);
+        topContainer.setId("topContainer");
+        topContainer.setAlignment(Pos.CENTER);
 
-        BorderPane secondLayer = new BorderPane();
-        secondLayer.setId("secondLayer");
-        secondLayer.setTop(topContainer);
-        secondLayer.setCenter(centerContainer);
-        secondLayer.setPrefSize(width, height);
-        secondLayer.getStylesheets().add("atm.css");
+        VBox bottomContainer = new VBox(separator3);
+        bottomContainer.setId("bottomContainer");
+        bottomContainer.setAlignment(Pos.TOP_CENTER);
 
-        // Initially position secondLayer off-screen to the left side.
-        secondLayer.setTranslateX(width);
+        BorderPane thirdLayer = new BorderPane();
+        thirdLayer.setId("secondLayer");
+        thirdLayer.setTop(topContainer);
+        thirdLayer.setBottom(bottomContainer);
+        thirdLayer.setPrefSize(width, height);
+        thirdLayer.setTranslateX(50);
 
-        return secondLayer;
+        HBox gradientLayer = new HBox(thirdLayer);
+        gradientLayer.setId("gradientLayer");
+        gradientLayer.getStylesheets().add("atm.css");
+
+        // Initially position thirdLayer off-screen to the left side.
+        gradientLayer.setTranslateX(width);
+
+        return gradientLayer;
     }
 
     private GridPane addInputLayer()
     {
-
         Separator separator = new Separator();
         separator.setId("separator");
 
@@ -327,6 +457,7 @@ public class View
         inputLayer.setAlignment(Pos.BOTTOM_CENTER);
         inputLayer.getStylesheets().add("atm.css");
         inputLayer.setPickOnBounds(false);
+        inputLayer.getChildren().add(separator);
 
         // Initially position inputLayer off-screen to the bottom.
         inputLayer.setTranslateY(height);
@@ -483,7 +614,7 @@ public class View
                 {
                     Button button = new Button(label);
                     button.setId("button");
-                    button.setOnAction(this::buttonClicked);
+                    button.setOnAction(event -> buttonClicked(event, label));
                     buttons[row][col] = button;
                 }
                 else
@@ -497,14 +628,12 @@ public class View
         return buttons;
     }
 
-    private void buttonClicked(ActionEvent event)
+    private void buttonClicked(ActionEvent event, String input)
     {
         Button button = (Button)event.getSource();
         if (this.controller != null)
         {
-            String label = button.getText();
-            System.out.println(label);
-            this.controller.process(label);
+            this.controller.process(input);
         }
     }
 
@@ -514,113 +643,45 @@ public class View
         {
             States state = this.model.state;
 
-            switch (state)
-            {
-                case States.ACCOUNT_NO: // Update the Login's PIN
-                    int input = this.model.input;
-                    BorderPane secondLayer = this.secondLayer;
+            if (state.equals(States.ACCOUNT_NO) || state.equals(States.PASSWORD_NO))
+            { // Update the Login's PIN
+                int input = this.model.input;
+                HBox selectedLayer = (state.equals(States.ACCOUNT_NO)) ? this.secondLayer : this.thirdLayer;
 
-                    List<TextField> textFields = new ArrayList<TextField>(4);
+                // Initiating a list for accommodating TextFields.
+                List<TextField> textFields = new ArrayList<TextField>(4);
 
-                    secondLayer.lookupAll("#pinField").forEach(node -> {
-                        textFields.add((TextField) node);
-                    });
+                // Luckily, we can easily fetch the TextField via their target from css.
+                selectedLayer.lookupAll("#pinField").forEach(node -> {
+                    textFields.add((TextField) node);
+                });
 
-                    String inputString = String.valueOf(input);
+                String inputString = String.valueOf(input);
 
-                    for (int index = 0; index < textFields.size(); index++)
-                    {
-                        TextField textField = textFields.get(index);
+                if (inputString.equals("0")) {
+                    inputString = "";
+                }
 
-                        textField.getStyleClass().remove("glowing");
+                // Iterating through each TextFields by comparing with the inputString.
+                for (int index = 0; index < textFields.size(); index++) {
+                    TextField textField = textFields.get(index);
 
-                        if (index < inputString.length() && !inputString.equals("0"))
-                        {
-                            // Set the TextField to the corresponding digit in the input
-                            textField.setText(" " + String.valueOf(inputString.charAt(index)));
-                        }
-                        else
-                        {
-                            // If there are no digits left to assign, clear the TextField (keep it empty)
-                            textField.setText("");
-                        }
+                    textField.getStyleClass().remove("glowing");
 
-
-                        if (index == inputString.length())
-                        {
-                            textField.getStyleClass().add("glowing");
-                        }
+                    if (index < inputString.length()) {
+                        // Set the TextField to the corresponding digit in the input
+                        textField.setText(String.valueOf(inputString.charAt(index)));
+                    } else {
+                        // If there are no digits left to assign, clear the TextField (keep it empty)
+                        textField.setText("");
                     }
 
-
-
-                    /*
-                    // Initially reseting the values;
-                    for (TextField node : textFields)
-                    {
-                        if (input <= 0)
-                        {
-                            node.setText("");
-                        }
-                        else
-                        {
-                            node.setText(String.valueOf(input));
-                        }
+                    // Glow the next TextField
+                    if (index == inputString.length()) {
+                        textField.getStyleClass().add("glowing");
                     }
-*/
-
-
-
-                    //Searching through the second layer's children, only include buttons;
-
-
-
-
-/*
-                    for (Node layer : secondLayer.getChildren())
-                    {
-
-                        if (Objects.equals(layer.getId(), "centerContainer")) {
-                            VBox container = layer.get
-                            for (Node container : (Vbox)layer.getChildren())
-                            {
-                                System.out.println(node.getId());
-                                if (node instanceof TextField)
-                                {
-                                    textFields.add((TextField) node);
-                                }
-                            }
-                        }
-                    }
-
-*/
-                    System.out.println(textFields);
-
-
-                    /*
-                    for (Node node : secondLayer.getChildren())
-                        if (node instanceof TextField)
-                        {
-                            textFields.add((TextField) node);
-                        }
-                    {
-                    }
-                        */
-                    break;
+                }
             }
-
-
-
-
-            /*
-            String message1 = this.model.title;
-            this.title.setText(message1);
-            String message2 = this.model.display1;
-            this.message.setText(message2);
-            String message3 = this.model.display2;
-            this.reply.setText(message3);
-
-             */
         }
     }
 }
