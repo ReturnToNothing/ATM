@@ -432,13 +432,13 @@ public class View
                 {"1", "2", "3",},
                 {"4", "5", "6",},
                 {"7", "8", "9",},
-                {" ", "0", " "}
+                {" ", "0", "Clear"}
         };
 
         Button[][] digitButtons = createButtonGrid(digits);
-        //styleButtons(digitButtons);
 
         TilePane buttonTile = new TilePane();
+        buttonTile.setAlignment(Pos.CENTER);
         buttonTile.setId("Buttons");
 
         for (Button[] row : digitButtons)
@@ -453,13 +453,20 @@ public class View
             }
         }
 
-        GridPane inputLayer = createGridPane("inputLayer", false, buttonTile);
+        Region backgroundLayer = new Region();
+        backgroundLayer.setId("backgroundLayer");
+        backgroundLayer.setPrefSize(width, 200);
+
+        StackPane inputContainer = new StackPane(backgroundLayer, buttonTile);
+        inputContainer.setAlignment(Pos.CENTER);
+
+        GridPane inputLayer = createGridPane("inputLayer", false, inputContainer);
         inputLayer.setAlignment(Pos.BOTTOM_CENTER);
         inputLayer.getStylesheets().add("atm.css");
         inputLayer.setPickOnBounds(false);
-        inputLayer.getChildren().add(separator);
 
-        // Initially position inputLayer off-screen to the bottom.
+        //-fx-translate-y: 10px; should work in CSS
+
         inputLayer.setTranslateY(height);
 
         return inputLayer;

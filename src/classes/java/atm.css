@@ -28,6 +28,10 @@
 #secondLayer {
     -fx-background-color: white;
 }
+#backgroundLayer {
+    -fx-background-color: #A0ADBC;
+    -fx-background-radius: 5px;
+}
 #gradientLayer {
     -fx-background-color: linear-gradient(to left, #FFFFFF 90%, rgba(255, 0, 0, 0) 100%);
 }
@@ -213,7 +217,7 @@ fx-border-width: 4px;
 #button:hover {
      -fx-background-color: #6CA2F3;
 }
-#button:active {
+#button:pressed {
   background-color: #3e8e41;
 }
 
