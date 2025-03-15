@@ -43,11 +43,11 @@ public class Controller
             case "cancel":
                 this.model.processFinish();
                 break;
-            case "Log In":
-                this.model.processLogin();
+            case "LogIn":
+                this.model.processLogIn();
                 break;
-            case "<":
-                this.model.processReturn();
+            case "LogOut":
+                this.model.processLogout();
                 break;
             default:
                 this.model.processUnknownKey(action);
