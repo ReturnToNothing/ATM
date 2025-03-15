@@ -25,7 +25,7 @@ public class Controller
             case "0":
                 this.model.processNumber(action);
                 break;
-            case "clear":
+            case "Clear":
                 this.model.processClear();
                 break;
             case "enter":
