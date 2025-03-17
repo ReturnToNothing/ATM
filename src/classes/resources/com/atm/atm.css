@@ -42,12 +42,20 @@
     -fx-background-color: linear-gradient(to top, #164ea1 0%, white 0%);
 }
 
+#topStack {
+    -fx-background-color: #164ea1;
+    -fx-background-image: url("poster3.png");
+    -fx-background-size: cover;
+}
+
 #introLabel {
     -fx-font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     -fx-font-size: 1.8em;
     -fx-font-weight: 700;
+    -fx-text-fill: white;
 
-    -fx-padding: 0em 0em 0em -5em;
+    -fx-padding: 0em 0.2em;
+    -fx-translate-y: 7px;
 }
 #loginLabel {
     -fx-font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
@@ -98,14 +106,14 @@ fx-border-width: 4px;
 #optionButton {
     -fx-background-color: transparent;
     -fx-font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    -fx-text-fill: black;
+    -fx-text-fill: white;
     -fx-font-size: 2em;
     -fx-font-weight: 700;
 
     -fx-padding: 0em 0.5em;
 }
 #optionButton:hover {
-    -fx-text-fill: #164ea1;
+    -fx-text-fill: black;
 }
 
 #backButton {
