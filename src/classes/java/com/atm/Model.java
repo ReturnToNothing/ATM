@@ -139,6 +139,27 @@ public class Model
 
                 this.view.slideIn(States.ACCOUNT_NO);
                 break;
+            case States.PASSWORD_NO:
+
+                if (!validateInput(this.input))
+                {
+                    this.input = 0;
+                    this.display1 = "";
+                    this.display2 = "LogInPASS";
+                    this.display();
+                    return;
+                }
+
+                System.out.println("Currently at Profile page");
+
+                this.input = 0;
+                this.display1 = "";
+                this.display2 = "Profile";
+
+                this.setState(States.LOGGED_IN, false);
+
+                this.view.slideIn(States.PASSWORD_NO);
+                break;
         }
         this.display();
     }
@@ -168,6 +189,17 @@ public class Model
                 this.setState(States.ACCOUNT_NO, false);
 
                 this.view.slideOut(States.PASSWORD_NO);
+                break;
+            case States.LOGGED_IN:
+                System.out.println("Currently at the Profile");
+
+                this.input = 0;
+                this.display1 = "";
+                this.display2 = "Profile";
+
+                this.setState(States.PASSWORD_NO, false);
+
+                this.view.slideOut(States.LOGGED_IN);
                 break;
         }
         this.display();
