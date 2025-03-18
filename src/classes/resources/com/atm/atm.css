@@ -21,6 +21,13 @@
 
 #introLayer {
     -fx-background-color: white;
+    -fx-background-image: url("intro.png");
+    -fx-background-size: cover;
+}
+#reloadLayer {
+    -fx-background-color: white;
+
+    -fx-background-size: cover;
 }
 #firstLayer {
     -fx-background-color: white;
@@ -44,7 +51,6 @@
 
 #topStack {
     -fx-background-color: #164ea1;
-    -fx-background-image: url("poster3.png");
     -fx-background-size: cover;
 }
 
@@ -54,13 +60,14 @@
     -fx-font-weight: 700;
     -fx-text-fill: white;
 
-    -fx-padding: 0em 0.2em;
+    -fx-padding: 0em 0.5em;
     -fx-translate-y: 7px;
 }
 #loginLabel {
     -fx-font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     -fx-font-size: 1.8em;
     -fx-font-weight: 700;
+    -fx-text-fill: white;
 
     -fx-padding: 0em .7em
 }
@@ -119,14 +126,14 @@ fx-border-width: 4px;
 #backButton {
     -fx-background-color: transparent;
     -fx-font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    -fx-text-fill: black;
+    -fx-text-fill: white;
     -fx-font-size: 2em;
     -fx-font-weight: 700;
 
     -fx-padding: 0em 0.5em;
 }
 #backButton:hover {
-    -fx-text-fill: #164ea1;
+    -fx-text-fill: black;
 }
 
 #startButton {
