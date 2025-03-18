@@ -1,20 +1,14 @@
 package com.atm;
 
-import javafx.animation.Interpolator;
-import javafx.fxml.FXMLLoader;
-import javafx.geometry.Insets;
+import javafx.animation.*;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
-import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
 import javafx.event.ActionEvent;
-import javafx.animation.KeyFrame;
-import javafx.animation.KeyValue;
-import javafx.animation.Timeline;
 import javafx.util.Duration;
 
 import javafx.scene.Scene;
@@ -23,7 +17,6 @@ import javafx.scene.Node;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class View
 {
@@ -42,32 +35,40 @@ public class View
     private TextArea reply;
     private ScrollPane scrollPane;
 
-
-    // First slide
+    private BorderPane reloadLayer;
+    private BorderPane introLayer;
     private BorderPane firstLayer;
     private HBox secondLayer;
     private HBox thirdLayer;
+    private HBox fourthLayer;
     private GridPane inputLayer;
 
     public View(Stage stage)
     {
         stage.setTitle("ATM");
-        stage.getIcons().add(fetchImage("Icon", 256, 256));
+        stage.getIcons().add(fetchImage("Icon.png", 256, 256));
 
         stage.setHeight(height);
         stage.setWidth(width);
         stage.centerOnScreen();
 
-        // BorderPane introLayer = addIntroLayer();
+        reloadLayer = addReloadLayer();
+        introLayer = addIntroLayer();
         firstLayer = addFirstLayer();
         secondLayer = addSecondLayer();
         thirdLayer = addThirdLayer();
+        fourthLayer = addProfileLayer();
         inputLayer = addInputLayer();
 
         // Each layer is stacked from the opposite order
-        StackPane root = new StackPane(firstLayer, secondLayer, thirdLayer, inputLayer);
+        StackPane root = new StackPane(firstLayer, secondLayer, thirdLayer, fourthLayer, inputLayer, reloadLayer, introLayer);
         Scene scene = new Scene(root, width, height);
-/*
+        scene.getStylesheets().add(getClass().getResource("/com/atm/atm.css").toExternalForm());
+
+        // Play the intro of the application before fading away.
+        FadeIn();
+
+        /*
         // numerical numbers ranging from 1-9
         String[][] digits = {
                 {"1", "2", "3",},
@@ -116,16 +117,63 @@ public class View
         stage.show();
     }
 
+    public void Load(boolean load, double duration)
+    {
+        KeyValue LoadInKey = new KeyValue(reloadLayer.opacityProperty(), 0.5, Interpolator.EASE_BOTH);
+        KeyValue LoadOutKey = new KeyValue(reloadLayer.opacityProperty(), 0, Interpolator.EASE_BOTH);
+
+        Timeline LoadIn = new Timeline(
+                new KeyFrame(Duration.seconds(duration), LoadInKey)
+        );
+        Timeline LoadOut = new Timeline(
+                new KeyFrame(Duration.seconds(duration), LoadOutKey)
+        );
+
+       LoadOut.setOnFinished(event -> reloadLayer.setTranslateY(-height));
+
+        if (load)
+        {
+            reloadLayer.setTranslateY(0);
+            LoadIn.play();
+        }
+        else
+        {
+            LoadOut.play();
+        }
+    }
+
+    public void FadeIn()
+    {
+        KeyValue fadeInKey = new KeyValue(introLayer.opacityProperty(), 0, Interpolator.EASE_BOTH);
+        PauseTransition delayFade = new PauseTransition(Duration.seconds(3));
+
+        Timeline fadeIn = new Timeline(
+                new KeyFrame(Duration.seconds(2), fadeInKey)
+        );
+
+        fadeIn.setOnFinished(event ->
+        {
+            introLayer.setTranslateY(height);
+            Load(false, 1f);
+        });
+
+        delayFade.setOnFinished(event -> fadeIn.play());
+        delayFade.play();
+    }
+
     public void slideIn(States state)
     {
+        PauseTransition loadDelay = new PauseTransition(Duration.seconds(1));
+
         KeyValue slideInput = new KeyValue(inputLayer.translateYProperty(), 0, Interpolator.EASE_BOTH);
         KeyValue slideSecondLayer = new KeyValue(secondLayer.translateXProperty(), -50, Interpolator.EASE_BOTH);
         KeyValue slideThirdLayer = new KeyValue(thirdLayer.translateXProperty(), -50, Interpolator.EASE_BOTH);
+        KeyValue slideFourthLayer = new KeyValue(fourthLayer.translateXProperty(), -50, Interpolator.EASE_BOTH);
 
         // A slide animation for the secondLayer, including enabling the InputLayer.
         Timeline slideInPIN = new Timeline(
                 new KeyFrame(Duration.seconds(1), slideInput),
-        new KeyFrame(Duration.seconds(0.7), slideSecondLayer)
+                new KeyFrame(Duration.seconds(0.7), slideSecondLayer)
         );
 
         Timeline slideInPASS = new Timeline(
@@ -133,22 +181,53 @@ public class View
                 new KeyFrame(Duration.seconds(0.7), slideThirdLayer)
         );
 
+        //Todo: have the inputLayer as a separate animation, since specific layers doesn't require any input yet.
+        Timeline slideInProfile = new Timeline(
+                new KeyFrame(Duration.seconds(1), slideInput),
+                new KeyFrame(Duration.seconds(0.7), slideFourthLayer)
+        );
+
         switch (state)
         {
             case States.DEFAULT:
-                slideInPIN.playFromStart();
+                Load(true, 1);
+
+                loadDelay.setOnFinished(event -> {
+                    Load(false, 1);
+                    slideInPIN.playFromStart();
+                });
+
+                loadDelay.play();
                 break;
             case States.ACCOUNT_NO:
-                slideInPASS.playFromStart();
+                Load(true, 1);
+
+                loadDelay.setOnFinished(event -> {
+                    Load(false, 1);
+                    slideInPASS.playFromStart();
+                });
+                loadDelay.play();
+                break;
+            case States.PASSWORD_NO:
+                Load(true, 1);
+
+                loadDelay.setOnFinished(event -> {
+                    Load(false, 1);
+                    slideInProfile.playFromStart();
+                });
+                loadDelay.play();
                 break;
         }
     }
 
     public void slideOut(States state)
     {
+        PauseTransition loadDelay = new PauseTransition(Duration.seconds(0.5));
+
         KeyValue slideInput = new KeyValue(inputLayer.translateYProperty(), height, Interpolator.EASE_BOTH);
         KeyValue slideSecondLayer = new KeyValue(secondLayer.translateXProperty(), width, Interpolator.EASE_BOTH);
         KeyValue slideThirdLayer = new KeyValue(thirdLayer.translateXProperty(), width, Interpolator.EASE_BOTH);
+        KeyValue slideFourthLayer = new KeyValue(fourthLayer.translateXProperty(), width, Interpolator.EASE_BOTH);
 
         // A slide animation for the secondLayer, including enabling the InputLayer.
         Timeline slideOutPIN = new Timeline(
@@ -160,58 +239,79 @@ public class View
                 new KeyFrame(Duration.seconds(0.5), slideThirdLayer)
         );
 
+        Timeline slideOutProfile = new Timeline(
+                new KeyFrame(Duration.seconds(1), slideInput),
+                new KeyFrame(Duration.seconds(0.7), slideFourthLayer)
+        );
+
         switch (state)
         {
             case States.ACCOUNT_NO:
-                slideOutPIN.playFromStart();
+
+                Load(true, 0.5f);
+
+                loadDelay.setOnFinished(event -> {
+                    Load(false, 0.5f);
+                    slideOutPIN.playFromStart();
+                });
+
+                loadDelay.play();
                 break;
             case States.PASSWORD_NO:
-                slideOutPASS.playFromStart();
+                Load(true, 0.5f);
+
+                loadDelay.setOnFinished(event -> {
+                    Load(false, 0.5f);
+                    slideOutPASS.playFromStart();
+                });
+
+                loadDelay.play();
+                break;
+            case States.LOGGED_IN:
+                Load(true, 0.5f);
+
+                loadDelay.setOnFinished(event -> {
+                    Load(false, 0.5f);
+                    slideOutProfile.playFromStart();
+                });
+
+                loadDelay.play();
                 break;
         }
     }
 
-    public void slideOut()
-    {
-        Timeline slideOut = new Timeline(
-                new KeyFrame(Duration.seconds(0.3),
-                        new KeyValue(secondLayer.translateXProperty(), width, Interpolator.EASE_IN)
-                ),
-                new KeyFrame(Duration.seconds(0.3),
-                        new KeyValue(inputLayer.translateYProperty(), height, Interpolator.EASE_IN)
-                )
-        );
-        slideOut.playFromStart();
-    }
-
     private BorderPane addIntroLayer()
     {
-        ImageView introIcon = new ImageView(fetchImage("Icon", 80, 80));
-        introIcon.setId("introIcon");
-        introIcon.setPreserveRatio(true);
-
-        VBox middleContainer = new VBox(introIcon);
-        middleContainer.setId("middleContainer");
-        middleContainer.setAlignment(Pos.CENTER);
-
         BorderPane introLayer = new BorderPane();
         introLayer.setId("introLayer");
-        introLayer.setCenter(middleContainer);
         introLayer.setPrefSize(width, height);
-        introLayer.getStylesheets().add("atm.css");
 
         return introLayer;
     }
 
+    private BorderPane addReloadLayer()
+    {
+        ImageView reloadView = new ImageView(fetchImage("loading_icon.gif", 441, 291));
+        reloadView.setId("reloadView");
+        reloadView.setPreserveRatio(true);
+
+        //gif taken from https://commons.wikimedia.org/wiki/File:Loading_icon.gif
+        BorderPane reloadLayer = new BorderPane();
+        reloadLayer.setCenter(reloadView);
+        reloadLayer.setId("reloadLayer");
+        reloadLayer.setPrefSize(width, height);
+        reloadLayer.setOpacity(0.5f);
+
+        return reloadLayer;
+    }
+
     private BorderPane addFirstLayer()
     {
-        ImageView introView = new ImageView(fetchImage("poster", 290, 360));
+        ImageView introView = new ImageView(fetchImage("poster.png", 290, 360));
         introView.setId("introView");
         introView.setPreserveRatio(true);
 
-        //might later add another stack for this label to fix with its negative padding.
         Label introLabel = new Label("Welcome to the ATM");
-        //could possibly change specific text into a chosen color...
         introLabel.setId("introLabel");
 
         Button startButton = new Button("Log In");
@@ -236,11 +336,13 @@ public class View
         Separator separator2 = new Separator();
         separator2.setId("separator");
 
-        StackPane optionStack = new StackPane(optionButton);
-        optionStack.setId("optionStack");
-        optionStack.setAlignment(Pos.CENTER_RIGHT);
+        StackPane topStack = new StackPane(introLabel, optionButton);
+        topStack.setId("topStack");
+        topStack.setPrefSize(width, 50);
+        StackPane.setAlignment(introLabel, Pos.CENTER_LEFT);
+        StackPane.setAlignment(optionButton, Pos.CENTER_RIGHT);
 
-        VBox topContainer = new VBox(10, optionStack, introLabel, separator, startButton, createButton, separator1);
+        VBox topContainer = new VBox(10, topStack, separator, startButton, createButton, separator1);
         topContainer.setId("topContainer");
         topContainer.setAlignment(Pos.CENTER);
 
@@ -258,7 +360,6 @@ public class View
         firstLayer.setCenter(middleContainer);
         firstLayer.setBottom(bottomContainer);
         firstLayer.setPrefSize(width, height);
-        firstLayer.getStylesheets().add("atm.css");
 
         return firstLayer;
     }
@@ -291,14 +392,6 @@ public class View
         enterButton.setId("enterButton");
         enterButton.setOnAction(event -> buttonClicked(event, "LogIn"));
 
-        StackPane returnStack = new StackPane(backButton);
-        returnStack.setId("returnStack");
-        returnStack.setAlignment(Pos.CENTER_RIGHT);
-
-        StackPane loginStack = new StackPane(loginLabel);
-        loginStack.setId("loginStack");
-        loginStack.setAlignment(Pos.CENTER_LEFT);
-
         StackPane messageStack = new StackPane(messageLabel);
         messageStack.setId("loginStack");
         messageStack.setAlignment(Pos.CENTER_LEFT);
@@ -317,7 +410,13 @@ public class View
         HBox pinHBox = new HBox(20, pinFields);
         pinHBox.setId("pinHBox");
 
-        VBox topContainer = new VBox(10, returnStack, loginStack, separator1, messageStack, pinHBox, enterButton, separator2);
+        StackPane topStack = new StackPane(loginLabel, backButton);
+        topStack.setId("topStack");
+        topStack.setPrefSize(width, 50);
+        StackPane.setAlignment(loginLabel, Pos.CENTER_LEFT);
+        StackPane.setAlignment(backButton, Pos.CENTER_RIGHT);
+
+        VBox topContainer = new VBox(10, topStack, separator1, messageStack, pinHBox, enterButton, separator2);
         topContainer.setId("topContainer");
         topContainer.setAlignment(Pos.CENTER);
 
@@ -334,7 +433,6 @@ public class View
 
         HBox gradientLayer = new HBox(secondLayer);
         gradientLayer.setId("gradientLayer");
-        gradientLayer.getStylesheets().add("atm.css");
 
         // Initially position secondLayer off-screen to the left side.
         gradientLayer.setTranslateX(width);
@@ -371,13 +469,81 @@ public class View
         enterButton.setId("enterButton");
         enterButton.setOnAction(event -> buttonClicked(event, "LogIn"));
 
-        StackPane returnStack = new StackPane(backButton);
-        returnStack.setId("returnStack");
-        returnStack.setAlignment(Pos.CENTER_RIGHT);
+        StackPane messageStack = new StackPane(messageLabel);
+        messageStack.setId("loginStack");
+        messageStack.setAlignment(Pos.CENTER_LEFT);
 
-        StackPane loginStack = new StackPane(loginLabel);
-        loginStack.setId("loginStack");
-        loginStack.setAlignment(Pos.CENTER_LEFT);
+        // Generating Six textboxes in a row before inserting them into a Hbox, these acts as inputs.
+        TextField[] pinFields = new TextField[6];
+        for (int index = 0; index < 6; index++)
+        {
+            pinFields[index] = new TextField();
+            pinFields[index].setId("pinField");
+            pinFields[index].setPrefWidth(60);
+            pinFields[index].setPrefHeight(60);
+            pinFields[index].setEditable(false);
+        }
+
+        HBox pinHBox = new HBox(20, pinFields);
+        pinHBox.setId("pinHBox");
+
+        StackPane topStack = new StackPane(loginLabel, backButton);
+        topStack.setId("topStack");
+        topStack.setPrefSize(width, 50);
+        StackPane.setAlignment(loginLabel, Pos.CENTER_LEFT);
+        StackPane.setAlignment(backButton, Pos.CENTER_RIGHT);
+
+        VBox topContainer = new VBox(10, topStack, separator1, messageStack, pinHBox, enterButton, separator2);
+        topContainer.setId("topContainer");
+        topContainer.setAlignment(Pos.CENTER);
+
+        VBox bottomContainer = new VBox(separator3);
+        bottomContainer.setId("bottomContainer");
+        bottomContainer.setAlignment(Pos.TOP_CENTER);
+
+        BorderPane thirdLayer = new BorderPane();
+        thirdLayer.setId("secondLayer");
+        thirdLayer.setTop(topContainer);
+        thirdLayer.setBottom(bottomContainer);
+        thirdLayer.setPrefSize(width, height);
+        thirdLayer.setTranslateX(50);
+
+        HBox gradientLayer = new HBox(thirdLayer);
+        gradientLayer.setId("gradientLayer");
+
+        // Initially position thirdLayer off-screen to the left side.
+        gradientLayer.setTranslateX(width);
+
+        return gradientLayer;
+    }
+
+    private HBox addProfileLayer()
+    {
+        Button backButton = new Button("<");
+        backButton.setId("backButton");
+        backButton.setOnAction(event -> buttonClicked(event, "LogOut"));
+
+        Label loginLabel = new Label("Log In");
+        loginLabel.setId("loginLabel");
+
+        Label messageLabel = new Label("Enter your Account PASS");
+        messageLabel.setId("messageLabel");
+
+        Separator separator = new Separator();
+        separator.setId("separator");
+
+        Separator separator1 = new Separator();
+        separator1.setId("separator");
+
+        Separator separator2 = new Separator();
+        separator2.setId("separator");
+
+        Separator separator3 = new Separator();
+        separator3.setId("separator");
+
+        Button enterButton = new Button("Enter with your current PASS");
+        enterButton.setId("enterButton");
+        enterButton.setOnAction(event -> buttonClicked(event, "LogIn"));
 
         StackPane messageStack = new StackPane(messageLabel);
         messageStack.setId("loginStack");
@@ -397,7 +563,13 @@ public class View
         HBox pinHBox = new HBox(20, pinFields);
         pinHBox.setId("pinHBox");
 
-        VBox topContainer = new VBox(10, returnStack, loginStack, separator1, messageStack, pinHBox, enterButton, separator2);
+        StackPane topStack = new StackPane(loginLabel, backButton);
+        topStack.setId("topStack");
+        topStack.setPrefSize(width, 80);
+        StackPane.setAlignment(loginLabel, Pos.CENTER_LEFT);
+        StackPane.setAlignment(backButton, Pos.CENTER_RIGHT);
+
+        VBox topContainer = new VBox(10, topStack, separator1, messageStack);
         topContainer.setId("topContainer");
         topContainer.setAlignment(Pos.CENTER);
 
@@ -414,7 +586,6 @@ public class View
 
         HBox gradientLayer = new HBox(thirdLayer);
         gradientLayer.setId("gradientLayer");
-        gradientLayer.getStylesheets().add("atm.css");
 
         // Initially position thirdLayer off-screen to the left side.
         gradientLayer.setTranslateX(width);
@@ -462,7 +633,6 @@ public class View
 
         GridPane inputLayer = createGridPane("inputLayer", false, inputContainer);
         inputLayer.setAlignment(Pos.BOTTOM_CENTER);
-        inputLayer.getStylesheets().add("atm.css");
         inputLayer.setPickOnBounds(false);
 
         //-fx-translate-y: 10px; should work in CSS
@@ -567,7 +737,7 @@ public class View
     private Image fetchImage(String id, double height, double width)
     {
         // concatenating the path by appending the specified id before searching the image's URL.
-        String imagePath = "/com/atm/" + id + ".png";
+        String imagePath = "/com/atm/" + id;
         URL URLPath = getClass().getResource(imagePath);
 
         // adding exception since fetching invalid path could potentially crash out.
@@ -578,29 +748,6 @@ public class View
 
         // finally, set the image into the imageView before applying it's size.
         return new Image(URLPath.toExternalForm());
-    }
-
-    private void styleButtons(Button[][] instances)
-    {
-        // Iterating through the nested table containing buttons.
-        for (Button[] row : instances)
-        {
-            for (Button button : row)
-            {
-                // Filter nullable instance within the table; ignoring empty labels.
-                if (button != null)
-                {
-                    String id = button.getId();
-
-                    Image imageId = fetchImage(id, 5, 5);
-                    ImageView imageView = new ImageView(imageId);
-                    imageView.setPreserveRatio(true);
-                    imageView.setFitWidth(30f);
-                    imageView.setFitHeight(30f);
-                    button.setGraphic(imageView);
-                }
-            }
-        }
     }
 
     private Button[][] createButtonGrid(String[][] labels)
