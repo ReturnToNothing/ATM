@@ -1,0 +1,123 @@
+.anchor {
+     -fx-background-color: white;
+     -fx-max-height: 640;
+     -fx-max-width: 360;
+     -fx-pref-height: 640;
+     -fx-pref-width: 360;
+}
+.region {
+     -fx-background-color: #F2F3F3;
+     -fx-background-radius: 8px;
+     -fx-pref-width: 360;
+}
+.region1 {
+     -fx-background-color: #FFFFFF;
+     -fx-max-height: 640;
+     -fx-max-width: 360;
+     -fx-pref-height: 640;
+     -fx-pref-width: 360;
+}
+.region-blue {
+     -fx-background-color: #199EFF;
+     -fx-background-radius: 8px;
+     -fx-pref-width: 360;
+}
+.logo {
+     -fx-preserve-ratio: true;
+}
+.welcome-text {
+     -fx-font-family: "Kanit", sans-serif;
+     -fx-font-size: 1.3em;
+     -fx-line-height: 1em;
+     -fx-font-weight: 700;
+     -fx-fill: #000C14;
+}
+.welcome-text-small {
+     -fx-font-family: "Kanit", sans-serif;
+     -fx-font-size: 1em;
+     -fx-line-height: 1em;
+     -fx-font-weight: 700;
+     -fx-fill: #000C14;
+}
+.welcome-text-small-blue {
+     -fx-font-family: "Kanit", sans-serif;
+     -fx-font-size: 1em;
+     -fx-line-height: 1em;
+     -fx-font-weight: 700;
+     -fx-fill: #199EFF;
+}
+.welcome-text-blue {
+     -fx-font-family: "Kanit", sans-serif;
+     -fx-font-size: 1.3em;
+     -fx-line-height: 1em;
+     -fx-font-weight: 700;
+     -fx-fill: #199EFF;
+}
+.welcome-text-bold {
+     -fx-font-family: "Kanit", sans-serif;
+     -fx-font-size: 1.7em;
+     -fx-line-height: 1em;
+     -fx-font-weight: 700;
+     -fx-fill: #199EFF;
+}
+.welcome-text-semi {
+     -fx-font-family: "Kanit", sans-serif;
+     -fx-font-size: 0.9em;
+     -fx-line-height: 1em;
+     -fx-font-weight: 700;
+     -fx-fill: #199EFF;
+}
+.version-text {
+     -fx-font-family: "Kanit", sans-serif;
+     -fx-font-size: 1em;
+     -fx-line-height: 1em;
+     -fx-font-weight: 700;
+     -fx-fill: #ADB6CA;
+}
+.continueButton {
+     -fx-font-family: "Kanit", sans-serif;
+     -fx-font-weight: 700;
+     -fx-font-size: 1.2em;
+
+     -fx-background-color: #199EFF;
+     -fx-text-fill: #FFFFFF;
+
+     -fx-pref-width: 320px;
+     -fx-pref-height: 45px;
+
+     -fx-background-radius: 8px;
+     cursor: pointer;
+}
+.returnButton {
+     -fx-font-family: "Kanit", sans-serif;
+     -fx-font-weight: 700;
+     -fx-font-size: 1em;
+
+     -fx-background-color: transparent;
+     -fx-text-fill: #199EFF;
+
+     -fx-pref-width: 62px;
+     -fx-pref-height: 25px;
+
+     -fx-background-radius: 8px;
+}
+.baseButton {
+     -fx-font-family: "Kanit", sans-serif;
+     -fx-font-weight: 700;
+     -fx-font-size: 1.2em;
+
+     -fx-background-color: #F2F3F3;
+     -fx-text-fill: #999EA1;
+
+     -fx-pref-width: 320px;
+     -fx-pref-height: 45px;
+
+     -fx-background-radius: 8px;
+}
+.baseCircle {
+     -fx-fill: #000C14;
+     -fx-stroke-width: 0px;
+}
+.hBox {
+     -fx-spacing: 5px;
+}

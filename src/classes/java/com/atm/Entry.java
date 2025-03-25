@@ -31,8 +31,7 @@ public class Entry extends Application
     }
 
     @Override
-    public void start(Stage stage)
-    {
+    public void start(Stage stage) throws IOException {
         Bank bank = new Bank();
 
         for (int index = 0; index < numbers.length; index++)
@@ -48,10 +47,10 @@ public class Entry extends Application
         Controller controller = new Controller();
         controller.model = model;
 
-        View view = new View(stage);
-        view.controller = controller;
-        view.model = model;
+        View view = new View(stage, controller, model);
+
         model.view = view;
-        model.display();
+        model.display("nothing");
     }
+
 }

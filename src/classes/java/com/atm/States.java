@@ -2,6 +2,11 @@ package com.atm;
 
 public enum States
 {
+    // Model's internal state for tutorial
+    TUTORIAL_ONE,
+    TUTORIAL_TWO,
+    TUTORIAL_THREE,
+
     // Model's internal state
     ACCOUNT_NO,
     PASSWORD_NO,

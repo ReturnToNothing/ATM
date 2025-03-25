@@ -49,6 +49,12 @@ public class Controller
             case "LogOut":
                 this.model.processLogout();
                 break;
+            case "Start-Tutorial":
+                this.model.processTutorial(false);
+                break;
+            case "Return-Tutorial":
+                this.model.processTutorial(true);
+                break;
             default:
                 this.model.processUnknownKey(action);
         }

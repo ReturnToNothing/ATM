@@ -1,5 +1,6 @@
 package com.atm;
 
+import java.io.IOException;
 import java.util.Objects;
 
 public class Model
@@ -13,6 +14,8 @@ public class Model
     // Reference:
     // https://onjavahell.blogspot.com/2009/05/simple-example-of-state-design-pattern.html
     States state = States.DEFAULT;
+    States prevState = States.DEFAULT;
+    States returnState = States.DEFAULT;
     States subState = States.DEFAULT;
 
     int input = 0;
@@ -29,24 +32,14 @@ public class Model
         this.bank = bank;
     }
 
-    public void display()
+    public void display(String type)
     {
-        this.view.update();
+        this.view.update(type);
     }
 
-    private void setState(States newState, boolean extended)
-    {
-        if (extended) {
-            if (!this.subState.equals(newState)) {
-                this.subState = newState;
-            }
-        }
-        else
-        {
-            if (!this.state.equals(newState)) {
-                this.state = newState;
-            }
-        }
+    public void setState(States newState, boolean reverse) {
+        this.prevState = this.state;
+        this.state = newState;
     }
 
     private void setSubState(States newState)
@@ -60,8 +53,8 @@ public class Model
 
     private void restart(String message)
     {
-        this.setState(States.DEFAULT, false);
-        this.setState(States.DEFAULT, true);
+        //this.setState(States.DEFAULT, false);
+        //this.setState(States.DEFAULT, true);
         this.input = 0;
         this.display1 = message;
         this.display2 = "Enter your account number\nFollowed by \"ENTER\"";
@@ -80,14 +73,14 @@ public class Model
         this.input = this.input * 10 + character - 48;
         this.display1 = "" + this.input;
 
-        this.display();
+      //  this.display();
     }
 
     public void processClear()
     {
         this.input = 0;
         this.display1 = "0";
-        this.display();
+       // this.display();
     }
 
     public boolean validateInput(int input)
@@ -101,6 +94,46 @@ public class Model
         }
 
         return true;
+    }
+
+    public void processTutorial(boolean reverse) {
+        if (reverse)
+        {
+            switch (this.state)
+            {
+                case TUTORIAL_ONE:
+                    this.setState(States.DEFAULT, false);
+                    break;
+                case TUTORIAL_TWO:
+                    this.setState(States.TUTORIAL_ONE, false);
+                    break;
+                case TUTORIAL_THREE:
+                    this.setState(States.TUTORIAL_TWO, false);
+                    break;
+            }
+        }
+        else
+        {
+            // Move forward through tutorial states
+            switch (this.state)
+            {
+                case DEFAULT:
+                    this.setState(States.TUTORIAL_ONE, false);
+                    break;
+                case TUTORIAL_ONE:
+                    this.setState(States.TUTORIAL_TWO, false);
+                    break;
+                case TUTORIAL_TWO:
+                    this.setState(States.TUTORIAL_THREE, false);
+                    break;
+                    //reset back to the login page
+                case TUTORIAL_THREE:
+                    this.setState(States.DEFAULT, false);
+                    break;
+                // Add more states if needed
+            }
+        }
+        this.display("tutorial");
     }
 
     public void processLogIn()
@@ -117,7 +150,7 @@ public class Model
 
                 this.setState(States.ACCOUNT_NO, false);
 
-                this.view.slideIn(States.DEFAULT);
+                //this.view.slideIn(States.DEFAULT);
                 break;
             case States.ACCOUNT_NO:
                 System.out.println("Currently at PASS page");
@@ -127,7 +160,7 @@ public class Model
                     this.input = 0;
                     this.display1 = "";
                     this.display2 = "LogInPASS";
-                    this.display();
+                  //  this.display();
                     return;
                 }
 
@@ -137,7 +170,7 @@ public class Model
 
                 this.setState(States.PASSWORD_NO, false);
 
-                this.view.slideIn(States.ACCOUNT_NO);
+                //this.view.slideIn(States.ACCOUNT_NO);
                 break;
             case States.PASSWORD_NO:
 
@@ -146,7 +179,7 @@ public class Model
                     this.input = 0;
                     this.display1 = "";
                     this.display2 = "LogInPASS";
-                    this.display();
+                  //  this.display();
                     return;
                 }
 
@@ -158,10 +191,10 @@ public class Model
 
                 this.setState(States.LOGGED_IN, false);
 
-                this.view.slideIn(States.PASSWORD_NO);
+                //this.view.slideIn(States.PASSWORD_NO);
                 break;
         }
-        this.display();
+      //  this.display();
     }
 
     public void processLogout()
@@ -177,7 +210,7 @@ public class Model
 
                 this.setState(States.DEFAULT, false);
 
-                this.view.slideOut(States.ACCOUNT_NO);
+                //this.view.slideOut(States.ACCOUNT_NO);
                 break;
             case States.PASSWORD_NO:
                 System.out.println("Currently at PASS");
@@ -188,7 +221,7 @@ public class Model
 
                 this.setState(States.ACCOUNT_NO, false);
 
-                this.view.slideOut(States.PASSWORD_NO);
+                //this.view.slideOut(States.PASSWORD_NO);
                 break;
             case States.LOGGED_IN:
                 System.out.println("Currently at the Profile");
@@ -199,10 +232,10 @@ public class Model
 
                 this.setState(States.PASSWORD_NO, false);
 
-                this.view.slideOut(States.LOGGED_IN);
+                //this.view.slideOut(States.LOGGED_IN);
                 break;
         }
-        this.display();
+       // this.display();
     }
 
     public void processEnter()
@@ -327,7 +360,7 @@ public class Model
                         break;
                 }
         }
-        this.display();
+      //  this.display();
     }
 
     public void processWithdraw()
@@ -347,7 +380,7 @@ public class Model
             this.restart("You are not logged in");
         }
 
-        this.display();
+       // this.display();
     }
 
     public void processDeposit()
@@ -367,7 +400,7 @@ public class Model
             this.restart("You are not logged in");
         }
 
-        this.display();
+       // this.display();
     }
 
     public void processBalance()
@@ -388,7 +421,7 @@ public class Model
             this.restart("You are not logged in");
         }
 
-        this.display();
+        //this.display();
     }
 
     public void processFinish()
@@ -407,14 +440,14 @@ public class Model
             this.restart("You are not logged in");
         }
 
-        this.display();
+      //  this.display();
     }
 
     //Should be cautious about this method, since it doesn't revert the slides.
     public void processUnknownKey(String action)
     {
         this.restart("Invalid command: " + action);
-        this.display();
+       // this.display();
     }
 
     private record equals() {
