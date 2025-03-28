@@ -7,7 +7,7 @@
      -fx-alignment: centre;
 }
 .anchorPane-gradient-left {
-     -fx-background-color: linear-gradient(from 90% 50% to 100% 50%, #199EFF, transparent);
+     -fx-background-color: linear-gradient(from 90% 50% to 100% 50%, #FFFFFF, transparent);
      -fx-max-height: 896;
      -fx-max-width: 414;
      -fx-pref-height: 896;
@@ -15,14 +15,13 @@
      -fx-alignment: centre;
 }
 .anchorPane-gradient-right {
-     -fx-background-color: linear-gradient(from 10% 50% to 0% 50%, #199EFF, transparent);
+     -fx-background-color: linear-gradient(from 10% 50% to 0% 50%, #FFFFFF, transparent);
      -fx-max-height: 896;
      -fx-max-width: 414;
      -fx-pref-height: 896;
      -fx-pref-width: 414; /*four pages are 414x4*/
      -fx-alignment: centre;
 }
-
 .hBox {
      -fx-background-color: transparent;
      -fx-max-height: 896;

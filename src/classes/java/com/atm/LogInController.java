@@ -142,6 +142,7 @@ public class LogInController
 
         // Make the anchor transparent when in DEFAULT state
         // Simply because login overlaps with the tutorial scene
+
         anchor.setMouseTransparent(state == States.DEFAULT);
 
        Timeline slideAnimation = new Timeline(
@@ -149,8 +150,6 @@ public class LogInController
                         new KeyValue(anchor.translateXProperty(), targetX, new SineInterpolator())
                 )
        );
-
-       System.out.println(state + " " + targetX);
 
         slideAnimation.play();
     }

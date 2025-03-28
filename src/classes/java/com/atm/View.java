@@ -55,8 +55,8 @@ public class View
         introScene.initialize();
 
         // Input scenes
-       //  InputController inputScene = (InputController) loadScene("input-view.fxml", "input-view");
-       // inputScene.initialize(this.controller);
+        InputController inputScene = (InputController) loadScene("input.fxml", "input");
+        inputScene.initialize(this.controller);
 
         // Login scenes
         LogInController loginScene = (LogInController) loadScene("login.fxml", "login");
@@ -155,12 +155,16 @@ public class View
 
         States tutorialState = this.model.getState(com.atm.Scene.TUTORIAL);
         States loginState = this.model.getState(com.atm.Scene.LOGIN);
+        States inputState = this.model.getState(com.atm.Scene.INPUT);
 
         TutorialController tutorialController = (TutorialController) getController("tutorial");
         tutorialController.slide(tutorialState);
 
         LogInController loginController = (LogInController) getController("login");
         loginController.slide(loginState);
+
+        InputController inputController = (InputController) getController("input");
+        inputController.slide(inputState);
 
         /*
             // fetch both internal states of the model

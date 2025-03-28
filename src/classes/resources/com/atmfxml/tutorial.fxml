@@ -132,7 +132,7 @@
                   <Text layoutX="56.0" layoutY="502.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="welcome-text-version" text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam tellus erat, condimentum et velit id, gravida dignissim tortor." textAlignment="CENTER" wrappingWidth="300.0" />
                   <Separator layoutY="636.0" prefHeight="16.0" prefWidth="412.0" />
                   <Text layoutX="112.0" layoutY="637.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="welcome-text-small-black" text="Already know the basis?" textAlignment="CENTER" />
-                  <Button fx:id="logButton3" alignment="CENTER" contentDisplay="CENTER" layoutX="248.0" layoutY="620.0" mnemonicParsing="false" styleClass="registerButton" text="Log In" textAlignment="CENTER" />
+                  <Button fx:id="returnButton" alignment="CENTER" contentDisplay="CENTER" layoutX="248.0" layoutY="620.0" mnemonicParsing="false" styleClass="registerButton" text="Return" textAlignment="CENTER" />
                   <VBox alignment="CENTER_LEFT" layoutX="26.0" layoutY="664.0" prefHeight="205.0" prefWidth="360.0" spacing="30.0" styleClass="vBox">
                      <children>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="welcome-text-small-black" text="• Key Feature" wrappingWidth="80.0" />

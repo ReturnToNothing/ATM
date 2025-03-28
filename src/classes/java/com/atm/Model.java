@@ -14,6 +14,7 @@ public class Model
 
     // enum-based machine state
     private Scene currentScene = Scene.LOGIN;
+    private States inputState = States.DEFAULT;
     private States tutorialState = States.DEFAULT;
     private States loginState = States.DEFAULT;
     private States transactionState = States.DEFAULT;
@@ -45,6 +46,8 @@ public class Model
                     this.tutorialState = newState;
             case LOGIN ->
                     this.loginState = newState;
+            case INPUT ->
+                    this.inputState = newState;
             case TRANSACTION ->
                     this.transactionState = newState;
         }
@@ -56,6 +59,7 @@ public class Model
         {
             case TUTORIAL -> this.tutorialState;
             case LOGIN -> this.loginState;
+            case INPUT -> this.inputState;
             case TRANSACTION -> this.transactionState;
         };
     }
@@ -151,10 +155,10 @@ public class Model
             {
                 case LOGIN_ONE:
                     this.setState(Scene.LOGIN, States.DEFAULT);
+                    this.setState(Scene.INPUT, States.DEFAULT);
                     break;
                 case LOGIN_TWO:
                     this.setState(Scene.LOGIN, States.LOGIN_ONE);
-                    this.setState(Scene.TUTORIAL, States.DEFAULT);
                     break;
                 case LOGIN_THREE:
                     this.setState(Scene.LOGIN, States.LOGIN_TWO);
@@ -168,9 +172,11 @@ public class Model
             {
                 case DEFAULT:
                     this.setState(Scene.LOGIN, States.LOGIN_ONE);
+                    this.setState(Scene.INPUT, States.INPUT_DIGIT);
                     break;
                 case LOGIN_ONE:
                     this.setState(Scene.LOGIN, States.LOGIN_TWO);
+                    this.setState(Scene.TUTORIAL, States.DEFAULT); // reset the welcome page
                     break;
                 case LOGIN_TWO:
                     this.setState(Scene.LOGIN, States.LOGIN_THREE);
@@ -182,6 +188,7 @@ public class Model
         }
         this.display();
     }
+
 /*
     public void processLogIn2()
     {

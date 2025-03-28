@@ -1,0 +1,56 @@
+.anchorPane {
+     -fx-background-color: transparent;
+     -fx-max-height: 296;
+     -fx-max-width: 404;
+     -fx-pref-height: 296;
+     -fx-pref-width: 404; /*four pages are 414x4*/
+     -fx-alignment: centre;
+}
+.stackPane {
+     -fx-background-color: transparent;
+     -fx-max-height: 296;
+     -fx-max-width: 404;
+     -fx-pref-height: 296;
+     -fx-pref-width: 404;
+}
+.fakeGridPane {
+     -fx-background-color: transparent;
+     -fx-max-height: 296;
+     -fx-max-width: 404;
+     -fx-pref-height: 296;
+     -fx-pref-width: 404;
+}
+.gridPane {
+     -fx-background-color: #E5E7E7;
+     -fx-background-radius: 8px;
+     -fx-max-height: 296;
+     -fx-max-width: 404;
+     -fx-pref-height: 296;
+     -fx-pref-width: 404;
+}
+.baseButton {
+     -fx-font-family: "Kanit", sans-serif;
+     -fx-font-weight: 700;
+     -fx-font-size: 2em;
+
+     -fx-background-color: #FFFFFF;
+     -fx-text-fill: #999EA1;
+
+     -fx-pref-width: 200px;
+     -fx-pref-height: 55px;
+
+     -fx-background-radius: 8px;
+}
+.digitButton {
+     -fx-font-family: "Kanit", sans-serif;
+     -fx-font-weight: 700;
+     -fx-font-size: 2em;
+
+     -fx-background-color: #199EFF;
+     -fx-text-fill: #FFFFFF;
+
+     -fx-pref-width: 200px;
+     -fx-pref-height: 55px;
+
+     -fx-background-radius: 8px;
+}

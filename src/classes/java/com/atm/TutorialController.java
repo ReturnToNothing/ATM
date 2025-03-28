@@ -20,8 +20,8 @@ public class TutorialController
     @FXML public Button logButton1;
     @FXML public Button continueButton1;
     @FXML public Button logButton2;
-    @FXML public Button logButton3;
     @FXML public Button logButton4;
+    @FXML  public Button returnButton;
 
     private Controller controller;
     private View view;
@@ -34,7 +34,6 @@ public class TutorialController
         logButton.setId("Start-LogIn");
         logButton1.setId("Start-LogIn");
         logButton2.setId("Start-LogIn");
-        logButton3.setId("Start-LogIn");
         logButton4.setId("Start-LogIn");
 
         registerButton.setId("Start-SignIn");
@@ -42,6 +41,7 @@ public class TutorialController
         startButton.setId("Start-Tutorial");
         continueButton.setId("Start-Tutorial");
         continueButton1.setId("Start-Tutorial");
+        returnButton.setId("Start-Tutorial");
 
         BindButtons();
     }
@@ -54,7 +54,7 @@ public class TutorialController
         };
 
         Button[] textButtons = {
-                registerButton, logButton1, logButton2, logButton3
+                registerButton, logButton1, logButton2, returnButton
         };
 
         for (Button button : buttons) {

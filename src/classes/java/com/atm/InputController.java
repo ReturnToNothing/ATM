@@ -7,108 +7,123 @@ import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 
 public class InputController
 {
     @FXML public AnchorPane anchor;
-    @FXML public Button buttonOne;
-    @FXML public Button buttonTwo;
-    @FXML public Button buttonThree;
-    @FXML public Button buttonFour;
-    @FXML public Button buttonFive;
-    @FXML public Button buttonSix;
-    @FXML public Button buttonSeven;
-    @FXML public Button buttonEight;
-    @FXML public Button buttonNine;
-    @FXML public Button buttonZero;
+    @FXML public StackPane stackPane;
+    @FXML public Button One;
+    @FXML public Button Two;
+    @FXML public Button Three;
+    @FXML public Button Four;
+    @FXML public Button Five;
+    @FXML public Button Six;
+    @FXML public Button Seven;
+    @FXML public Button Eight;
+    @FXML public Button Nine;
+    @FXML public Button Zero;
 
     private Controller controller;
 
     public void initialize(Controller controller)
     {
         this.controller = controller;
-        bindButtons();
+
+        One.setId("1");
+        Two.setId("2");
+        Three.setId("3");
+        Four.setId("4");
+        Five.setId("5");
+        Six.setId("6");
+        Seven.setId("7");
+        Eight.setId("8");
+        Nine.setId("9");
+        Zero.setId("0");
+
+        BindButtons();
     }
 
-    public void slideOut()
+    public void BindButtons()
     {
-        Timeline slideAnimation = new Timeline(
-                new KeyFrame(Duration.seconds(1),
-                        new KeyValue(anchor.translateYProperty(), 640, Interpolator.EASE_BOTH),
-                        new KeyValue(anchor.opacityProperty(), 0, Interpolator.EASE_BOTH)
-                )
-        );
-
-
-        slideAnimation.play();
-    }
-
-    public void slideIn()
-    {
-        Timeline slideAnimation = new Timeline(
-                new KeyFrame(Duration.seconds(1),
-                        new KeyValue(anchor.translateYProperty(), 0, Interpolator.EASE_BOTH),
-                        new KeyValue(anchor.opacityProperty(), 1, Interpolator.EASE_BOTH)
-                )
-        );
-
-        slideAnimation.setDelay(Duration.seconds(1));
-        slideAnimation.play();
-    }
-
-    private void bindButtons()
-    {
-        anchor.setTranslateY(640);
-
-        // Array of declared buttons (although already initialized from fxml)
-        Button[] buttons =
-                {
-                buttonOne, buttonTwo, buttonThree, buttonFour, buttonFive,
-                buttonSix, buttonSeven, buttonEight, buttonNine, buttonZero
+        Button[] buttons = {
+                One, Two, Three, Four, Five, Six, Seven, Eight, Nine, Zero
         };
 
-        // iterate through the array by binding them individually.
-        for (Button button : buttons) {
-            if (!(button == null))
-            {
-                BindPressed(button);
-                bindHover(button);
-            }
+        for (Button button : buttons)
+        {
+            BindPressed(button);
+            hoverButton(button);
         }
     }
 
-    private void BindPressed(Button button) {
-        button.setOnMousePressed(event -> {
-            this.controller.process(button.getText());
+    private void BindPressed(Button button)
+    {
+        //TODO: Add ripple effect
+        button.setOnMousePressed(event ->
+        {
+            this.controller.process(button.getId());
         });
     }
 
-    private void bindHover(Button button)
+    private void hoverButton(Button button)
     {
         // Initially ensuring that the buttons are unselected (with the greyed-out effect)
         button.setOpacity(0);
 
         // Timelines for hover and exit (transition from gray to blue)
         Timeline hoverAnimation = new Timeline(
-                new KeyFrame(Duration.seconds(0.2),
-                        new KeyValue(button.opacityProperty(), 1, Interpolator.EASE_BOTH)
+                new KeyFrame(Duration.seconds(.2),
+                        new KeyValue(button.opacityProperty(), 1, new SineInterpolator())
                 )
         );
 
         Timeline exitAnimation = new Timeline(
-                new KeyFrame(Duration.seconds(0.2),
-                        new KeyValue(button.opacityProperty(), 0, Interpolator.EASE_BOTH)
+                new KeyFrame(Duration.seconds(.2),
+                        new KeyValue(button.opacityProperty(), 0, new SineInterpolator())
                 )
         );
 
-        // binding the selected button
+        // I had tried to find different solutions, although implementing them are quite complicated,
+        // in which I decided to practically create two buttons, where the top one fades in or out.
+
         button.setOnMouseEntered(event -> {
             hoverAnimation.playFromStart();
-            System.out.println("entered");
         });
         button.setOnMouseExited(event -> {
             exitAnimation.playFromStart();
         });
+    }
+
+    public void slide(States state)
+    {
+        double targetY = switch (state)
+        {
+            case DEFAULT -> 296 * 2;
+            case INPUT_DIGIT -> 296;
+            default -> 296 * 2;
+        };
+
+        double delay = switch (state)
+        {
+            case DEFAULT -> 0;
+            case INPUT_DIGIT -> 0.5;
+            default -> 0;
+        };
+
+        System.out.println(state + " InputController");
+
+      //  anchor.setMouseTransparent(state == States.DEFAULT);
+
+        Timeline slideAnimation = new Timeline(
+                new KeyFrame(Duration.seconds(1),
+                        new KeyValue(anchor.translateYProperty(), targetY, new SineInterpolator())
+                )
+        );
+
+        slideAnimation.setDelay(Duration.seconds(delay));
+
+       slideAnimation.play();
     }
 }
