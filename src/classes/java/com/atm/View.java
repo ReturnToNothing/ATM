@@ -20,8 +20,8 @@ public class View
     public Controller controller;
     public Model model;
 
-    private final double height = 680;
-    private final double width = 380;
+    private final double height = 926;
+    private final double width = 414;
 
     private Stage stage;
     private Scene scene;
@@ -39,7 +39,7 @@ public class View
         this.root = new StackPane();
         this.scene = new Scene(root, width, height);
 
-        this.stage.setTitle("ATM");
+        this.stage.setTitle("EAJ");
         this.stage.getIcons().add(fetchImage("LunU3.png"));
 
         this.stage.setHeight(height);
@@ -50,30 +50,22 @@ public class View
         this.stage.setScene(this.scene);
         this.stage.show();
 
-        // Initial/Intro scene
+        // Initial/Intro scene, might rename later
         IntroController introScene = (IntroController) loadScene("intro-view.fxml", "intro-view");
         introScene.initialize();
 
         // Input scenes
-        InputController inputScene = (InputController) loadScene("input-view.fxml", "input-view");
-        inputScene.initialize(this.controller);
-
-        // Welcome scenes
-        WelcomeController welcomeScene = (WelcomeController) loadScene("welcome-view.fxml", "welcome-view");
-        welcomeScene.initialize(this.controller);
-
-        TutorialController firstTutorialScene = (TutorialController) loadScene("tutorialOne-view.fxml", "tutorialOne-view");
-        firstTutorialScene.initialize(this.controller);
-
-        TutorialController secondTutorialScene = (TutorialController) loadScene("tutorialTwo-view.fxml", "tutorialTwo-view");
-        secondTutorialScene.initialize(this.controller);
-
-        TutorialController thirdTutorialScene = (TutorialController) loadScene("tutorialThree-view.fxml", "tutorialThree-view");
-        thirdTutorialScene.initialize(this.controller);
+       //  InputController inputScene = (InputController) loadScene("input-view.fxml", "input-view");
+       // inputScene.initialize(this.controller);
 
         // Login scenes
-        LoginController loginScene = (LoginController) loadScene("login-view.fxml", "login-view");
+        LogInController loginScene = (LogInController) loadScene("login.fxml", "login");
         loginScene.initialize(this.controller);
+
+        // Welcome scenes
+        TutorialController tutorialScene = (TutorialController) loadScene("tutorial.fxml", "tutorial");
+        tutorialScene.initialize(this.controller);
+
     }
 
     public Object loadScene(String fxmlFile, String fxmlName) throws IOException
@@ -158,9 +150,19 @@ public class View
         }
     }
 
-    public void update(String type) {
-        if (this.model != null)
-        {
+    public void update()
+    {
+
+        States tutorialState = this.model.getState(com.atm.Scene.TUTORIAL);
+        States loginState = this.model.getState(com.atm.Scene.LOGIN);
+
+        TutorialController tutorialController = (TutorialController) getController("tutorial");
+        tutorialController.slide(tutorialState);
+
+        LogInController loginController = (LogInController) getController("login");
+        loginController.slide(loginState);
+
+        /*
             // fetch both internal states of the model
             States state = this.model.state;
             States prevState = this.model.prevState;
@@ -214,6 +216,7 @@ public class View
                     tutorialThreeController.slideIn();
                 }
             }
-        }
+
+             */
     }
 }

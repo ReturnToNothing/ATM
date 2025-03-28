@@ -1,0 +1,197 @@
+.anchorPane {
+     -fx-background-color: transparent;
+     -fx-max-height: 896;
+     -fx-max-width: 414;
+     -fx-pref-height: 896;
+     -fx-pref-width: 414; /*four pages are 414x4*/
+     -fx-alignment: centre;
+}
+.anchorPane-gradient-left {
+     -fx-background-color: linear-gradient(from 90% 50% to 100% 50%, #199EFF, transparent);
+     -fx-max-height: 896;
+     -fx-max-width: 414;
+     -fx-pref-height: 896;
+     -fx-pref-width: 414; /*four pages are 414x4*/
+     -fx-alignment: centre;
+}
+.anchorPane-gradient-right {
+     -fx-background-color: linear-gradient(from 10% 50% to 0% 50%, #199EFF, transparent);
+     -fx-max-height: 896;
+     -fx-max-width: 414;
+     -fx-pref-height: 896;
+     -fx-pref-width: 414; /*four pages are 414x4*/
+     -fx-alignment: centre;
+}
+
+.hBox {
+     -fx-background-color: transparent;
+     -fx-max-height: 896;
+     -fx-max-width: 828;
+     -fx-pref-height: 896;
+     -fx-pref-width: 828; /*four pages are 414x4*/
+}
+
+/* CSS properties for the first layer */
+.anchorPane-Welcome {
+     -fx-background-color: white;
+     -fx-max-height: 896;
+     -fx-max-width: 414;
+     -fx-pref-height: 896;
+     -fx-pref-width: 414;
+}
+.welcome-text-blue {
+     -fx-font-family: "Kanit", sans-serif;
+     -fx-font-size: 1.3em;
+     -fx-line-height: 1em;
+     -fx-font-weight: 700;
+     -fx-fill: #199EFF;
+}
+.welcome-text-big-black {
+     -fx-font-family: "Kanit", sans-serif;
+     -fx-font-size: 1.7em;
+     -fx-line-height: 1em;
+     -fx-font-weight: 700;
+     -fx-fill: #000000;
+}
+.welcome-text-small-black {
+     -fx-font-family: "Kanit", sans-serif;
+     -fx-font-size: 1em;
+     -fx-line-height: 1em;
+     -fx-font-weight: 700;
+     -fx-fill: #000000;
+}
+.welcome-text-big {
+     -fx-font-family: "Kanit", sans-serif;
+     -fx-font-size: 1.7em;
+     -fx-line-height: 1em;
+     -fx-font-weight: 700;
+     -fx-fill: #199EFF;
+}
+.welcome-text-small {
+     -fx-font-family: "Kanit", sans-serif;
+     -fx-font-size: 1.3em;
+     -fx-line-height: 1em;
+     -fx-font-weight: 600;
+     -fx-fill: #199EFF;
+}
+.welcome-text-powered {
+     -fx-font-family: "Kanit", sans-serif;
+     -fx-font-size: 1.2em;
+     -fx-line-height: 1em;
+     -fx-font-weight: 600;
+     -fx-fill: #199EFF;
+}
+.welcome-text-version {
+     -fx-font-family: "Kanit", sans-serif;
+     -fx-font-size: 1em;
+     -fx-line-height: 1em;
+     -fx-font-weight: 700;
+     -fx-fill: #ADB6CA;
+
+     -fx-background-color: white;
+     -fx-background-radius: 8px;
+}
+.logInButton {
+     -fx-font-family: "Kanit", sans-serif;
+     -fx-font-weight: 700;
+     -fx-font-size: 1.4em;
+
+     -fx-background-color: #199EFF;
+     -fx-text-fill: #FFFFFF;
+
+     -fx-pref-width: 350px;
+     -fx-pref-height: 55px;
+
+     -fx-background-radius: 8px;
+     cursor: pointer;
+}
+.startButton {
+     -fx-font-family: "Kanit", sans-serif;
+     -fx-font-weight: 700;
+     -fx-font-size: 1.4em;
+
+     -fx-background-color: #199EFF;
+     -fx-text-fill: #FFFFFF;
+
+     -fx-pref-width: 350px;
+     -fx-pref-height: 55px;
+
+     -fx-background-radius: 8px;
+}
+.registerButton {
+     -fx-font-family: "Kanit", sans-serif;
+     -fx-font-weight: 700;
+     -fx-font-size: 1em;
+
+     -fx-background-color: transparent;
+     -fx-text-fill: #199EFF;
+}
+.baseButton {
+     -fx-font-family: "Kanit", sans-serif;
+     -fx-font-weight: 700;
+     -fx-font-size: 1.4em;
+
+     -fx-background-color: #F2F3F3;
+     -fx-text-fill: #999EA1;
+
+     -fx-pref-width: 350px;
+     -fx-pref-height: 55px;
+
+     -fx-background-radius: 8px;
+}
+.baseButton-pinpoint {
+  -fx-font-family: "Kanit", sans-serif;
+     -fx-font-weight: 700;
+     -fx-font-size: 1.4em;
+
+     -fx-background-color: #F2F3F3;
+     -fx-text-fill: #999EA1;
+
+     -fx-pref-width: 350px;
+     -fx-pref-height: 55px;
+
+     -fx-background-radius: 8px;
+
+     -fx-border-radius: 8px;
+     -fx-border-width: 2px;
+     -fx-border-color: #199EFF;
+}
+.images {
+     -fx-preserve-ratio: true;
+}
+
+/* CSS properties for the second layer */
+.anchorPane-Tutorial1 {
+     -fx-background-color: white;
+     -fx-max-height: 896;
+     -fx-max-width: 414;
+     -fx-pref-height: 896;
+     -fx-pref-width: 414;
+}
+.continueButton {
+     -fx-font-family: "Kanit", sans-serif;
+     -fx-font-weight: 700;
+     -fx-font-size: 1.4em;
+
+     -fx-background-color: #199EFF;
+     -fx-text-fill: #FFFFFF;
+
+     -fx-pref-width: 350px;
+     -fx-pref-height: 55px;
+
+     -fx-background-radius: 8px;
+}
+.vBox {
+      -fx-border-radius: 8px;
+      -fx-border-width: 2px;
+      -fx-border-color: #F2F3F3;
+}
+
+/* CSS properties for the third layer */
+.anchorPane-Tutorial2 {
+     -fx-background-color: white;
+     -fx-max-height: 896;
+     -fx-max-width: 414;
+     -fx-pref-height: 896;
+     -fx-pref-width: 414;
+}

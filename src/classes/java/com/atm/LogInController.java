@@ -5,43 +5,41 @@ import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.text.Text;
 import javafx.util.Duration;
 
-public class TutorialController
+public class LogInController
 {
     @FXML public AnchorPane anchor;
-    @FXML public AnchorPane anchorRight;
-    @FXML public AnchorPane anchorLeft;
-    @FXML public Button logButton;
-    @FXML public Button startButton;
+
+    @FXML public TextField textField1;
+    @FXML public TextField textField2;
+    @FXML public TextField textField3;
+    @FXML public TextField textField4;
+    @FXML public TextField textField5;
+    @FXML public TextField textField6;
+
+    @FXML public Button loginButton;
     @FXML public Button registerButton;
-    @FXML public Button continueButton;
-    @FXML public Button logButton1;
-    @FXML public Button continueButton1;
-    @FXML public Button logButton2;
-    @FXML public Button logButton3;
-    @FXML public Button logButton4;
+    @FXML public Button returnButton;
+
+    @FXML public Text firstRule;
+    @FXML public Text secondRule;
+    @FXML public Text thirdRule;
 
     private Controller controller;
-    private View view;
 
     public void initialize(Controller controller)
     {
-        //this.view = view;
         this.controller = controller;
 
-        logButton.setId("Start-LogIn");
-        logButton1.setId("Start-LogIn");
-        logButton2.setId("Start-LogIn");
-        logButton3.setId("Start-LogIn");
-        logButton4.setId("Start-LogIn");
-
+        loginButton.setId("Start-LogIn");
         registerButton.setId("Start-SignIn");
+        returnButton.setId("Return-LogIn");
 
-        startButton.setId("Start-Tutorial");
-        continueButton.setId("Start-Tutorial");
-        continueButton1.setId("Start-Tutorial");
+        anchor.setTranslateX(414);
 
         BindButtons();
     }
@@ -49,12 +47,11 @@ public class TutorialController
     public void BindButtons()
     {
         Button[] buttons = {
-                logButton, startButton,
-                continueButton, continueButton1, logButton4
+                loginButton, returnButton
         };
 
         Button[] textButtons = {
-                registerButton, logButton1, logButton2, logButton3
+                registerButton
         };
 
         for (Button button : buttons) {
@@ -135,34 +132,26 @@ public class TutorialController
     {
         double targetX = switch (state)
         {
-            case DEFAULT -> 0;
-            case TUTORIAL_ONE -> -414;
-            case TUTORIAL_TWO -> -414 * 2;
-            case TUTORIAL_THREE -> -414 * 3;
+            case DEFAULT -> 414;
+            case LOGIN_ONE -> 0;
+            case LOGIN_TWO -> -414;
+            case LOGIN_THREE -> -414 * 2;
             default -> 0; // Default position for the welcome page
         };
 
-        double nextTargetX = switch (state)
-        {
-            case DEFAULT -> 0;
-            case TUTORIAL_ONE -> 414;
-            case TUTORIAL_TWO -> 414 * 2;
-            case TUTORIAL_THREE -> 414 * 3;
-            default -> 0; // Default position for the welcome page
-        };
+
+        // Make the anchor transparent when in DEFAULT state
+        // Simply because login overlaps with the tutorial scene
+        anchor.setMouseTransparent(state == States.DEFAULT);
 
        Timeline slideAnimation = new Timeline(
-               new KeyFrame(Duration.seconds(1),
+                new KeyFrame(Duration.seconds(1),
                         new KeyValue(anchor.translateXProperty(), targetX, new SineInterpolator())
-               ),
-               new KeyFrame(Duration.seconds(1.2),
-                        new KeyValue(anchorRight.translateXProperty(), nextTargetX - 20, new SineInterpolator())
-               ),
-               new KeyFrame(Duration.seconds(1.2),
-                       new KeyValue(anchorLeft.translateXProperty(), nextTargetX + 20, new SineInterpolator())
-               )
+                )
        );
 
-       slideAnimation.play();
+       System.out.println(state + " " + targetX);
+
+        slideAnimation.play();
     }
 }

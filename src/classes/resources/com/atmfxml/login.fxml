@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane fx:id="anchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mouseTransparent="true" prefHeight="896.0" prefWidth="406.0" styleClass="anchorPane" stylesheets="@../atmcss/login.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.atm.LogInController">
+   <children>
+      <HBox alignment="CENTER_RIGHT" prefHeight="896.0" prefWidth="414.0" styleClass="hBox">
+         <children>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="anchorPane-Welcome">
+               <children>
+                  <HBox alignment="CENTER" layoutX="20.0" layoutY="168.0" prefHeight="48.0" prefWidth="373.0" spacing="20.0" styleClass="hBoxField">
+                     <children>
+                        <TextField id="textField1" fx:id="textField1" prefHeight="54.0" prefWidth="53.0" styleClass="TextField" />
+                        <TextField id="textField2" fx:id="textField2" prefHeight="54.0" prefWidth="53.0" styleClass="TextField" />
+                        <TextField id="textField3" fx:id="textField3" prefHeight="54.0" prefWidth="53.0" styleClass="TextField" />
+                        <TextField id="textField4" fx:id="textField4" prefHeight="54.0" prefWidth="53.0" styleClass="TextField" />
+                        <TextField id="textField5" fx:id="textField5" prefHeight="54.0" prefWidth="53.0" styleClass="TextField" />
+                        <TextField id="textField6" fx:id="textField6" prefHeight="54.0" prefWidth="53.0" styleClass="TextField" />
+                     </children>
+                  </HBox>
+                  <Text layoutX="30.0" layoutY="114.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-big-black" text="Register Account" textAlignment="CENTER" />
+                  <Button alignment="CENTER" contentDisplay="CENTER" layoutX="31.0" layoutY="366.0" mnemonicParsing="false" styleClass="baseButton-pinpoint" text="Log In" textAlignment="CENTER" />
+                  <Button fx:id="loginButton" alignment="CENTER" contentDisplay="CENTER" layoutX="31.0" layoutY="366.0" mnemonicParsing="false" opacity="0.0" styleClass="logInButton" text="Log In" textAlignment="CENTER" />
+                  <Text layoutX="170.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-version" text="Version 0.3.0" />
+                  <Text layoutX="176.0" layoutY="646.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-version" textAlignment="CENTER" />
+                  <Text layoutX="136.0" layoutY="438.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-small-black" text="Not registered?" textAlignment="CENTER" />
+                  <Button fx:id="registerButton" alignment="CENTER" contentDisplay="CENTER" layoutX="221.0" layoutY="421.0" mnemonicParsing="false" styleClass="registerButton" text="Sign In" textAlignment="CENTER" />
+                  <Text layoutX="30.0" layoutY="144.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-blue" text="Enter your Banking PIN" textAlignment="CENTER" />
+                  <VBox alignment="CENTER_LEFT" layoutX="32.0" layoutY="238.0" prefHeight="111.0" prefWidth="350.0" spacing="15.0" styleClass="vBox">
+                     <children>
+                        <StackPane alignment="CENTER_LEFT">
+                           <children>
+                              <Text fx:id="firstRule" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-version" text="6-digit numeric PIN only." translateX="25.0" />
+                              <Circle fill="DODGERBLUE" radius="7.0" stroke="BLACK" strokeType="INSIDE" styleClass="baseCircle" />
+                           </children>
+                        </StackPane>
+                        <StackPane alignment="CENTER_LEFT">
+                           <children>
+                              <Text fx:id="secondRule" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-version" text="Only numbers (0-9) allowed." translateX="25.0" />
+                              <Circle fill="DODGERBLUE" radius="7.0" stroke="BLACK" strokeType="INSIDE" styleClass="baseCircle" />
+                           </children>
+                        </StackPane>
+                        <StackPane alignment="CENTER_LEFT">
+                           <children>
+                              <Text fx:id="thirdRule" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-version" text="No sequential or repeating digits." translateX="25.0" />
+                              <Circle fill="DODGERBLUE" radius="7.0" stroke="BLACK" strokeType="INSIDE" styleClass="baseCircle" />
+                           </children>
+                        </StackPane>
+                     </children>
+                     <padding>
+                        <Insets left="15.0" />
+                     </padding>
+                  </VBox>
+                  <Button alignment="CENTER" contentDisplay="CENTER" layoutX="181.0" layoutY="226.0" mnemonicParsing="false" styleClass="InvisButton" text="Rules" textAlignment="CENTER" />
+                  <VBox alignment="CENTER_LEFT" layoutX="32.0" layoutY="455.0" prefHeight="111.0" prefWidth="350.0" spacing="15.0" styleClass="vBox">
+                     <children>
+                        <StackPane alignment="CENTER_LEFT">
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-version" text="Incorrect!" translateX="25.0" />
+                              <Circle fill="#ff0808" radius="7.0" stroke="BLACK" strokeType="INSIDE" styleClass="baseCircle" />
+                           </children>
+                        </StackPane>
+                     </children>
+                     <padding>
+                        <Insets left="15.0" />
+                     </padding>
+                  </VBox>
+                  <Button alignment="CENTER" contentDisplay="CENTER" layoutX="172.0" layoutY="443.0" mnemonicParsing="false" styleClass="InvisButton" text="Mistakes" textAlignment="CENTER" />
+                  <ImageView fitHeight="45.0" fitWidth="45.0" layoutX="28.0" layoutY="18.0" pickOnBounds="true" preserveRatio="true" styleClass="images">
+                     <image>
+                        <Image url="@../atmimages/Arrow-gray.png" />
+                     </image>
+                  </ImageView>
+                  <Button fx:id="returnButton" alignment="CENTER" contentDisplay="CENTER" layoutX="20.0" layoutY="14.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="55.0" styleClass="imageButton">
+                     <graphic>
+                        <ImageView fitHeight="45.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true" styleClass="images">
+                           <image>
+                              <Image url="@../atmimages/Arrow-blue.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+               </children>
+            </AnchorPane>
+            <AnchorPane opacity="0.0" prefHeight="200.0" prefWidth="200.0" styleClass="anchorPane-Tutorial1">
+               <children>
+                  <Button alignment="CENTER" contentDisplay="CENTER" layoutX="31.0" layoutY="565.0" mnemonicParsing="false" styleClass="baseButton-pinpoint" text="Continue" textAlignment="CENTER" />
+                  <Button fx:id="continueButton" alignment="CENTER" contentDisplay="CENTER" layoutX="31.0" layoutY="565.0" mnemonicParsing="false" opacity="0.0" styleClass="continueButton" text="Continue" textAlignment="CENTER" />
+                  <Text layoutX="90.0" layoutY="143.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="welcome-text-big" text="Empowered Technology" />
+                  <Text layoutX="56.0" layoutY="116.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="welcome-text-big-black" text="Get Started" textAlignment="CENTER" wrappingWidth="300.0" />
+                  <Text layoutX="56.0" layoutY="502.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="welcome-text-version" text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean sit amet porttitor leo, non imperdiet risus." textAlignment="CENTER" wrappingWidth="300.0" />
+                  <Separator layoutY="636.0" prefHeight="16.0" prefWidth="412.0" />
+                  <Text layoutX="112.0" layoutY="637.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="welcome-text-small-black" text="Already know the basis?" textAlignment="CENTER" />
+                  <Button fx:id="logButton1" alignment="CENTER" contentDisplay="CENTER" layoutX="248.0" layoutY="620.0" mnemonicParsing="false" styleClass="registerButton" text="Log In" textAlignment="CENTER" />
+                  <VBox alignment="CENTER_LEFT" layoutX="26.0" layoutY="664.0" prefHeight="205.0" prefWidth="360.0" spacing="30.0" styleClass="vBox">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="welcome-text-small-black" text="• Key Feature" wrappingWidth="80.0" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="welcome-text-small-black" text="• Key Feature" wrappingWidth="80.0" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="welcome-text-small-black" text="• Key Feature" wrappingWidth="80.0" />
+                     </children>
+                     <padding>
+                        <Insets left="15.0" />
+                     </padding>
+                  </VBox>
+                  <HBox layoutX="138.0" layoutY="41.0" prefHeight="34.0" prefWidth="136.0" spacing="15.0">
+                     <children>
+                        <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" styleClass="images">
+                           <image>
+                              <Image url="@../atmimages/hex.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" styleClass="images">
+                           <image>
+                              <Image url="@../atmimages/hex3.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" styleClass="images">
+                           <image>
+                              <Image url="@../atmimages/hex3.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </HBox>
+               </children>
+            </AnchorPane>
+            <AnchorPane opacity="0.0" prefHeight="200.0" prefWidth="200.0" styleClass="anchorPane-Tutorial1">
+               <children>
+                  <Button alignment="CENTER" contentDisplay="CENTER" layoutX="31.0" layoutY="565.0" mnemonicParsing="false" styleClass="baseButton-pinpoint" text="Continue" textAlignment="CENTER" />
+                  <Button fx:id="continueButton1" alignment="CENTER" contentDisplay="CENTER" layoutX="31.0" layoutY="565.0" mnemonicParsing="false" opacity="0.0" styleClass="continueButton" text="Continue" textAlignment="CENTER" />
+                  <Text layoutX="100.0" layoutY="143.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="welcome-text-big" text="Improved Functionlity" textAlignment="CENTER" />
+                  <Text layoutX="56.0" layoutY="116.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="welcome-text-big-black" text="Get Started" textAlignment="CENTER" wrappingWidth="300.0" />
+                  <Text layoutX="56.0" layoutY="502.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="welcome-text-version" text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus auctor id metus sed pharetra. Etiam nibh odio, vulputate ac dolor eu, convallis ultricies erat" textAlignment="CENTER" wrappingWidth="300.0" />
+                  <Separator layoutY="636.0" prefHeight="16.0" prefWidth="412.0" />
+                  <Text layoutX="112.0" layoutY="637.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="welcome-text-small-black" text="Already know the basis?" textAlignment="CENTER" />
+                  <Button fx:id="logButton2" alignment="CENTER" contentDisplay="CENTER" layoutX="248.0" layoutY="620.0" mnemonicParsing="false" styleClass="registerButton" text="Log In" textAlignment="CENTER" />
+                  <VBox alignment="CENTER_LEFT" layoutX="26.0" layoutY="664.0" prefHeight="205.0" prefWidth="360.0" spacing="30.0" styleClass="vBox">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="welcome-text-small-black" text="• Key Feature" wrappingWidth="80.0" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="welcome-text-small-black" text="• Key Feature" wrappingWidth="80.0" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="welcome-text-small-black" text="• Key Feature" wrappingWidth="80.0" />
+                     </children>
+                     <padding>
+                        <Insets left="15.0" />
+                     </padding>
+                  </VBox>
+                  <HBox layoutX="138.0" layoutY="41.0" prefHeight="34.0" prefWidth="136.0" spacing="15.0">
+                     <children>
+                        <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" styleClass="images">
+                           <image>
+                              <Image url="@../atmimages/hex3.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" styleClass="images">
+                           <image>
+                              <Image url="@../atmimages/hex.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" styleClass="images">
+                           <image>
+                              <Image url="@../atmimages/hex3.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </HBox>
+               </children>
+            </AnchorPane>
+         </children>
+      </HBox>
+      <AnchorPane fx:id="anchorRight" layoutX="414.0" mouseTransparent="true" opacity="0.0" pickOnBounds="false" prefHeight="200.0" prefWidth="200.0" styleClass="anchorPane-gradient-right" />
+      <AnchorPane fx:id="anchorLeft" layoutX="-414.0" mouseTransparent="true" opacity="0.0" pickOnBounds="false" prefHeight="200.0" prefWidth="200.0" styleClass="anchorPane-gradient-left">
+         <children>
+            <AnchorPane fx:id="anchorLeft1" layoutX="371.0" layoutY="217.0" mouseTransparent="true" pickOnBounds="false" prefHeight="200.0" prefWidth="200.0" styleClass="anchorPane-gradient-left-white" />
+         </children></AnchorPane>
+   </children>
+</AnchorPane>

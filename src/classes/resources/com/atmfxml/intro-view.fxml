@@ -6,17 +6,17 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane id="anchor" fx:id="anchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mouseTransparent="true" prefHeight="640.0" prefWidth="360.0" styleClass="anchor" stylesheets="@../atmcss/intro-view.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.atm.IntroController">
+<AnchorPane id="anchor" fx:id="anchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mouseTransparent="true" prefHeight="896.0" prefWidth="414.0" styleClass="anchor" stylesheets="@../atmcss/intro-view.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.atm.IntroController">
    <children>
-      <Region id="regionBlue" fx:id="regionBlue" prefHeight="200.0" prefWidth="200.0" styleClass="region-blue" />
-      <ImageView id="background" fx:id="background" fitHeight="646.0" fitWidth="360.0" pickOnBounds="true" preserveRatio="true" styleClass="background">
+      <Region id="regionBlue" fx:id="regionBlue" prefHeight="200.0" prefWidth="370.0" styleClass="region-blue" />
+      <ImageView id="background" fx:id="background" fitHeight="896.0" fitWidth="414.0" pickOnBounds="true" preserveRatio="true" styleClass="background">
          <image>
             <Image url="@../atmimages/background.png" />
          </image>
       </ImageView>
-      <Text id="title1" fx:id="title1" layoutX="133.0" layoutY="470.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title-bold" text="EAJ BANK" textAlignment="CENTER" wrappingWidth="100.0" />
-      <Text id="title" fx:id="title" layoutX="-67.0" layoutY="500.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="New Banking Generation" textAlignment="CENTER" wrappingWidth="500.0" />
-      <ImageView id="logo" fx:id="logo" fitHeight="235.0" fitWidth="235.0" layoutX="63.0" layoutY="203.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" style="-fx-preserve-ratio: true;" styleClass="logo">
+      <Text id="title1" fx:id="title1" layoutX="157.0" layoutY="475.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title-bold" text="EAJ BANK" textAlignment="CENTER" wrappingWidth="100.0" />
+      <Text id="title" fx:id="title" layoutX="10.0" layoutY="507.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="New Banking Generation" textAlignment="CENTER" wrappingWidth="394.0" />
+      <ImageView id="logo" fx:id="logo" fitHeight="235.0" fitWidth="235.0" layoutX="87.0" layoutY="204.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" style="-fx-preserve-ratio: true;" styleClass="logo">
          <image>
             <Image url="@../atmimages/Logo2.png" />
          </image>

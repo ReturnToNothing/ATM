@@ -1,22 +1,22 @@
 package com.atm;
 
-import java.io.IOException;
-import java.util.Objects;
-
 public class Model
 {
     public View view;
     private Bank bank;
 
     // Using the State Design Pattern by extending the internal state of the model.
-    // By defining two states that alters the logical behavior allows to perform different patterns.
+    // By defining two states that alter the logical behavior allows to perform different patterns.
     // Currently, the model's internal state linearly extends after the sequence of inserting number/password before login in.
     // Reference:
     // https://onjavahell.blogspot.com/2009/05/simple-example-of-state-design-pattern.html
-    States state = States.DEFAULT;
-    States prevState = States.DEFAULT;
-    States returnState = States.DEFAULT;
-    States subState = States.DEFAULT;
+
+
+    // enum-based machine state
+    private Scene currentScene = Scene.LOGIN;
+    private States tutorialState = States.DEFAULT;
+    private States loginState = States.DEFAULT;
+    private States transactionState = States.DEFAULT;
 
     int input = 0;
     int accountNumber = -1;
@@ -32,23 +32,32 @@ public class Model
         this.bank = bank;
     }
 
-    public void display(String type)
+    public void display()
     {
-        this.view.update(type);
+        this.view.update();
     }
 
-    public void setState(States newState, boolean reverse) {
-        this.prevState = this.state;
-        this.state = newState;
-    }
-
-    private void setSubState(States newState)
+    public void setState(Scene scene, States newState)
     {
-        if (!this.subState.equals(newState))
+        switch (scene)
         {
-            //States oldState = this.subState;  currently unused.
-            this.subState = newState;
+            case TUTORIAL ->
+                    this.tutorialState = newState;
+            case LOGIN ->
+                    this.loginState = newState;
+            case TRANSACTION ->
+                    this.transactionState = newState;
         }
+    }
+
+    public States getState(Scene scene)
+    {
+        return switch (scene)
+        {
+            case TUTORIAL -> this.tutorialState;
+            case LOGIN -> this.loginState;
+            case TRANSACTION -> this.transactionState;
+        };
     }
 
     private void restart(String message)
@@ -99,44 +108,82 @@ public class Model
     public void processTutorial(boolean reverse) {
         if (reverse)
         {
-            switch (this.state)
+            switch (this.tutorialState)
             {
                 case TUTORIAL_ONE:
-                    this.setState(States.DEFAULT, false);
+                    this.setState(Scene.TUTORIAL, States.DEFAULT);
                     break;
                 case TUTORIAL_TWO:
-                    this.setState(States.TUTORIAL_ONE, false);
+                    this.setState(Scene.TUTORIAL, States.TUTORIAL_TWO);
                     break;
                 case TUTORIAL_THREE:
-                    this.setState(States.TUTORIAL_TWO, false);
+                    this.setState(Scene.TUTORIAL, States.TUTORIAL_THREE);
                     break;
             }
         }
         else
         {
             // Move forward through tutorial states
-            switch (this.state)
+            switch (this.tutorialState)
             {
                 case DEFAULT:
-                    this.setState(States.TUTORIAL_ONE, false);
+                    this.setState(Scene.TUTORIAL, States.TUTORIAL_ONE);
                     break;
                 case TUTORIAL_ONE:
-                    this.setState(States.TUTORIAL_TWO, false);
+                    this.setState(Scene.TUTORIAL, States.TUTORIAL_TWO);
                     break;
                 case TUTORIAL_TWO:
-                    this.setState(States.TUTORIAL_THREE, false);
+                    this.setState(Scene.TUTORIAL, States.TUTORIAL_THREE);
                     break;
-                    //reset back to the login page
                 case TUTORIAL_THREE:
-                    this.setState(States.DEFAULT, false);
+                    this.setState(Scene.TUTORIAL, States.DEFAULT);
                     break;
-                // Add more states if needed
             }
         }
-        this.display("tutorial");
+        this.display();
     }
 
-    public void processLogIn()
+    public void processLogIn(boolean reverse)
+    {
+        if (reverse)
+        {
+            switch (this.loginState)
+            {
+                case LOGIN_ONE:
+                    this.setState(Scene.LOGIN, States.DEFAULT);
+                    break;
+                case LOGIN_TWO:
+                    this.setState(Scene.LOGIN, States.LOGIN_ONE);
+                    this.setState(Scene.TUTORIAL, States.DEFAULT);
+                    break;
+                case LOGIN_THREE:
+                    this.setState(Scene.LOGIN, States.LOGIN_TWO);
+                    break;
+            }
+        }
+        else
+        {
+            // Move forward through tutorial states
+            switch (this.loginState)
+            {
+                case DEFAULT:
+                    this.setState(Scene.LOGIN, States.LOGIN_ONE);
+                    break;
+                case LOGIN_ONE:
+                    this.setState(Scene.LOGIN, States.LOGIN_TWO);
+                    break;
+                case LOGIN_TWO:
+                    this.setState(Scene.LOGIN, States.LOGIN_THREE);
+                    break;
+                case LOGIN_THREE:
+                    this.setState(Scene.LOGIN, States.DEFAULT);
+                    break;
+            }
+        }
+        this.display();
+    }
+/*
+    public void processLogIn2()
     {
         switch (this.state)
         {
@@ -449,7 +496,5 @@ public class Model
         this.restart("Invalid command: " + action);
        // this.display();
     }
-
-    private record equals() {
-    }
+*/
 }

@@ -50,7 +50,7 @@ public class Entry extends Application
         View view = new View(stage, controller, model);
 
         model.view = view;
-        model.display("nothing");
+        model.display();
     }
 
 }

@@ -10,6 +10,8 @@ public class Controller
 
     public void process(String action)
     {
+
+        System.out.println(action);
         // Using switch statement to evaluate each keys assigned within the UI.
         switch (action)
         {
@@ -29,25 +31,25 @@ public class Controller
                 this.model.processClear();
                 break;
             case "enter":
-                this.model.processEnter();
+                //this.model.processEnter();
                 break;
             case "W/D":
-                this.model.processWithdraw();
+              //  this.model.processWithdraw();
                 break;
             case "Dep":
-                this.model.processDeposit();
+               // this.model.processDeposit();
                 break;
             case "Bal":
-                this.model.processBalance();
+               // this.model.processBalance();
                 break;
             case "cancel":
-                this.model.processFinish();
+                //this.model.processFinish();
                 break;
             case "LogIn":
-                this.model.processLogIn();
+                //this.model.processLogIn();
                 break;
             case "LogOut":
-                this.model.processLogout();
+              //  this.model.processLogout();
                 break;
             case "Start-Tutorial":
                 this.model.processTutorial(false);
@@ -55,8 +57,14 @@ public class Controller
             case "Return-Tutorial":
                 this.model.processTutorial(true);
                 break;
+            case "Start-LogIn":
+                this.model.processLogIn(false);
+                break;
+            case "Return-LogIn":
+                this.model.processLogIn(true);
+                break;
             default:
-                this.model.processUnknownKey(action);
+              //  this.model.processUnknownKey(action);
         }
     }
 }
