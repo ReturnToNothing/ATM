@@ -2,6 +2,9 @@ package com.atm;
 
 public enum States
 {
+    // Model's internal state for notification
+    NOTIFY_SHOW,
+
     // Model's internal state for input
     INPUT_DIGIT,
 
@@ -9,6 +12,7 @@ public enum States
     TUTORIAL_ONE,
     TUTORIAL_TWO,
     TUTORIAL_THREE,
+    LOGIN_FOUR,
 
     // Model's internal state for log in
     LOGIN_ONE,

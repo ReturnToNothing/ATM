@@ -2,5 +2,5 @@ package com.atm;
 
 public enum Scene
 {
-    TUTORIAL, LOGIN, INPUT, TRANSACTION
+    NOTIFY, TUTORIAL, LOGIN, INPUT, TRANSACTION
 }
