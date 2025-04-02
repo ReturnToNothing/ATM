@@ -1,0 +1,82 @@
+.anchorPane {
+     -fx-background-color: rgba(255, 255, 255, 0.3);
+     -fx-max-height: 896;
+     -fx-max-width: 414;
+     -fx-pref-height: 896;
+     -fx-pref-width: 414; /*four pages are 414x4*/
+     -fx-alignment: centre;
+}
+.hBox {
+      -fx-background-color: transparent;
+      -fx-max-height: 896;
+      -fx-max-width:  414;
+      -fx-pref-height: 896;
+      -fx-pref-width:  414; /*four pages are 414x4*/
+}
+.vBox {
+      -fx-background-color: #F7F8F8;
+      -fx-border-radius: 8px;
+      -fx-border-width: 2px;
+      -fx-border-color: #A3A7AA;
+}
+.imageButton {
+     -fx-font-family: "Kanit", sans-serif;
+     -fx-font-weight: 700;
+     -fx-font-size: 0.01em;
+
+     -fx-background-color: transparent;
+     -fx-text-fill: #199EFF;
+}
+.images {
+     -fx-preserve-ratio: true;
+}
+
+/* CSS properties for the first layer */
+.text-gray {
+     -fx-font-family: "Kanit", sans-serif;
+     -fx-font-size: 1.7em;
+     -fx-line-height: 1em;
+     -fx-font-weight: 700;
+     -fx-fill: #666D72;
+}
+.text-gray-small {
+     -fx-font-family: "Kanit", sans-serif;
+     -fx-font-size: 1.1em;
+     -fx-line-height: 1em;
+     -fx-font-weight: 700;
+     -fx-fill: #A3A7AA;
+}
+.acceptButton {
+     -fx-font-family: "Kanit", sans-serif;
+     -fx-font-weight: 700;
+     -fx-font-size: 1.4em;
+
+     -fx-background-color: #199EFF;
+     -fx-text-fill: #FFFFFF;
+
+     -fx-pref-width: 350px;
+     -fx-pref-height: 55px;
+
+     -fx-background-radius: 8px;
+}
+.baseButton {
+     -fx-font-family: "Kanit", sans-serif;
+     -fx-font-weight: 700;
+     -fx-font-size: 1.4em;
+
+     -fx-background-color: #F2F3F3;
+     -fx-text-fill: #999EA1;
+
+     -fx-pref-width: 350px;
+     -fx-pref-height: 55px;
+
+     -fx-background-radius: 8px;
+}
+.smallButton {
+     -fx-font-family: "Kanit", sans-serif;
+     -fx-font-weight: 700;
+     -fx-font-size: 1em;
+
+     -fx-background-color: transparent;
+     -fx-text-fill: #199EFF;
+}
