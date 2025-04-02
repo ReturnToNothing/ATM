@@ -54,6 +54,10 @@ public class View
         IntroController introScene = (IntroController) loadScene("intro-view.fxml", "intro-view");
         introScene.initialize();
 
+        // Notification scene
+        NotifyController notifyScene = (NotifyController) loadScene("notify.fxml", "notify");
+        notifyScene.initialize(this.controller);
+
         // Input scenes
         InputController inputScene = (InputController) loadScene("input.fxml", "input");
         inputScene.initialize(this.controller);
@@ -114,14 +118,6 @@ public class View
                 }
 
                 break;
-            case "welcome-view":
-                WelcomeController welcomeController = (WelcomeController) getController("welcome-view");
-                if (welcomeController != null)
-                {
-                  //  welcomeController.initialize();
-                }
-
-                break;
         }
     }
 
@@ -152,16 +148,26 @@ public class View
 
     public void update()
     {
+        int input = this.model.getInput();
+        String title = this.model.getTitle();
+        String description = this.model.getDescription();
+        Account account = this.model.getAccount();
 
+        States notifyState = this.model.getState(com.atm.Scene.NOTIFY);
         States tutorialState = this.model.getState(com.atm.Scene.TUTORIAL);
         States loginState = this.model.getState(com.atm.Scene.LOGIN);
         States inputState = this.model.getState(com.atm.Scene.INPUT);
+
+        NotifyController notifyScene = (NotifyController) getController("notify");
+        notifyScene.slide(notifyState);
+        notifyScene.update(title, description);
 
         TutorialController tutorialController = (TutorialController) getController("tutorial");
         tutorialController.slide(tutorialState);
 
         LogInController loginController = (LogInController) getController("login");
         loginController.slide(loginState);
+        loginController.update(input, account);
 
         InputController inputController = (InputController) getController("input");
         inputController.slide(inputState);
