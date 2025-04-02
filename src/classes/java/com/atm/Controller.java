@@ -27,7 +27,7 @@ public class Controller
             case "0":
                 this.model.processNumber(action);
                 break;
-            case "Clear":
+            case "Clear-Input":
                 this.model.processClear();
                 break;
             case "enter":
@@ -50,6 +50,12 @@ public class Controller
                 break;
             case "LogOut":
               //  this.model.processLogout();
+                break;
+            case "Open-Notify":
+                this.model.processNotification(false);
+                break;
+            case "Close-Notify":
+                this.model.processNotification(true);
                 break;
             case "Start-Tutorial":
                 this.model.processTutorial(false);
