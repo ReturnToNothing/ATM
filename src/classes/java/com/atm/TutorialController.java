@@ -24,12 +24,13 @@ public class TutorialController
     @FXML  public Button returnButton;
 
     private Controller controller;
-    private View view;
+    private States state;
 
     public void initialize(Controller controller)
     {
         //this.view = view;
         this.controller = controller;
+        this.state = States.DEFAULT;
 
         logButton.setId("Start-LogIn");
         logButton1.setId("Start-LogIn");
@@ -42,6 +43,8 @@ public class TutorialController
         continueButton.setId("Start-Tutorial");
         continueButton1.setId("Start-Tutorial");
         returnButton.setId("Start-Tutorial");
+
+        anchor.setTranslateX(0);
 
         BindButtons();
     }
@@ -133,6 +136,13 @@ public class TutorialController
 
     public void slide(States state)
     {
+        if (this.state.equals(state))
+        {
+            return;
+        }
+
+        this.state = state;
+
         double targetX = switch (state)
         {
             case DEFAULT -> 0;
