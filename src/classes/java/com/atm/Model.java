@@ -1,5 +1,7 @@
 package com.atm;
 
+import javafx.util.Pair;
+
 public class Model
 {
     public View view;
@@ -12,25 +14,60 @@ public class Model
     // https://onjavahell.blogspot.com/2009/05/simple-example-of-state-design-pattern.html
 
 
-    // enum-based machine state
+    // enum-based machine states
     private Scene currentScene = Scene.LOGIN;
+    private States notifyState = States.DEFAULT;
     private States inputState = States.DEFAULT;
     private States tutorialState = States.DEFAULT;
     private States loginState = States.DEFAULT;
     private States transactionState = States.DEFAULT;
 
-    int input = 0;
-    int accountNumber = -1;
-    int accountPassword = -1;
+    // Immutable variables for updates and stores.
+    private int input = 0;
+    private int accountNumber = -1;
+    private int accountPassword = -1;
 
-    String title = "Bank ATM";
-    String display1 = null;
-    String display2 = null;
+    private String title = "Title";
+    private String description = "description";
 
     public Model(Bank bank)
     {
-        restart("Welcome to ATM: Enter your account number");
+        //restart("Welcome to ATM: Enter your account number");
         this.bank = bank;
+    }
+
+    public int getInput()
+    {
+        return this.input;
+    }
+
+    public int getAccountNumber()
+    {
+        return this.accountNumber;
+    }
+
+    public int getAccountPassword()
+    {
+        return this.accountPassword;
+    }
+
+    public Account getAccount()
+    {
+        if (this.bank.account != null)
+        {
+            return this.bank.cloneAccount(this.bank.account);
+        }
+        return null;
+    }
+
+    public String getTitle()
+    {
+        return this.title;
+    }
+
+    public String getDescription()
+    {
+        return this.description;
     }
 
     public void display()
@@ -42,6 +79,8 @@ public class Model
     {
         switch (scene)
         {
+            case NOTIFY ->
+                    this.notifyState = newState;
             case TUTORIAL ->
                     this.tutorialState = newState;
             case LOGIN ->
@@ -57,20 +96,12 @@ public class Model
     {
         return switch (scene)
         {
+            case NOTIFY -> this.notifyState;
             case TUTORIAL -> this.tutorialState;
             case LOGIN -> this.loginState;
             case INPUT -> this.inputState;
             case TRANSACTION -> this.transactionState;
         };
-    }
-
-    private void restart(String message)
-    {
-        //this.setState(States.DEFAULT, false);
-        //this.setState(States.DEFAULT, true);
-        this.input = 0;
-        this.display1 = message;
-        this.display2 = "Enter your account number\nFollowed by \"ENTER\"";
     }
 
     public void processNumber(String label)
@@ -84,29 +115,83 @@ public class Model
         }
 
         this.input = this.input * 10 + character - 48;
-        this.display1 = "" + this.input;
 
-      //  this.display();
+        this.display();
     }
 
     public void processClear()
     {
         this.input = 0;
-        this.display1 = "0";
-       // this.display();
+        this.display();
     }
 
-    public boolean validateInput(int input)
+    // Helper function for checking any sequential or repeating digits from the input.
+    private boolean hasSequentialOrRepeatingDigits(String input)
     {
-        String inputString = String.valueOf(input);
+        // ascending or descending of sequential digits
+        String sequentialNumbers = "0123456789012345678909876543210987654321";
 
-        if (inputString.length() < 6)
+        if (sequentialNumbers.contains(input))
         {
-            System.out.println("❌ Input requires six digits: "+ input);
-            return false;
+            return true;
         }
 
-        return true;
+        // Check for repeating digits (e.g., "111111", "666666")
+        return input.matches("(\\d)\\1{2,}"); // Checks for any digit repeating 3 or more times
+    }
+
+    public Pair<Boolean, String> validateLoginInput(int input)
+    {
+        boolean successful = true;
+        String message = "";
+
+        String inputString = String.valueOf(input);
+
+        if (inputString.length() != 6)
+        {
+            message += "❌ 6-digit numeric PIN only.\n";
+        }
+
+        if (!inputString.matches("\\d+"))
+        {
+            message += "❌ Only digits from (0-9) are allowed.\n";
+        }
+
+        if (hasSequentialOrRepeatingDigits(inputString) && inputString.length() == 6)
+        {
+            message += "❌ Repeated or sequential digits are not allowed.\n";
+        }
+
+        if (!message.isEmpty())
+        {
+            successful = false;
+        }
+
+        return new Pair<>(successful, message);
+    }
+
+    public void processNotification(boolean reverse)
+    {
+        if (reverse)
+        {
+            switch (this.notifyState)
+            {
+                case NOTIFY_SHOW:
+                    this.setState(Scene.NOTIFY, States.DEFAULT);
+                    break;
+            }
+        }
+        else
+        {
+            // Move forward through tutorial states
+            switch (this.notifyState)
+            {
+                case DEFAULT:
+                    this.setState(Scene.NOTIFY, States.NOTIFY_SHOW);
+                    break;
+            }
+        }
+        this.display();
     }
 
     public void processTutorial(boolean reverse) {
@@ -154,10 +239,12 @@ public class Model
             switch (this.loginState)
             {
                 case LOGIN_ONE:
+                    this.input = 0;
                     this.setState(Scene.LOGIN, States.DEFAULT);
                     this.setState(Scene.INPUT, States.DEFAULT);
                     break;
                 case LOGIN_TWO:
+                    this.input = 0;
                     this.setState(Scene.LOGIN, States.LOGIN_ONE);
                     break;
                 case LOGIN_THREE:
@@ -171,17 +258,77 @@ public class Model
             switch (this.loginState)
             {
                 case DEFAULT:
+                    this.input = 0;
                     this.setState(Scene.LOGIN, States.LOGIN_ONE);
-                    this.setState(Scene.INPUT, States.INPUT_DIGIT);
+                    this.setState(Scene.INPUT, States.INPUT_DIGIT); //Pin page
                     break;
                 case LOGIN_ONE:
+
+                    // using Pair by supporting multiple values from returning.
+                    Pair<Boolean, String> loginResultPIN = validateLoginInput(this.input);
+
+                    // verify if the PIN input
+                    if (!loginResultPIN.getKey())
+                    {
+                        this.input = 0;
+                        this.title = "Incorrect PIN";
+                        this.description = loginResultPIN.getValue();
+                        this.setState(Scene.NOTIFY, States.NOTIFY_SHOW);
+
+                        this.display();
+                        return;
+                    }
+
+                    this.accountNumber = this.input;
+
+                    this.input = 0;
                     this.setState(Scene.LOGIN, States.LOGIN_TWO);
-                    this.setState(Scene.TUTORIAL, States.DEFAULT); // reset the welcome page
+                    this.setState(Scene.TUTORIAL, States.DEFAULT); //Pass page
                     break;
                 case LOGIN_TWO:
+
+                    // using Pair by supporting multiple values from returning.
+                    Pair<Boolean, String> loginResultPASS = validateLoginInput(this.input);
+
+                    if (!loginResultPASS.getKey())
+                    {
+                        this.input = 0;
+                        this.title = "Incorrect PASS";
+                        this.description = loginResultPASS.getValue();
+                        this.setState(Scene.NOTIFY, States.NOTIFY_SHOW);
+
+                        this.display();
+                        return;
+                    }
+
+                    this.accountPassword = this.input;
+
+                    // verify if the account exists via two stored variables
+
+                    boolean loginAccount = this.bank.login(this.accountNumber, this.accountPassword);
+
+                    if (!loginAccount)
+                    {
+                        this.input = 0;
+                        this.title = "Unregistered Account";
+                        this.description = "The matched information that you provided is not registered.\n\nMake sure that your PIN and PASS are correct and try again.";
+                        this.setState(Scene.NOTIFY, States.NOTIFY_SHOW);
+
+                        this.display();
+                        return;
+                    }
+
+                    // if the information matches with an existing account, log with the current account.
+
+                    this.input = 0;
                     this.setState(Scene.LOGIN, States.LOGIN_THREE);
+                    this.setState(Scene.INPUT, States.DEFAULT);
                     break;
                 case LOGIN_THREE:
+                    //Agreement page
+                    this.setState(Scene.LOGIN, States.LOGIN_FOUR);
+                    break;
+                case LOGIN_FOUR:
                     this.setState(Scene.LOGIN, States.DEFAULT);
                     break;
             }
