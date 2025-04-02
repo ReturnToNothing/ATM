@@ -22,7 +22,7 @@
      -fx-pref-width: 414; /*four pages are 414x4*/
      -fx-alignment: centre;
 }
-.anchorPane-gradient-left-white {
+.anchorPane-gradient-side-white {
      -fx-background-color: linear-gradient(from 60% 50% to 0% 50%, #FFFFFF, transparent);
      -fx-max-height: 896;
      -fx-max-width: 54;
@@ -30,13 +30,12 @@
      -fx-pref-width: 54; /*four pages are 414x4*/
      -fx-alignment: centre;
 }
-
 .hBox {
-     -fx-background-color: transparent;
-     -fx-max-height: 896;
-     -fx-max-width: 828;
-     -fx-pref-height: 896;
-     -fx-pref-width: 828; /*four pages are 414x4*/
+      -fx-background-color: transparent;
+      -fx-max-height: 896;
+      -fx-max-width: 1242;
+      -fx-pref-height: 896;
+      -fx-pref-width: 1242; /*four pages are 414x4*/
 }
 
 /* CSS properties for the first layer */
@@ -196,23 +195,84 @@
 }
 .hBoxField {
      -fx-spacing: 16px;
+
 }
-.TextField {
+.textField {
      -fx-font-family: "Kanit", sans-serif;
      -fx-font-weight: 700;
-     -fx-font-size: 1.2em;
+     -fx-font-size: 1.5em;
+
+     -fx-background-color: #FFFFFF;
+     -fx-text-fill: #999EA1;
+
+     -fx-pref-width: 53px;
+     -fx-pref-height: 54px;
+
+     -fx-background-radius: 8px;
+
+     -fx-border-width: 2px;
+     -fx-border-radius: 8px;
+     -fx-border-color: #999EA1;
+}
+.textField.pinpoint {
+     -fx-font-family: "Kanit", sans-serif;
+     -fx-font-weight: 700;
+     -fx-font-size: 1.5em;
 
      -fx-background-color: #FFFFFF;
      -fx-text-fill: #199EFF;
 
-     -fx-pref-width: 45px;
-     -fx-pref-height: 45px;
+     -fx-pref-width: 53px;
+     -fx-pref-height: 54px;
 
      -fx-background-radius: 8px;
 
-     -fx-border-width: 3px;
+     -fx-border-width: 2px;
      -fx-border-radius: 8px;
+     -fx-border-color:  #199EFF;
+}
+.textField.pinpoint2 {
+     -fx-font-family: "Kanit", sans-serif;
+     -fx-font-weight: 700;
+     -fx-font-size: 1.5em;
+
+     -fx-background-color: #FFFFFF;
+     -fx-text-fill: #199EFF;
+
+     -fx-pref-width: 53px;
+     -fx-pref-height: 54px;
+
+     -fx-background-radius: 8px;
+
+     -fx-border-width: 2px;
+     -fx-border-radius: 8px;
+     -fx-border-color:  #999EA1;
+}
+.check-box {
+    -fx-background-color: transparent;
+    -fx-font-family: "Kanit", sans-serif;
+    -fx-font-size: 1em;
+    -fx-line-height: 1em;
+    -fx-font-weight: 700;
+    -fx-text-fill: #ADB6CA;
+}
+.check-box.selected {
+    -fx-background-color: transparent;
+    -fx-font-family: "Kanit", sans-serif;
+    -fx-font-size: 1em;
+    -fx-line-height: 1em;
+    -fx-font-weight: 700;
+    -fx-text-fill: #199EFF;
+}
+.check-box .box {
+     -fx-background-color: #FFFFFF;
      -fx-border-color: #999EA1;
+     -fx-border-width: 2px;
+     -fx-border-radius: 8px;
+     -fx-padding: 5px;
+}
+.check-box:selected .mark {
+    -fx-border-color: #199EFF;
 }
 
 /* CSS properties for the second layer */
