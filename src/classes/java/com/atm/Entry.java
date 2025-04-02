@@ -9,13 +9,18 @@ import java.io.IOException;
 
 public class Entry extends Application
 {
+    private String[] names = {
+            "John doe",
+            "Jane doe",
+            "Bob doe"
+    };
     private int[] numbers = {
-            1234,
+            785432,
             5678,
             1111
     };
     private int[] passwords = {
-            1234,
+            785432,
             5678,
             2222
     };
@@ -36,10 +41,11 @@ public class Entry extends Application
 
         for (int index = 0; index < numbers.length; index++)
         {
+            String name = names[index];
             int number = numbers[index];
             int password = passwords[index];
             Types type = types[index];
-            bank.addAccount(number, password, type);
+            bank.addAccount(name, number, password, type);
         }
 
         Model model = new Model(bank);
@@ -47,9 +53,7 @@ public class Entry extends Application
         Controller controller = new Controller();
         controller.model = model;
 
-        View view = new View(stage, controller, model);
-
-        model.view = view;
+        model.view = new View(stage, controller, model);
         model.display();
     }
 
