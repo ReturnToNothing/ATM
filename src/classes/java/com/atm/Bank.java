@@ -15,16 +15,22 @@ public class Bank  //make it protected
         this.account = null;
     }
 
-    private Account createAccount(int number, int password, Types type)
+    private Account createAccount(String name, int number, int password, Types type)
     {
-        return new Account(number, password, type);
+        return new Account(name, number, password, type);
     }
 
-    public boolean addAccount(int number, int password, Types type)
+    // Another method that creates an immutable copy from a legitimate account.
+    public Account cloneAccount(Account account)
+    {
+        return new Account(account.getName(), account.getNumber(), account.getPassword(), account.getType());
+    }
+
+    public boolean addAccount(String name, int number, int password, Types type)
     {
         if (this.accounts.size() < this.maxAccounts)
         {
-            Account newAccount = this.createAccount(number, password, type);
+            Account newAccount = this.createAccount(name, number, password, type);
             this.accounts.add(newAccount);
             return true;
         }
@@ -116,7 +122,7 @@ public class Bank  //make it protected
         // Check if the requested withdrawal exceeds the limit.
         if (amount > limit)
         {
-            return Status.EXCEEDS_WITHDRAWAL; // Withdrawal amount exceeds the allowed limit.
+            return Status.EXCEEDS_WITHDRAWAL; // The Withdrawal amount exceeds the allowed limit.
         }
 
         // Verify if the withdrawal can be processed, bypassed if overdraft is allowed.
