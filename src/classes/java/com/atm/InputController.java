@@ -24,12 +24,15 @@ public class InputController
     @FXML public Button Eight;
     @FXML public Button Nine;
     @FXML public Button Zero;
+    @FXML public Button clear;
 
     private Controller controller;
+    private States state;
 
     public void initialize(Controller controller)
     {
         this.controller = controller;
+        this.state = States.DEFAULT;
 
         One.setId("1");
         Two.setId("2");
@@ -41,6 +44,9 @@ public class InputController
         Eight.setId("8");
         Nine.setId("9");
         Zero.setId("0");
+        clear.setId("Clear-Input");
+
+        anchor.setTranslateY(310 * 2);
 
         BindButtons();
     }
@@ -48,7 +54,7 @@ public class InputController
     public void BindButtons()
     {
         Button[] buttons = {
-                One, Two, Three, Four, Five, Six, Seven, Eight, Nine, Zero
+                One, Two, Three, Four, Five, Six, Seven, Eight, Nine, Zero, clear
         };
 
         for (Button button : buttons)
@@ -98,23 +104,26 @@ public class InputController
 
     public void slide(States state)
     {
+        if (this.state.equals(state))
+        {
+            return;
+        }
+
+        this.state = state;
+
         double targetY = switch (state)
         {
-            case DEFAULT -> 296 * 2;
-            case INPUT_DIGIT -> 296;
+            case INPUT_DIGIT -> 310;
             default -> 296 * 2;
         };
 
         double delay = switch (state)
         {
-            case DEFAULT -> 0;
             case INPUT_DIGIT -> 0.5;
             default -> 0;
         };
 
         System.out.println(state + " InputController");
-
-      //  anchor.setMouseTransparent(state == States.DEFAULT);
 
         Timeline slideAnimation = new Timeline(
                 new KeyFrame(Duration.seconds(1),

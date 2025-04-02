@@ -22,7 +22,7 @@
 }
 .gridPane {
      -fx-background-color: #E5E7E7;
-     -fx-background-radius: 8px;
+     -fx-background-radius: 16px;
      -fx-max-height: 296;
      -fx-max-width: 404;
      -fx-pref-height: 296;
