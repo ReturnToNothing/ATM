@@ -1,6 +1,7 @@
 package com.atm;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Bank  //make it protected
 {
@@ -8,23 +9,31 @@ public class Bank  //make it protected
 
     ArrayList<Account> accounts;
     Account account;
+    Account foundAccount;
 
     public Bank()
     {
         this.accounts = new ArrayList<Account>();
         this.account = null;
+        this.foundAccount = null;
     }
 
-    private Account createAccount(int number, int password, Types type)
+    private Account createAccount(String name, int number, int password, Types type)
     {
-        return new Account(number, password, type);
+        return new Account(name, number, password, type);
     }
 
-    public boolean addAccount(int number, int password, Types type)
+    // Another method that creates an immutable copy from a legitimate account.
+    public Account cloneAccount(Account account)
+    {
+        return new Account(account.getName(), account.getNumber(), account.getPassword(), account.getType());
+    }
+
+    public boolean addAccount(String name, int number, int password, Types type)
     {
         if (this.accounts.size() < this.maxAccounts)
         {
-            Account newAccount = this.createAccount(number, password, type);
+            Account newAccount = this.createAccount(name, number, password, type);
             this.accounts.add(newAccount);
             return true;
         }
@@ -44,7 +53,6 @@ public class Bank  //make it protected
         // Iterates a list of accounts to match with the parameters and instance variables; number and password.
         for (Account account : accounts)
         {
-            System.out.println(account);
             if (account != null)
             {
                 if (account.getNumber() == number)
@@ -60,6 +68,48 @@ public class Bank  //make it protected
         // Otherwise, if these conditions are not matched;
         // then the account isn't registered due to unmatched information
         return false;
+    }
+
+    public Card findCard(String cardNumber)
+    {
+        if (this.IsLogged())
+        {
+            return null;
+        }
+
+        for (Card card : account.getCards())
+        {
+            if (card != null)
+            {
+                if (Objects.equals(card.cardNumber(), cardNumber))
+                {
+                    return card;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    public ArrayList<Account> findAccountsPartially(int PIN)
+    {
+        ArrayList<Account> matches = new ArrayList<>();
+        String partialPin = String.valueOf(PIN);
+
+        for (Account account : accounts)
+        {
+            if (account != null)
+            {
+                String accountPIN = String.valueOf(account.getNumber());
+
+                if (accountPIN.startsWith(partialPin))
+                {
+                    matches.add(account);
+                }
+            }
+        }
+
+        return matches;
     }
 
     public void logout()
@@ -116,7 +166,7 @@ public class Bank  //make it protected
         // Check if the requested withdrawal exceeds the limit.
         if (amount > limit)
         {
-            return Status.EXCEEDS_WITHDRAWAL; // Withdrawal amount exceeds the allowed limit.
+            return Status.EXCEEDS_WITHDRAWAL; // The Withdrawal amount exceeds the allowed limit.
         }
 
         // Verify if the withdrawal can be processed, bypassed if overdraft is allowed.
@@ -131,10 +181,8 @@ public class Bank  //make it protected
         }
     }
 
-    public double getBalance()
-    {
-        if (this.IsLogged())
-        {
+    public double getBalance() {
+        if (this.IsLogged()) {
             return -1.00f;
         }
 

@@ -1,0 +1,49 @@
+.anchor {
+-fx-background-color: #FFFFFF;
+-fx-max-height: 896;
+-fx-max-width: 414;
+-fx-pref-height: 896;
+-fx-pref-width: 414;
+}
+.background {
+-fx-background-color: transparent;
+-fx-max-height: 896;
+-fx-max-width: 414;
+-fx-pref-height: 896;
+-fx-pref-width: 414;
+}
+.region {
+     -fx-background-color: #FFFFFF;
+     -fx-max-height: 896;
+     -fx-max-width: 414;
+     -fx-pref-height: 896;
+     -fx-pref-width: 414;
+}
+.region-blue {
+      -fx-background-color: #199EFF;
+      -fx-max-height: 896;
+      -fx-max-width: 414;
+      -fx-pref-height: 896;
+      -fx-pref-width: 414;
+}
+.logo {
+-fx-preserve-ratio: true;
+}
+.title {
+-fx-font-family: "Kanit", sans-serif;
+-fx-font-style: normal;
+-fx-font-size: 1.5em;
+-fx-line-height: 1.5em;
+-fx-font-weight: 700;
+-fx-fill: white;
+}
+.title-bold {
+-fx-font-family: "Kanit", sans-serif;
+-fx-font-style: normal;
+-fx-font-size: 1.5em;
+-fx-line-height: 1.5em;
+-fx-font-weight: 900;
+-fx-fill: white;
+}
+
+

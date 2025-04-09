@@ -1,0 +1,312 @@
+.anchorPane {
+     -fx-background-color: transparent;
+     -fx-max-height: 896;
+     -fx-max-width: 414;
+     -fx-pref-height: 896;
+     -fx-pref-width: 414; /*four pages are 414x4*/
+     -fx-alignment: centre;
+}
+.anchorPane-gradient-left {
+     -fx-background-color: linear-gradient(from 90% 50% to 100% 50%, #199EFF, transparent);
+     -fx-max-height: 896;
+     -fx-max-width: 414;
+     -fx-pref-height: 896;
+     -fx-pref-width: 414; /*four pages are 414x4*/
+     -fx-alignment: centre;
+}
+.anchorPane-gradient-right {
+     -fx-background-color: linear-gradient(from 10% 50% to 0% 50%, #199EFF, transparent);
+     -fx-max-height: 896;
+     -fx-max-width: 414;
+     -fx-pref-height: 896;
+     -fx-pref-width: 414; /*four pages are 414x4*/
+     -fx-alignment: centre;
+}
+.anchorPane-gradient-side-white {
+     -fx-background-color: linear-gradient(from 60% 50% to 0% 50%, #FFFFFF, transparent);
+     -fx-max-height: 896;
+     -fx-max-width: 54;
+     -fx-pref-height: 896;
+     -fx-pref-width: 54; /*four pages are 414x4*/
+     -fx-alignment: centre;
+}
+.hBox {
+      -fx-background-color: transparent;
+      -fx-max-height: 896;
+      -fx-max-width: 1242;
+      -fx-pref-height: 896;
+      -fx-pref-width: 1242; /*four pages are 414x4*/
+}
+
+/* CSS properties for the first layer */
+.anchorPane-Welcome {
+     -fx-background-color: white;
+     -fx-max-height: 896;
+     -fx-max-width: 414;
+     -fx-pref-height: 896;
+     -fx-pref-width: 414;
+}
+.text-blue {
+     -fx-font-family: "Kanit", sans-serif;
+     -fx-font-size: 1.2em;
+     -fx-line-height: 1em;
+     -fx-font-weight: 700;
+     -fx-fill: #199EFF;
+}
+.text-big-black {
+     -fx-font-family: "Kanit", sans-serif;
+     -fx-font-size: 1.7em;
+     -fx-line-height: 1em;
+     -fx-font-weight: 700;
+     -fx-fill: #000000;
+}
+.text-small-black {
+     -fx-font-family: "Kanit", sans-serif;
+     -fx-font-size: 1em;
+     -fx-line-height: 1em;
+     -fx-font-weight: 700;
+     -fx-fill: #000000;
+}
+.text-small-blue {
+     -fx-font-family: "Kanit", sans-serif;
+     -fx-font-size: 1.1em;
+     -fx-line-height: 1em;
+     -fx-font-weight: 700;
+     -fx-fill: #000000;
+}
+.text-big {
+     -fx-font-family: "Kanit", sans-serif;
+     -fx-font-size: 1.7em;
+     -fx-line-height: 1em;
+     -fx-font-weight: 700;
+     -fx-fill: #199EFF;
+}
+.text-small {
+     -fx-font-family: "Kanit", sans-serif;
+     -fx-font-size: 1.3em;
+     -fx-line-height: 1em;
+     -fx-font-weight: 600;
+     -fx-fill: #199EFF;
+}
+.text-powered {
+     -fx-font-family: "Kanit", sans-serif;
+     -fx-font-size: 1.2em;
+     -fx-line-height: 1em;
+     -fx-font-weight: 600;
+     -fx-fill: #199EFF;
+}
+.text-version {
+     -fx-font-family: "Kanit", sans-serif;
+     -fx-font-size: 1em;
+     -fx-line-height: 1em;
+     -fx-font-weight: 700;
+     -fx-fill: #ADB6CA;
+
+     -fx-background-color: white;
+     -fx-background-radius: 8px;
+}
+.logInButton {
+     -fx-font-family: "Kanit", sans-serif;
+     -fx-font-weight: 700;
+     -fx-font-size: 1.4em;
+
+     -fx-background-color: #199EFF;
+     -fx-text-fill: #FFFFFF;
+
+     -fx-pref-width: 350px;
+     -fx-pref-height: 55px;
+
+     -fx-background-radius: 8px;
+     cursor: pointer;
+}
+.startButton {
+     -fx-font-family: "Kanit", sans-serif;
+     -fx-font-weight: 700;
+     -fx-font-size: 1.4em;
+
+     -fx-background-color: #199EFF;
+     -fx-text-fill: #FFFFFF;
+
+     -fx-pref-width: 350px;
+     -fx-pref-height: 55px;
+
+     -fx-background-radius: 8px;
+}
+.registerButton {
+     -fx-font-family: "Kanit", sans-serif;
+     -fx-font-weight: 700;
+     -fx-font-size: 1em;
+
+     -fx-background-color: transparent;
+     -fx-text-fill: #199EFF;
+}
+.InvisButton {
+     -fx-font-family: "Kanit", sans-serif;
+     -fx-font-weight: 700;
+     -fx-font-size: 1em;
+
+     -fx-background-color: #FFFFFF;
+     -fx-text-fill: #199EFF;
+}
+.imageButton {
+     -fx-font-family: "Kanit", sans-serif;
+     -fx-font-weight: 700;
+     -fx-font-size: 1em;
+
+     -fx-background-color: transparent;
+     -fx-text-fill: #199EFF;
+}
+.baseButton {
+     -fx-font-family: "Kanit", sans-serif;
+     -fx-font-weight: 700;
+     -fx-font-size: 1.4em;
+
+     -fx-background-color: #F2F3F3;
+     -fx-text-fill: #999EA1;
+
+     -fx-pref-width: 350px;
+     -fx-pref-height: 55px;
+
+     -fx-background-radius: 8px;
+}
+.baseButton-pinpoint {
+  -fx-font-family: "Kanit", sans-serif;
+     -fx-font-weight: 700;
+     -fx-font-size: 1.4em;
+
+     -fx-background-color: #F2F3F3;
+     -fx-text-fill: #999EA1;
+
+     -fx-pref-width: 350px;
+     -fx-pref-height: 55px;
+
+     -fx-background-radius: 8px;
+
+     -fx-border-radius: 8px;
+     -fx-border-width: 2px;
+     -fx-border-color: #199EFF;
+}
+.images {
+     -fx-preserve-ratio: true;
+}
+.baseCircle {
+     -fx-fill: #199EFF;
+     -fx-stroke-width: 0px;
+}
+.hBoxField {
+     -fx-spacing: 16px;
+
+}
+.textField {
+     -fx-font-family: "Kanit", sans-serif;
+     -fx-font-weight: 700;
+     -fx-font-size: 1.5em;
+
+     -fx-background-color: #FFFFFF;
+     -fx-text-fill: #999EA1;
+
+     -fx-pref-width: 53px;
+     -fx-pref-height: 54px;
+
+     -fx-background-radius: 8px;
+
+     -fx-border-width: 2px;
+     -fx-border-radius: 8px;
+     -fx-border-color: #999EA1;
+}
+.textField.pinpoint {
+     -fx-font-family: "Kanit", sans-serif;
+     -fx-font-weight: 700;
+     -fx-font-size: 1.5em;
+
+     -fx-background-color: #FFFFFF;
+     -fx-text-fill: #199EFF;
+
+     -fx-pref-width: 53px;
+     -fx-pref-height: 54px;
+
+     -fx-background-radius: 8px;
+
+     -fx-border-width: 2px;
+     -fx-border-radius: 8px;
+     -fx-border-color:  #199EFF;
+}
+.textField.pinpoint2 {
+     -fx-font-family: "Kanit", sans-serif;
+     -fx-font-weight: 700;
+     -fx-font-size: 1.5em;
+
+     -fx-background-color: #FFFFFF;
+     -fx-text-fill: #199EFF;
+
+     -fx-pref-width: 53px;
+     -fx-pref-height: 54px;
+
+     -fx-background-radius: 8px;
+
+     -fx-border-width: 2px;
+     -fx-border-radius: 8px;
+     -fx-border-color:  #999EA1;
+}
+.check-box {
+    -fx-background-color: transparent;
+    -fx-font-family: "Kanit", sans-serif;
+    -fx-font-size: 1em;
+    -fx-line-height: 1em;
+    -fx-font-weight: 700;
+    -fx-text-fill: #ADB6CA;
+}
+.check-box.selected {
+    -fx-background-color: transparent;
+    -fx-font-family: "Kanit", sans-serif;
+    -fx-font-size: 1em;
+    -fx-line-height: 1em;
+    -fx-font-weight: 700;
+    -fx-text-fill: #199EFF;
+}
+.check-box .box {
+     -fx-background-color: #FFFFFF;
+     -fx-border-color: #999EA1;
+     -fx-border-width: 2px;
+     -fx-border-radius: 8px;
+     -fx-padding: 5px;
+}
+.check-box:selected .mark {
+    -fx-border-color: #199EFF;
+}
+
+/* CSS properties for the second layer */
+.anchorPane-Tutorial1 {
+     -fx-background-color: white;
+     -fx-max-height: 896;
+     -fx-max-width: 414;
+     -fx-pref-height: 896;
+     -fx-pref-width: 414;
+}
+.continueButton {
+     -fx-font-family: "Kanit", sans-serif;
+     -fx-font-weight: 700;
+     -fx-font-size: 1.4em;
+
+     -fx-background-color: #199EFF;
+     -fx-text-fill: #FFFFFF;
+
+     -fx-pref-width: 350px;
+     -fx-pref-height: 55px;
+
+     -fx-background-radius: 8px;
+}
+.vBox {
+      -fx-border-radius: 8px;
+      -fx-border-width: 2px;
+      -fx-border-color: #F2F3F3;
+}
+
+/* CSS properties for the third layer */
+.anchorPane-Tutorial2 {
+     -fx-background-color: white;
+     -fx-max-height: 896;
+     -fx-max-width: 414;
+     -fx-pref-height: 896;
+     -fx-pref-width: 414;
+}

@@ -1,4 +1,4 @@
-module com.atm.atm {
+module com.atm {
     requires javafx.controls;
     requires javafx.fxml;
 

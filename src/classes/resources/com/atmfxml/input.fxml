@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+
+<AnchorPane fx:id="anchor" maxHeight="400.0" maxWidth="632.0" minHeight="-Infinity" minWidth="-Infinity" pickOnBounds="false" prefHeight="400.0" prefWidth="632.0" styleClass="anchorPane" stylesheets="@../atmcss/input.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.atm.InputController">
+   <children>
+      <StackPane fx:id="stackPane" layoutY="305.0" pickOnBounds="false" prefHeight="286.0" prefWidth="228.0" styleClass="stackPane" translateY="295.0">
+         <children>
+            <GridPane alignment="CENTER" hgap="6.0" pickOnBounds="false" styleClass="gridPane">
+              <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" styleClass="baseButton" text="1" textAlignment="CENTER" />
+                  <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" styleClass="baseButton" text="2" textAlignment="CENTER" GridPane.columnIndex="1" />
+                  <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" styleClass="baseButton" text="3" textAlignment="CENTER" GridPane.columnIndex="2" />
+                  <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" styleClass="baseButton" text="4" textAlignment="CENTER" GridPane.rowIndex="1" />
+                  <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" styleClass="baseButton" text="5" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" styleClass="baseButton" text="6" textAlignment="CENTER" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                  <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" styleClass="baseButton" text="7" textAlignment="CENTER" GridPane.rowIndex="2" />
+                  <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" styleClass="baseButton" text="8" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" styleClass="baseButton" text="9" textAlignment="CENTER" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                  <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" styleClass="baseButton" text="0" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                  <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" styleClass="baseButton" text="Clear" textAlignment="CENTER" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                  <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" styleClass="baseButton" text="Remove" textAlignment="CENTER" GridPane.rowIndex="3" />
+               </children>
+               <padding>
+                  <Insets bottom="30.0" left="10.0" right="10.0" top="10.0" />
+               </padding>
+            </GridPane>
+            <GridPane alignment="CENTER" hgap="6.0" pickOnBounds="false" styleClass="fakeGridPane">
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <children>
+                  <Button fx:id="One" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" styleClass="digitButton" text="1" textAlignment="CENTER" />
+                  <Button fx:id="Two" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" styleClass="digitButton" text="2" textAlignment="CENTER" GridPane.columnIndex="1" />
+                  <Button fx:id="Three" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" styleClass="digitButton" text="3" textAlignment="CENTER" GridPane.columnIndex="2" />
+                  <Button fx:id="Four" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" styleClass="digitButton" text="4" textAlignment="CENTER" GridPane.rowIndex="1" />
+                  <Button fx:id="Five" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" styleClass="digitButton" text="5" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <Button fx:id="Six" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" styleClass="digitButton" text="6" textAlignment="CENTER" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                  <Button fx:id="Seven" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" styleClass="digitButton" text="7" textAlignment="CENTER" GridPane.rowIndex="2" />
+                  <Button fx:id="Eight" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" styleClass="digitButton" text="8" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <Button fx:id="Nine" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" styleClass="digitButton" text="9" textAlignment="CENTER" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                  <Button fx:id="Zero" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" styleClass="digitButton" text="0" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                  <Button fx:id="clear" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" styleClass="digitButton" text="Clear" textAlignment="CENTER" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                  <Button fx:id="remove" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" styleClass="digitButton" text="Remove" textAlignment="CENTER" GridPane.rowIndex="3" />
+               </children>
+               <padding>
+                  <Insets bottom="30.0" left="10.0" right="10.0" top="10.0" />
+               </padding>
+            </GridPane>
+         </children>
+         <padding>
+            <Insets bottom="-10.0" />
+         </padding>
+      </StackPane>
+   </children>
+</AnchorPane>

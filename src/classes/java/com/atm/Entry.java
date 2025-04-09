@@ -9,15 +9,20 @@ import java.io.IOException;
 
 public class Entry extends Application
 {
+    private String[] names = {
+            "John doe",
+            "Jane doe",
+            "Bob doe"
+    };
     private int[] numbers = {
-            1234,
-            5678,
-            1111
+            785432,
+            795321,
+            785321
     };
     private int[] passwords = {
-            1234,
-            5678,
-            2222
+            785432,
+            795321,
+            785321
     };
     private Types[] types = {
             Types.BASIC,
@@ -31,16 +36,16 @@ public class Entry extends Application
     }
 
     @Override
-    public void start(Stage stage)
-    {
+    public void start(Stage stage) throws IOException {
         Bank bank = new Bank();
 
         for (int index = 0; index < numbers.length; index++)
         {
+            String name = names[index];
             int number = numbers[index];
             int password = passwords[index];
             Types type = types[index];
-            bank.addAccount(number, password, type);
+            bank.addAccount(name, number, password, type);
         }
 
         Model model = new Model(bank);
@@ -48,10 +53,8 @@ public class Entry extends Application
         Controller controller = new Controller();
         controller.model = model;
 
-        View view = new View(stage);
-        view.controller = controller;
-        view.model = model;
-        model.view = view;
+        model.view = new View(stage, controller, model);
         model.display();
     }
+
 }
