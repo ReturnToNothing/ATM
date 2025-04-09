@@ -1,12 +1,10 @@
 package com.atm;
 
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-
-import javafx.event.ActionEvent;
 
 import javafx.scene.Scene;
 import javafx.scene.Node;
@@ -38,9 +36,10 @@ public class View
         this.stage = stage;
         this.root = new StackPane();
         this.scene = new Scene(root, width, height);
+        this.scene.setFill(Color.TRANSPARENT);
 
         this.stage.setTitle("EAJ");
-        this.stage.getIcons().add(fetchImage("LunU3.png"));
+        this.stage.getIcons().add(getImage("LunU3.png"));
 
         this.stage.setHeight(height);
         this.stage.setWidth(width);
@@ -61,6 +60,10 @@ public class View
         // Input scenes
         InputController inputScene = (InputController) loadScene("input.fxml", "input");
         inputScene.initialize(this.controller);
+
+        // Login scenes
+        AccountController accountScene = (AccountController) loadScene("account.fxml", "account");
+        accountScene.initialize(this.controller, this.model);
 
         // Login scenes
         LogInController loginScene = (LogInController) loadScene("login.fxml", "login");
@@ -99,33 +102,11 @@ public class View
         return controllers.get(fxmlName);
     }
 
-    public void initializeScene(String fxmlName, Node... nodes)
-    {
-        Node sceneNode = scenes.get(fxmlName);
-
-        if (sceneNode == null) return;
-        //TODO: use the vargs later..
-        switch (fxmlName)
-        {
-            case "intro-view":
-                // Another reference for retrieving elements from the scene.
-                // https://stackoverflow.com/questions/42781401/javafx-is-it-more-efficient-to-select-node-using-lookup-or-link-to-controller-t
-
-                IntroController introController = (IntroController) getController("intro-view");
-                if (introController != null)
-                {
-                    introController.initialize();
-                }
-
-                break;
-        }
-    }
-
-    private Image fetchImage(String imageFile)
+    private static Image getImage(String imageName)
     {
         // concatenating the path by appending the specified id before searching the image's URL.
-        String imagePath = "/com/atmimages/" + imageFile;
-        URL URLPath = getClass().getResource(imagePath);
+        String imagePath = "/com/atmimages/" + imageName;
+        URL URLPath = View.class.getResource(imagePath);
 
         // adding exception since fetching an invalid path could potentially crash out.
         if (URLPath == null)
@@ -137,13 +118,25 @@ public class View
         return new Image(URLPath.toExternalForm());
     }
 
-    private void buttonClicked(ActionEvent event, String input)
+    public static Image getCardImage(String companyName)
     {
-        Button button = (Button)event.getSource();
-        if (this.controller != null)
+        // String-to-Image solver, by fetching the company name into their respective brand icons.
+        return switch (companyName.toLowerCase())
         {
-            this.controller.process(input);
-        }
+            case "visa" -> getImage("visa.png");
+            case "visa-grey" -> getImage("visa-grey.png");
+
+            case "mastercard" -> getImage("mastercard.png");
+            case "mastercard-grey" -> getImage("mastercard-grey.png");
+
+            case "hsbc" -> getImage("hsbc.png");
+            case "hsbc-grey" -> getImage("hsbc-grey.png");
+
+            case "profile" -> getImage("profile-white.png");
+            case "profile-grey" -> getImage("profile-grey.png");
+
+            default -> getImage("default-blue.png"); // Default logo
+        };
     }
 
     public void update()
@@ -157,6 +150,7 @@ public class View
         States tutorialState = this.model.getState(com.atm.Scene.TUTORIAL);
         States loginState = this.model.getState(com.atm.Scene.LOGIN);
         States inputState = this.model.getState(com.atm.Scene.INPUT);
+        States accountState = this.model.getState(com.atm.Scene.ACCOUNT);
 
         NotifyController notifyScene = (NotifyController) getController("notify");
         notifyScene.slide(notifyState);
@@ -168,6 +162,10 @@ public class View
         LogInController loginController = (LogInController) getController("login");
         loginController.slide(loginState);
         loginController.update(input, account);
+
+        AccountController accountController = (AccountController) getController("account");
+        accountController.slide(accountState);
+        accountController.update();
 
         InputController inputController = (InputController) getController("input");
         inputController.slide(inputState);

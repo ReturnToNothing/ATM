@@ -10,9 +10,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
-import org.controlsfx.control.textfield.TextFields;
 
-import java.util.Arrays;
 
 public class LogInController
 {

@@ -8,6 +8,34 @@ public class Controller
     {
     }
 
+    // Had to use overloading methods for accepting a different type of parameters
+
+    public void process(String action, Card card)
+    {
+        System.out.println(action);
+        switch (action)
+        {
+            case "Transaction-page-select":
+                this.model.setSelectedCard(card);
+                break;
+            default:
+                //  this.model.processUnknownKey(action);
+        }
+    }
+
+    public void process(String action, Account account)
+    {
+        System.out.println(action);
+        switch (action)
+        {
+            case "Transaction-page-select":
+                this.model.setSelectedPayee(account);
+                break;
+            default:
+                //  this.model.processUnknownKey(action);
+        }
+    }
+
     public void process(String action)
     {
 
@@ -30,6 +58,9 @@ public class Controller
             case "Clear-Input":
                 this.model.processClear();
                 break;
+            case "Remove-Input":
+                this.model.processRemove();
+                break;
             case "enter":
                 //this.model.processEnter();
                 break;
@@ -51,6 +82,12 @@ public class Controller
             case "LogOut":
               //  this.model.processLogout();
                 break;
+            case "Open-Input":
+                this.model.processInput(States.INPUT_DIGIT);
+                break;
+            case "Close-Input":
+                this.model.processInput(States.DEFAULT);
+                break;
             case "Open-Notify":
                 this.model.processNotification(false);
                 break;
@@ -68,6 +105,21 @@ public class Controller
                 break;
             case "Return-LogIn":
                 this.model.processLogIn(true);
+                break;
+            case "Home-page":
+                this.model.processAccount(States.HOME_PAGE);
+                break;
+            case "Wallet-page":
+                this.model.processAccount(States.WALLET_PAGE);
+                break;
+            case "Profile-page":
+                this.model.processAccount(States.PROFILE_PAGE);
+                break;
+            case "Close-page":
+                this.model.processTransaction(States.DEFAULT);
+                break;
+            case "Transaction-page":
+                this.model.processTransaction(States.TRANSACTION_PAGE);
                 break;
             default:
               //  this.model.processUnknownKey(action);

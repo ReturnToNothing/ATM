@@ -1,10 +1,9 @@
 .anchorPane {
-     -fx-background-color: transparent;
+     -fx-background-color: white;
      -fx-max-height: 896;
      -fx-max-width: 414;
      -fx-pref-height: 896;
-     -fx-pref-width: 414; /*four pages are 414x4*/
-     -fx-alignment: centre;
+     -fx-pref-width: 414;
 }
 .anchorPane-gradient-left {
      -fx-background-color: linear-gradient(from 90% 50% to 100% 50%, #FFFFFF, transparent);

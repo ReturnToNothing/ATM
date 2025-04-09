@@ -1,10 +1,9 @@
 .anchorPane {
      -fx-background-color: transparent;
-     -fx-max-height: 296;
+     -fx-max-height: 896;
      -fx-max-width: 404;
-     -fx-pref-height: 296;
+     -fx-pref-height: 896;
      -fx-pref-width: 404; /*four pages are 414x4*/
-     -fx-alignment: centre;
 }
 .stackPane {
      -fx-background-color: transparent;

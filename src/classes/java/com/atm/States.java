@@ -2,6 +2,13 @@ package com.atm;
 
 public enum States
 {
+    // Model's internal state for the account
+    HOME_PAGE,
+    WALLET_PAGE,
+    PROFILE_PAGE,
+
+    TRANSACTION_PAGE,
+
     // Model's internal state for notification
     NOTIFY_SHOW,
 

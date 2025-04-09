@@ -1,10 +1,17 @@
 .anchorPane {
-     -fx-background-color: transparent;
+     -fx-background-color: white;
      -fx-max-height: 896;
      -fx-max-width: 414;
      -fx-pref-height: 896;
      -fx-pref-width: 414;
-     -fx-alignment: centre;
+}
+.anchorPane-grey {
+     -fx-background-color: #F2F3F3;
+     -fx-background-radius: 8px;
+     -fx-max-height: 818;
+     -fx-max-width: 414;
+     -fx-pref-height: 818;
+     -fx-pref-width: 414;
 }
 .anchorPane-gradient-side-white {
      -fx-background-color: linear-gradient(from 60% 50% to 0% 50%, #FFFFFF, transparent);
@@ -14,6 +21,13 @@
      -fx-pref-width: 54; /*four pages are 414x4*/
      -fx-alignment: centre;
 }
+.anchorPane-item {
+     -fx-background-color: #999EA1;
+     -fx-max-height: 85;
+     -fx-max-width: 364;
+     -fx-pref-height: 85;
+     -fx-pref-width: 364;
+}
 .hBox {
       -fx-background-color: transparent;
       -fx-max-height: 896;
@@ -21,21 +35,74 @@
       -fx-pref-height: 896;
       -fx-pref-width: 1242; /*four pages are 414x4*/
 }
+.hBox-hotbar {
+      -fx-background-color: transparent;
+      -fx-max-height: 90;
+      -fx-max-width: 414;
+      -fx-pref-height: 90;
+      -fx-pref-width: 414;
+
+      -fx-border-radius: 8px;
+      -fx-border-width: 2px;
+      -fx-border-color: #F2F3F3;
+}
+.hBox-hotbar-background {
+      -fx-background-color: #FFFFFF;
+      -fx-max-height: 90;
+      -fx-max-width: 414;
+      -fx-pref-height: 90;
+      -fx-pref-width: 414;
+
+      -fx-background-radius: 8px;
+
+      -fx-border-radius: 8px;
+      -fx-border-width: 2px;
+      -fx-border-color: #F2F3F3;
+}
+.credit-card {
+     -fx-background-color: #199EFF;
+     -fx-background-radius: 8px;
+
+     -fx-pref-width: 364px;
+     -fx-pref-height: 167px;
+}
+
 
 /* CSS properties for the first layer */
-.anchorPane-Welcome {
-     -fx-background-color: white;
-     -fx-max-height: 896;
-     -fx-max-width: 414;
-     -fx-pref-height: 896;
-     -fx-pref-width: 414;
-}
 .text-blue {
      -fx-font-family: "Kanit", sans-serif;
      -fx-font-size: 1.2em;
      -fx-line-height: 1em;
      -fx-font-weight: 700;
      -fx-fill: #199EFF;
+}
+.text-black {
+     -fx-font-family: "Kanit", sans-serif;
+     -fx-font-size: 1.2em;
+     -fx-line-height: 1em;
+     -fx-font-weight: 700;
+     -fx-fill: #000000;
+}
+.text-white {
+     -fx-font-family: "Kanit", sans-serif;
+     -fx-font-size: 1.2em;
+     -fx-line-height: 1em;
+     -fx-font-weight: 700;
+     -fx-fill: #FFFFFF;
+}
+.text-white-card {
+     -fx-font-family: "Kanit", sans-serif;
+     -fx-font-size: 1.1em;
+     -fx-line-height: 1em;
+     -fx-font-weight: 700;
+     -fx-fill: #FFFFFF;
+}
+.text-grey-card {
+     -fx-font-family: "Kanit", sans-serif;
+     -fx-font-size: 1.1em;
+     -fx-line-height: 1em;
+     -fx-font-weight: 700;
+     -fx-fill: #999EA1;
 }
 .text-big-black {
      -fx-font-family: "Kanit", sans-serif;
@@ -46,10 +113,38 @@
 }
 .text-small-black {
      -fx-font-family: "Kanit", sans-serif;
-     -fx-font-size: 1em;
+     -fx-font-size: 1.2em;
      -fx-line-height: 1em;
      -fx-font-weight: 700;
      -fx-fill: #000000;
+}
+.text-grey {
+     -fx-font-family: "Kanit", sans-serif;
+     -fx-font-size: 1.2em;
+     -fx-line-height: 1em;
+     -fx-font-weight: 700;
+     -fx-fill: #999EA1;
+}
+.text-small-grey {
+     -fx-font-family: "Kanit", sans-serif;
+     -fx-font-size: 1em;
+     -fx-line-height: 1em;
+     -fx-font-weight: 700;
+     -fx-fill: #999EA1;
+}
+.text-small-white {
+     -fx-font-family: "Kanit", sans-serif;
+     -fx-font-size: 1.2em;
+     -fx-line-height: 1em;
+     -fx-font-weight: 700;
+     -fx-fill: #FFFFFF;
+}
+.text-large-white {
+     -fx-font-family: "Kanit", sans-serif;
+     -fx-font-size: 3em;
+     -fx-line-height: 1em;
+     -fx-font-weight: 700;
+     -fx-fill: #FFFFFF;
 }
 .text-small-blue {
      -fx-font-family: "Kanit", sans-serif;
@@ -72,51 +167,6 @@
      -fx-font-weight: 600;
      -fx-fill: #199EFF;
 }
-.text-version {
-     -fx-font-family: "Kanit", sans-serif;
-     -fx-font-size: 1em;
-     -fx-line-height: 1em;
-     -fx-font-weight: 700;
-     -fx-fill: #ADB6CA;
-
-     -fx-background-color: white;
-     -fx-background-radius: 8px;
-}
-.logInButton {
-     -fx-font-family: "Kanit", sans-serif;
-     -fx-font-weight: 700;
-     -fx-font-size: 1.4em;
-
-     -fx-background-color: #199EFF;
-     -fx-text-fill: #FFFFFF;
-
-     -fx-pref-width: 350px;
-     -fx-pref-height: 55px;
-
-     -fx-background-radius: 8px;
-     cursor: pointer;
-}
-.startButton {
-     -fx-font-family: "Kanit", sans-serif;
-     -fx-font-weight: 700;
-     -fx-font-size: 1.4em;
-
-     -fx-background-color: #199EFF;
-     -fx-text-fill: #FFFFFF;
-
-     -fx-pref-width: 350px;
-     -fx-pref-height: 55px;
-
-     -fx-background-radius: 8px;
-}
-.registerButton {
-     -fx-font-family: "Kanit", sans-serif;
-     -fx-font-weight: 700;
-     -fx-font-size: 1em;
-
-     -fx-background-color: transparent;
-     -fx-text-fill: #199EFF;
-}
 .invisibleButton {
      -fx-font-family: "Kanit", sans-serif;
      -fx-font-weight: 700;
@@ -132,6 +182,233 @@
 
      -fx-background-color: transparent;
      -fx-text-fill: #199EFF;
+}
+.baseButton {
+     -fx-font-family: "Kanit", sans-serif;
+     -fx-font-weight: 700;
+     -fx-font-size: 1.2em;
+
+     -fx-pref-width: 210px;
+     -fx-pref-height: 48px;
+
+     -fx-background-color: #F2F3F3;
+     -fx-text-fill: #999EA1;
+
+     -fx-background-radius: 8px;
+}
+.exitButton {
+     -fx-font-size: 0.1em;
+     -fx-background-color: #666D72;
+     -fx-background-radius: 8px;
+     -fx-pref-width: 69px;
+     -fx-pref-height: 5px;
+}
+.baseAnchorPane {
+     -fx-pref-width: 370px;
+     -fx-pref-height: 52px;
+
+     -fx-background-color: #FFFFFF;
+     -fx-text-fill: #999EA1;
+
+     -fx-background-radius: 8px;
+}
+.baseTextField {
+     -fx-font-family: "Kanit", sans-serif;
+     -fx-font-weight: 700;
+     -fx-font-size: 1.2em;
+
+     -fx-pref-width: 370px;
+     -fx-pref-height: 48px;
+
+     -fx-background-color: #FFFFFF;
+     -fx-text-fill: #999EA1;
+
+     -fx-background-radius: 8px;
+}
+.baseTextField-pinpoint {
+     -fx-font-family: "Kanit", sans-serif;
+     -fx-font-weight: 700;
+     -fx-font-size: 1.2em;
+
+     -fx-pref-width: 370px;
+     -fx-pref-height: 48px;
+
+     -fx-background-color: #FFFFFF;
+     -fx-text-fill: #999EA1;
+
+     -fx-background-radius: 8px;
+
+      -fx-border-color: transparent transparent #199EFF transparent;
+      -fx-border-width: 0 0 2px 0;
+      -fx-border-radius: 0 0 8px 8px;
+}
+.anchorPane-features {
+       -fx-font-family: "Kanit", sans-serif;
+       -fx-font-weight: 700;
+       -fx-font-size: 1.3em;
+
+       -fx-pref-width: 117;
+       -fx-pref-height: 52;
+
+       -fx-min-width: 113;
+       -fx-min-height: 52;
+
+       -fx-background-color: #F2F3F3;
+       -fx-text-fill: #000000;
+
+       -fx-background-radius: 8px;
+}
+.anchorPane-features-blue {
+       -fx-font-family: "Kanit", sans-serif;
+       -fx-font-weight: 700;
+       -fx-font-size: 1.3em;
+
+       -fx-pref-width: 117;
+       -fx-pref-height: 52;
+
+       -fx-min-width: 113;
+       -fx-min-height: 52;
+
+       -fx-background-color: #199EFF;
+       -fx-text-fill: #FFFFFF;
+
+       -fx-background-radius: 8px;
+}
+.anchorPane-cardContainer {
+       -fx-pref-width: 55;
+       -fx-pref-height: 72;
+
+       -fx-min-width: 55;
+       -fx-min-height: 72;
+
+       -fx-background-color: transparent;
+}
+.anchorPane-payeesContainer {
+       -fx-pref-width: 55;
+       -fx-pref-height: 52;
+
+       -fx-min-width: 55;
+       -fx-min-height: 52;
+
+       -fx-background-color: transparent;
+}
+.anchorPane-payees {
+       -fx-background-color: transparent;
+
+       -fx-pref-width: 55;
+       -fx-pref-height: 55;
+
+       -fx-min-width: 55;
+       -fx-min-height: 55;
+}
+.anchorPane-cards {
+       -fx-font-family: "Kanit", sans-serif;
+       -fx-font-weight: 700;
+       -fx-font-size: 1.2em;
+
+       -fx-pref-width: 180;
+       -fx-pref-height: 52;
+
+       -fx-min-width: 174;
+       -fx-min-height: 52;
+
+       -fx-background-color: #199EFF;
+
+       -fx-background-radius: 8px;
+}
+.anchorPane-cards-grey {
+       -fx-font-family: "Kanit", sans-serif;
+       -fx-font-weight: 700;
+       -fx-font-size: 1.2em;
+
+       -fx-pref-width: 180;
+       -fx-pref-height: 52;
+
+       -fx-min-width: 174;
+       -fx-min-height: 52;
+
+       -fx-background-color: #EAECEC;
+       -fx-text-fill: #61686D;
+
+       -fx-background-radius: 8px;
+}
+.baseButton-cards {
+       -fx-font-family: "Kanit", sans-serif;
+       -fx-font-weight: 700;
+       -fx-font-size: 1.2em;
+
+       -fx-pref-width: 173;
+       -fx-pref-height: 52;
+
+       -fx-min-width: 173;
+       -fx-min-height: 52;
+
+       -fx-background-color: transparent;
+       -fx-text-fill: #61686D;
+}
+.images {
+     -fx-background-radius: 8px;
+     -fx-preserve-ratio: true;
+}
+.baseCircle {
+     -fx-fill: #199EFF;
+     -fx-stroke-width: 0px;
+}
+.baseCircle-grey {
+     -fx-fill: #EAECEC;
+     -fx-stroke-width: 0px;
+}
+.baseCircle-white {
+     -fx-fill: #FFFFFF;
+     -fx-stroke-width: 0px;
+}
+.scroll-pane-features {
+     -fx-max-height: 72;
+     -fx-max-width: 375;
+     -fx-pref-height: 72;
+     -fx-pref-width: 375;
+}
+.scroll-pane-payees {
+     -fx-max-height: 95;
+     -fx-max-width: 390;
+     -fx-pref-height: 95;
+     -fx-pref-width: 390;
+}
+.scroll-pane-amount {
+     -fx-background-color: #FFFFFF;
+     -fx-max-height: 230;
+     -fx-max-width: 375;
+     -fx-pref-height: 230;
+     -fx-pref-width: 375;
+}
+.scroll-pane {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+.scroll-pane .viewport {
+    -fx-background-color: transparent;
+}
+.scroll-pane .scroll-bar {
+    -fx-opacity: 0;
+    -fx-padding: 0;
+}
+.continueButton {
+     -fx-font-family: "Kanit", sans-serif;
+     -fx-font-weight: 700;
+     -fx-font-size: 1.4em;
+
+     -fx-background-color: #199EFF;
+     -fx-text-fill: #FFFFFF;
+
+     -fx-pref-width: 350px;
+     -fx-pref-height: 55px;
+
+     -fx-background-radius: 8px;
+}
+.vBox {
+      -fx-border-radius: 8px;
+      -fx-border-width: 2px;
+      -fx-border-color: #FFFFFF;
 }
 .baseButton {
      -fx-font-family: "Kanit", sans-serif;
@@ -162,46 +439,4 @@
      -fx-border-radius: 8px;
      -fx-border-width: 2px;
      -fx-border-color: #199EFF;
-}
-.images {
-     -fx-preserve-ratio: true;
-}
-.baseCircle {
-     -fx-fill: #199EFF;
-     -fx-stroke-width: 0px;
-}
-.textField {
-     -fx-font-family: "Kanit", sans-serif;
-     -fx-font-weight: 700;
-     -fx-font-size: 1.5em;
-
-     -fx-background-color: #FFFFFF;
-     -fx-text-fill: #999EA1;
-
-     -fx-pref-width: 53px;
-     -fx-pref-height: 54px;
-
-     -fx-background-radius: 8px;
-
-     -fx-border-width: 2px;
-     -fx-border-radius: 8px;
-     -fx-border-color: #999EA1;
-}
-.continueButton {
-     -fx-font-family: "Kanit", sans-serif;
-     -fx-font-weight: 700;
-     -fx-font-size: 1.4em;
-
-     -fx-background-color: #199EFF;
-     -fx-text-fill: #FFFFFF;
-
-     -fx-pref-width: 350px;
-     -fx-pref-height: 55px;
-
-     -fx-background-radius: 8px;
-}
-.vBox {
-      -fx-border-radius: 8px;
-      -fx-border-width: 2px;
-      -fx-border-color: #F2F3F3;
 }

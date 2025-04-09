@@ -25,6 +25,7 @@ public class InputController
     @FXML public Button Nine;
     @FXML public Button Zero;
     @FXML public Button clear;
+    @FXML public Button remove;
 
     private Controller controller;
     private States state;
@@ -45,10 +46,28 @@ public class InputController
         Nine.setId("9");
         Zero.setId("0");
         clear.setId("Clear-Input");
+        remove.setId("Remove-Input");
 
         anchor.setTranslateY(310 * 2);
 
         BindButtons();
+        BindClickAway();
+    }
+
+    public void BindClickAway()
+    {
+        // ref; https://www.npmjs.com/package/react-click-away-listener
+        // Click-away listener for closing this scene whenever the end-user
+        // clicks outside its boundary.
+        anchor.setOnMouseClicked(event ->
+        {
+            // Check if click happened outside the input anchor,
+            // we can track the end-user clicks position by extracting the event
+            if (!stackPane.getBoundsInParent().contains(event.getX(), event.getY()))
+            {
+                controller.process("Close-Input");
+            }
+        });
     }
 
     public void BindButtons()
@@ -60,7 +79,6 @@ public class InputController
         for (Button button : buttons)
         {
             BindPressed(button);
-            hoverButton(button);
         }
     }
 
@@ -71,9 +89,11 @@ public class InputController
         {
             this.controller.process(button.getId());
         });
+
+        HoverButton(button);
     }
 
-    private void hoverButton(Button button)
+    private void HoverButton(Button button)
     {
         // Initially ensuring that the buttons are unselected (with the greyed-out effect)
         button.setOpacity(0);
@@ -113,17 +133,17 @@ public class InputController
 
         double targetY = switch (state)
         {
-            case INPUT_DIGIT -> 310;
-            default -> 296 * 2;
+            case INPUT_DIGIT -> 0;
+            default -> 496;
         };
 
         double delay = switch (state)
         {
-            case INPUT_DIGIT -> 0.5;
+            case INPUT_DIGIT -> 0;
             default -> 0;
         };
 
-        System.out.println(state + " InputController");
+        anchor.setMouseTransparent(state == States.DEFAULT);
 
         Timeline slideAnimation = new Timeline(
                 new KeyFrame(Duration.seconds(1),
@@ -131,8 +151,8 @@ public class InputController
                 )
         );
 
-        slideAnimation.setDelay(Duration.seconds(delay));
+       // slideAnimation.setDelay(Duration.seconds(delay));
 
-       slideAnimation.play();
+       slideAnimation.playFromStart();
     }
 }

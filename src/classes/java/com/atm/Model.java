@@ -2,17 +2,18 @@ package com.atm;
 
 import javafx.util.Pair;
 
+import java.util.ArrayList;
+
 public class Model
 {
     public View view;
     private Bank bank;
 
     // Using the State Design Pattern by extending the internal state of the model.
-    // By defining two states that alter the logical behavior allows to perform different patterns.
+    // By defining two states that alter the logical behavior allows performing different patterns.
     // Currently, the model's internal state linearly extends after the sequence of inserting number/password before login in.
     // Reference:
     // https://onjavahell.blogspot.com/2009/05/simple-example-of-state-design-pattern.html
-
 
     // enum-based machine states
     private Scene currentScene = Scene.LOGIN;
@@ -20,12 +21,16 @@ public class Model
     private States inputState = States.DEFAULT;
     private States tutorialState = States.DEFAULT;
     private States loginState = States.DEFAULT;
+    private States accountState = States.DEFAULT;
     private States transactionState = States.DEFAULT;
 
     // Immutable variables for updates and stores.
     private int input = 0;
     private int accountNumber = -1;
     private int accountPassword = -1;
+
+    private Card selectedCard;
+    private Account selectedPayee;
 
     private String title = "Title";
     private String description = "description";
@@ -60,6 +65,11 @@ public class Model
         return null;
     }
 
+    public ArrayList<Account> findAccountPartially(int number)
+    {
+        return this.bank.findAccountsPartially(number);
+    }
+
     public String getTitle()
     {
         return this.title;
@@ -75,6 +85,16 @@ public class Model
         this.view.update();
     }
 
+    public void setSelectedCard(Card card)
+    {
+        this.selectedCard = card;
+    }
+
+    public void setSelectedPayee(Account payee)
+    {
+        this.selectedPayee = payee;
+    }
+
     public void setState(Scene scene, States newState)
     {
         switch (scene)
@@ -87,6 +107,8 @@ public class Model
                     this.loginState = newState;
             case INPUT ->
                     this.inputState = newState;
+            case ACCOUNT ->
+                    this.accountState = newState;
             case TRANSACTION ->
                     this.transactionState = newState;
         }
@@ -100,6 +122,7 @@ public class Model
             case TUTORIAL -> this.tutorialState;
             case LOGIN -> this.loginState;
             case INPUT -> this.inputState;
+            case ACCOUNT -> this.accountState;
             case TRANSACTION -> this.transactionState;
         };
     }
@@ -123,6 +146,15 @@ public class Model
     {
         this.input = 0;
         this.display();
+    }
+
+    public void processRemove()
+    {
+        if (this.input > 0)
+        {
+            this.input = this.input / 10;
+            this.display();
+        }
     }
 
     // Helper function for checking any sequential or repeating digits from the input.
@@ -168,6 +200,37 @@ public class Model
         }
 
         return new Pair<>(successful, message);
+    }
+
+    public void processInput(States state)
+    {
+        this.setState(Scene.INPUT, state);
+        this.display();
+    }
+
+    public void processTransaction(States state)
+    {
+
+        switch (state)
+        {
+            case DEFAULT, TRANSACTION_PAGE:
+                this.input = 0;
+                this.selectedCard = null;
+                this.selectedPayee = null;
+                break;
+        }
+
+        System.out.println(selectedCard + " " + selectedPayee);
+
+        this.setState(Scene.TRANSACTION, state);
+
+        this.display();
+    }
+
+    public void processAccount(States state)
+    {
+        this.setState(Scene.ACCOUNT, state);
+        this.display();
     }
 
     public void processNotification(boolean reverse)
@@ -245,6 +308,7 @@ public class Model
                     break;
                 case LOGIN_TWO:
                     this.input = 0;
+                    this.setState(Scene.INPUT, States.INPUT_DIGIT);
                     this.setState(Scene.LOGIN, States.LOGIN_ONE);
                     break;
                 case LOGIN_THREE:
@@ -274,6 +338,7 @@ public class Model
                         this.title = "Incorrect PIN";
                         this.description = loginResultPIN.getValue();
                         this.setState(Scene.NOTIFY, States.NOTIFY_SHOW);
+                        this.setState(Scene.INPUT, States.INPUT_DIGIT);
 
                         this.display();
                         return;
@@ -282,6 +347,8 @@ public class Model
                     this.accountNumber = this.input;
 
                     this.input = 0;
+
+                    this.setState(Scene.INPUT, States.INPUT_DIGIT);
                     this.setState(Scene.LOGIN, States.LOGIN_TWO);
                     this.setState(Scene.TUTORIAL, States.DEFAULT); //Pass page
                     break;
@@ -296,6 +363,7 @@ public class Model
                         this.title = "Incorrect PASS";
                         this.description = loginResultPASS.getValue();
                         this.setState(Scene.NOTIFY, States.NOTIFY_SHOW);
+                        this.setState(Scene.INPUT, States.INPUT_DIGIT);
 
                         this.display();
                         return;
@@ -313,6 +381,7 @@ public class Model
                         this.title = "Unregistered Account";
                         this.description = "The matched information that you provided is not registered.\n\nMake sure that your PIN and PASS are correct and try again.";
                         this.setState(Scene.NOTIFY, States.NOTIFY_SHOW);
+                        this.setState(Scene.INPUT, States.INPUT_DIGIT);
 
                         this.display();
                         return;
@@ -326,9 +395,12 @@ public class Model
                     break;
                 case LOGIN_THREE:
                     //Agreement page
+                    this.input = 0;
+                    this.setState(Scene.ACCOUNT, States.HOME_PAGE);
                     this.setState(Scene.LOGIN, States.LOGIN_FOUR);
                     break;
                 case LOGIN_FOUR:
+                    this.input = 0;
                     this.setState(Scene.LOGIN, States.DEFAULT);
                     break;
             }

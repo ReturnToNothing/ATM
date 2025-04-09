@@ -16,13 +16,13 @@ public class Entry extends Application
     };
     private int[] numbers = {
             785432,
-            5678,
-            1111
+            795321,
+            785321
     };
     private int[] passwords = {
             785432,
-            5678,
-            2222
+            795321,
+            785321
     };
     private Types[] types = {
             Types.BASIC,
