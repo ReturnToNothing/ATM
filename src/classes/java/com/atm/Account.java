@@ -3,15 +3,15 @@ package com.atm;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Account
+public class Account implements Cloneable
 {
     private final String name;
     private final int number;
     private final int password;
     private final Types type;
-    private double balance;
 
     private final List<Card> cards;
+    private final List<History> history;
     private Card currentCard;
 
     public Account(String name, int number, int password, Types type)
@@ -21,22 +21,12 @@ public class Account
         this.password = password;
         this.type = type;
 
-        this.balance = 100.00f;
+        this.history = new ArrayList<>();
         this.cards = new ArrayList<>();
 
-        this.addCard(new Card("53-23-65", "125634", 1000.99, "Mastercard", Types.Physical));
+        this.addCard(new Card("53-23-65", "1124513", 1000.99, "Mastercard", Types.Physical));
         this.addCard(new Card("20-71-69","737612", 199.50, "Visa", Types.Virtual)); // visa
         this.addCard(new Card("92-13-95","257346", 10.00, "HSBC", Types.Debit));
-    }
-
-    public void withdraw(double amount)
-    {
-        this.balance -= amount;
-    }
-
-    public void deposit(double amount)
-    {
-        this.balance += amount;
     }
 
     public String getName()
@@ -54,20 +44,25 @@ public class Account
         return this.password;
     }
 
-    public double getBalance()
-    {
-        return this.balance;
-    }
-
     public Types getType()
     {
         return this.type;
     }
 
+    public void addHistory(History history)
+    {
+        this.history.add(history);
+    }
+
+    public List<History> getHistory()
+    {
+        return this.history;
+    }
+
     public void addCard(Card card)
     {
+        this.currentCard = card;
         this.cards.add(card);
-        currentCard = card;
     }
 
     public Card getCard()
@@ -75,8 +70,27 @@ public class Account
         return this.currentCard;
     }
 
+    public void setCard(Card card)
+    {
+        this.currentCard = card;
+    }
+
     public List<Card> getCards()
     {
         return this.cards;
+    }
+
+    @Override
+    public Account clone()
+    {
+        try
+        {
+            // TODO: copy mutable state here, so the clone can't change the internals of the original
+            return (Account) super.clone();
+        }
+        catch (CloneNotSupportedException event)
+        {
+            throw new AssertionError();
+        }
     }
 }

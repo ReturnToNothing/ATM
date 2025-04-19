@@ -206,8 +206,8 @@
                   </VBox>
                   <Button alignment="CENTER" contentDisplay="CENTER" layoutX="29.0" layoutY="745.0" mnemonicParsing="false" styleClass="baseButton-pinpoint" text="Log In" textAlignment="CENTER" />
                   <Button fx:id="loginButton2" alignment="CENTER" contentDisplay="CENTER" layoutX="29.0" layoutY="745.0" mnemonicParsing="false" opacity="0.0" styleClass="logInButton" text="Log In" textAlignment="CENTER" />
-                  <Text layoutX="112.0" layoutY="817.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-small-black" text="Want to know more about?" textAlignment="CENTER" />
-                  <Button fx:id="registerButton2" alignment="CENTER" contentDisplay="CENTER" layoutX="267.0" layoutY="800.0" mnemonicParsing="false" styleClass="registerButton" text="Learn more" textAlignment="CENTER" />
+                  <Text layoutX="86.0" layoutY="817.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-small-black" text="Want to know more about?" textAlignment="CENTER" />
+                  <Button fx:id="registerButton2" alignment="CENTER" contentDisplay="CENTER" layoutX="241.0" layoutY="800.0" mnemonicParsing="false" styleClass="registerButton" text="Learn more" textAlignment="CENTER" />
                   <VBox alignment="CENTER" layoutX="22.0" layoutY="238.0" prefHeight="201.0" prefWidth="373.0" spacing="8.0" styleClass="vBox">
                      <children>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-version" text="MyHome" textAlignment="CENTER" wrappingWidth="194.0" />
@@ -216,7 +216,7 @@
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-version" text="MyStock" textAlignment="CENTER" wrappingWidth="194.0" />
                      </children>
                   </VBox>
-                  <Button alignment="CENTER" contentDisplay="CENTER" layoutX="174.0" layoutY="226.0" mnemonicParsing="false" styleClass="InvisButton" text="Features" textAlignment="CENTER" />
+                  <Button alignment="CENTER" contentDisplay="CENTER" layoutX="174.0" layoutY="226.0" mnemonicParsing="false" styleClass="InvisButton" text="Services" textAlignment="CENTER" />
                   <Text layoutX="34.0" layoutY="195.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-small-black" text="Before we commence, here's the following features provided by our service:" textAlignment="CENTER" wrappingWidth="350.0" />
                   <VBox alignment="CENTER" layoutX="23.0" layoutY="519.0" prefHeight="201.0" prefWidth="373.0" spacing="8.0" styleClass="vBox">
                      <children>
@@ -226,16 +226,12 @@
                      </children>
                   </VBox>
                   <Button alignment="CENTER" contentDisplay="CENTER" layoutX="158.0" layoutY="507.0" mnemonicParsing="false" styleClass="InvisButton" text="Requirements" textAlignment="CENTER" />
-                  <Text layoutX="35.0" layoutY="475.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-small-black" text="Especially to ensure the security and refinements of our service, we require:" textAlignment="CENTER" wrappingWidth="350.0" />
+                  <Text layoutX="35.0" layoutY="475.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-small-black" text="Especially to ensure the security, privacy and refinements of our service, we require:" textAlignment="CENTER" wrappingWidth="350.0" />
                </children>
             </AnchorPane>
          </children>
       </HBox>
-      <AnchorPane fx:id="anchorRight" layoutX="414.0" mouseTransparent="true" opacity="0.0" pickOnBounds="false" prefHeight="200.0" prefWidth="200.0" styleClass="anchorPane-gradient-right" translateY="1000.0" AnchorPane.topAnchor="0.0" />
-      <AnchorPane fx:id="anchorLeft" layoutX="-414.0" mouseTransparent="true" opacity="0.0" pickOnBounds="false" prefHeight="200.0" prefWidth="200.0" styleClass="anchorPane-gradient-left" translateY="1000.0">
-         <children>
-            <AnchorPane fx:id="anchorLeft1" layoutX="371.0" layoutY="217.0" mouseTransparent="true" pickOnBounds="false" prefHeight="200.0" prefWidth="200.0" styleClass="anchorPane-gradient-left-white" />
-         </children></AnchorPane>
+      <AnchorPane fx:id="anchorRight" layoutX="414.0" mouseTransparent="true" opacity="0.0" pickOnBounds="false" prefHeight="200.0" prefWidth="200.0" styleClass="anchorPane-gradient-right" />
       <AnchorPane layoutX="-54.0" layoutY="-1000.0" mouseTransparent="true" pickOnBounds="false" prefHeight="200.0" prefWidth="200.0" styleClass="anchorPane-gradient-side-white" translateY="1000.0" />
       <AnchorPane mouseTransparent="true" pickOnBounds="false" prefHeight="200.0" prefWidth="200.0" rotate="180.0" styleClass="anchorPane-gradient-side-white" translateX="1242.0" />
    </children>

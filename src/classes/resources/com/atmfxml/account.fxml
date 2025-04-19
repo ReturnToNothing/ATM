@@ -1,13 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.PieChart?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
@@ -15,349 +20,421 @@
 
 <AnchorPane fx:id="anchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mouseTransparent="true" prefHeight="896.0" prefWidth="406.0" styleClass="anchorPane" stylesheets="@../atmcss/account.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.atm.AccountController">
    <children>
-      <HBox fx:id="anchorHbox" alignment="CENTER_LEFT" fillHeight="false" nodeOrientation="LEFT_TO_RIGHT" styleClass="hBox">
+      <HBox fx:id="anchorHbox" alignment="CENTER_LEFT" fillHeight="false" layoutX="-1.0" maxHeight="976.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="976.0" prefWidth="1243.0" styleClass="hBox">
          <children>
             <AnchorPane maxWidth="414.0" prefWidth="414.0" styleClass="anchorPane">
                <children>
-                  <Button fx:id="loginButton" alignment="CENTER" contentDisplay="CENTER" layoutX="29.0" layoutY="459.0" mnemonicParsing="false" opacity="0.0" styleClass="logInButton" text="Continue" textAlignment="CENTER" />
-                  <Text layoutX="21.0" layoutY="344.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-big-black" text="Features" textAlignment="CENTER" />
-                  <AnchorPane id="creditCard" layoutX="22.0" layoutY="140.0" prefHeight="200.0" prefWidth="200.0" styleClass="credit-card">
+                  <HBox alignment="CENTER_LEFT" layoutX="19.0" layoutY="23.0" prefHeight="0.0" prefWidth="315.0" spacing="5.0">
                      <children>
-                        <ImageView fitHeight="185.0" fitWidth="375.0" opacity="0.34" pickOnBounds="true" preserveRatio="true" styleClass="images">
-                           <image>
-                              <Image url="@../atmimages/cardBackground.png" />
-                           </image>
-                        </ImageView>
-                        <Text fx:id="accountType" layoutX="1.0" layoutY="4.0" opacity="0.75" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-small-white" text="Basic Account" translateX="5.0" translateY="15.0" />
-                        <Text fx:id="username" layoutX="309.0" layoutY="18.0" opacity="0.75" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-small-white" text="John doe" textAlignment="RIGHT" />
-                        <Text fx:id="accountPIN" layoutX="293.0" layoutY="159.0" opacity="0.75" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-small-white" text="No. 123456 " textAlignment="RIGHT" />
-                        <Text fx:id="accountCompany" layoutX="6.0" layoutY="159.0" opacity="0.75" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-small-white" text="Mastercard" />
-                        <VBox alignment="CENTER" layoutY="50.0" prefHeight="53.0" prefWidth="364.0">
-                           <children>
-                              <Text fx:id="accountBalance" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-large-white" text="£1,234.99" textAlignment="CENTER" />
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-small-white" text="Total balance" textAlignment="RIGHT" />
-                           </children>
-                        </VBox>
-                        <ImageView fx:id="accountCompanyIcon" fitHeight="32.0" fitWidth="34.0" layoutX="166.0" layoutY="118.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../atmimages/mastercard.png" />
-                           </image>
-                        </ImageView>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-big-black" text="Greetings" textAlignment="CENTER" />
+                        <Text fx:id="firstName" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-blue" text="John doe" textAlignment="CENTER" translateY="2.0" />
                      </children>
-                  </AnchorPane>
-                  <Text layoutX="19.0" layoutY="120.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-big-black" text="My Wallet" textAlignment="CENTER" />
-                  <Text layoutX="21.0" layoutY="467.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-big-black" text="Recent Transactions" textAlignment="CENTER" />
-                  <ScrollPane id="3" hbarPolicy="NEVER" layoutX="17.0" layoutY="484.0" pannable="true" prefHeight="317.0" prefWidth="364.0" vbarPolicy="NEVER">
+                  </HBox>
+                  <Text layoutX="161.0" layoutY="92.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-big-black" text="My Home" textAlignment="CENTER" />
+                  <ScrollPane id="3" fx:id="verticalScroll" hbarPolicy="NEVER" layoutY="115.0" prefHeight="781.0" prefWidth="414.0" vbarPolicy="ALWAYS">
                      <content>
-                        <VBox prefHeight="320.0" prefWidth="379.0">
+                        <VBox fx:id="homeContainer" alignment="TOP_CENTER" prefHeight="1599.0" prefWidth="413.0" spacing="25.0">
                            <children>
-                              <AnchorPane maxWidth="386.0" prefHeight="85.0" prefWidth="386.0" styleClass="anchorPane-item">
+                              <AnchorPane id="creditCard" prefHeight="200.0" prefWidth="200.0" styleClass="credit-card">
                                  <children>
-                                    <Text layoutX="86.0" layoutY="5.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-small-black" text="John doe" translateY="15.0" />
-                                    <Text layoutX="86.0" layoutY="77.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-small-black" text="22 May 2025" />
-                                    <Text layoutX="290.0" layoutY="77.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-small-black" text="05:30pm" textAlignment="RIGHT" />
-                                    <Text layoutX="281.0" layoutY="20.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-small-black" text="+1,235.99" textAlignment="RIGHT" />
+                                    <ImageView fitHeight="185.0" fitWidth="375.0" opacity="0.34" pickOnBounds="true" preserveRatio="true" styleClass="images">
+                                       <image>
+                                          <Image url="@../atmimages/cardBackground.png" />
+                                       </image>
+                                    </ImageView>
+                                    <Text fx:id="accountType" layoutX="1.0" layoutY="4.0" opacity="0.75" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-small-white" text="Basic Account" translateX="5.0" translateY="15.0" />
+                                    <Text fx:id="username" layoutX="309.0" layoutY="18.0" opacity="0.75" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-small-white" text="John doe" textAlignment="RIGHT" />
+                                    <Text fx:id="accountPIN" layoutX="255.0" layoutY="159.0" opacity="0.75" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-small-white" text="53-22-11 634532" textAlignment="RIGHT" />
+                                    <Text fx:id="accountCompany" layoutX="6.0" layoutY="159.0" opacity="0.75" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-small-white" text="Mastercard" />
+                                    <VBox alignment="CENTER" layoutY="50.0" prefHeight="53.0" prefWidth="364.0">
+                                       <children>
+                                          <Text fx:id="accountBalance" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-large-white" text="£1,234.99" textAlignment="CENTER" />
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-small-white" text="Total balance" textAlignment="RIGHT" />
+                                       </children>
+                                    </VBox>
+                                    <ImageView fx:id="accountCompanyIcon" fitHeight="32.0" fitWidth="34.0" layoutX="166.0" layoutY="118.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../atmimages/mastercard.png" />
+                                       </image>
+                                    </ImageView>
+                                 </children>
+                              </AnchorPane>
+                              <AnchorPane maxHeight="181.0" maxWidth="375.0" prefHeight="145.0" prefWidth="375.0" styleClass="anchorPane-flexible-white">
+                                 <children>
+                                    <VBox alignment="TOP_CENTER" maxHeight="158.0" maxWidth="375.0" prefHeight="158.0" prefWidth="375.0" spacing="10.0">
+                                       <children>
+                                          <HBox alignment="CENTER_LEFT" prefHeight="21.0" prefWidth="375.0" spacing="234.0">
+                                             <children>
+                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-small-black" text="Features" textAlignment="CENTER" />
+                                                <Text fx:id="seeMoreFButton" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-blue" text="See more" textAlignment="CENTER" />
+                                             </children>
+                                             <VBox.margin>
+                                                <Insets left="10.0" />
+                                             </VBox.margin>
+                                          </HBox>
+                                          <GridPane alignment="CENTER" hgap="5.0" prefHeight="103.0" prefWidth="375.0">
+                                            <columnConstraints>
+                                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                            </columnConstraints>
+                                            <rowConstraints>
+                                              <RowConstraints maxHeight="69.0" minHeight="10.0" prefHeight="55.0" vgrow="SOMETIMES" />
+                                              <RowConstraints maxHeight="69.0" minHeight="10.0" prefHeight="42.0" vgrow="SOMETIMES" />
+                                            </rowConstraints>
+                                             <children>
+                                                <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="anchorPane-features">
+                                                   <children>
+                                                      <HBox alignment="CENTER_LEFT" layoutY="2.0" prefHeight="53.0" prefWidth="189.0" spacing="15.0">
+                                                         <children>
+                                                            <ImageView fitHeight="35.0" fitWidth="31.0" pickOnBounds="true" preserveRatio="true" translateX="10.0">
+                                                               <image>
+                                                                  <Image url="@../atmimages/send.png" />
+                                                               </image>
+                                                            </ImageView>
+                                                            <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-black" text="Add Money" translateX="25.0" translateY="-1.0" />
+                                                         </children>
+                                                      </HBox>
+                                                      <AnchorPane fx:id="addButton" layoutY="2.0" prefHeight="200.0" prefWidth="189.0" styleClass="anchorPane-features-blue">
+                                                         <children>
+                                                            <HBox alignment="CENTER_LEFT" prefHeight="53.0" prefWidth="189.0" spacing="15.0">
+                                                               <children>
+                                                                  <ImageView fitHeight="35.0" fitWidth="31.0" pickOnBounds="true" preserveRatio="true" translateX="10.0">
+                                                                     <image>
+                                                                        <Image url="@../atmimages/send-white.png" />
+                                                                     </image>
+                                                                  </ImageView>
+                                                                  <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-white" text="Add Money" translateX="25.0" translateY="-1.0">
+                                                                     <font>
+                                                                        <Font size="15.0" />
+                                                                     </font>
+                                                                  </Text>
+                                                               </children>
+                                                            </HBox>
+                                                         </children>
+                                                      </AnchorPane>
+                                                   </children>
+                                                </AnchorPane>
+                                                <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="anchorPane-features" GridPane.columnIndex="1">
+                                                   <children>
+                                                      <HBox alignment="CENTER_LEFT" layoutY="2.0" prefHeight="53.0" prefWidth="189.0" spacing="15.0">
+                                                         <children>
+                                                            <ImageView fitHeight="35.0" fitWidth="31.0" pickOnBounds="true" preserveRatio="true" translateX="10.0">
+                                                               <image>
+                                                                  <Image url="@../atmimages/send.png" />
+                                                               </image>
+                                                            </ImageView>
+                                                            <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-black" text="Send Money" translateX="25.0" translateY="-1.0" />
+                                                         </children>
+                                                      </HBox>
+                                                      <AnchorPane fx:id="sendButton" layoutY="2.0" prefHeight="200.0" prefWidth="189.0" styleClass="anchorPane-features-blue">
+                                                         <children>
+                                                            <HBox alignment="CENTER_LEFT" prefHeight="53.0" prefWidth="189.0" spacing="15.0">
+                                                               <children>
+                                                                  <ImageView fitHeight="35.0" fitWidth="31.0" pickOnBounds="true" preserveRatio="true" translateX="10.0">
+                                                                     <image>
+                                                                        <Image url="@../atmimages/send-white.png" />
+                                                                     </image>
+                                                                  </ImageView>
+                                                                  <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-white" text="Send Money" translateX="25.0" translateY="-1.0">
+                                                                     <font>
+                                                                        <Font size="15.0" />
+                                                                     </font>
+                                                                  </Text>
+                                                               </children>
+                                                            </HBox>
+                                                         </children>
+                                                      </AnchorPane>
+                                                   </children>
+                                                </AnchorPane>
+                                                <AnchorPane minHeight="37.0" prefHeight="40.0" prefWidth="200.0" styleClass="anchorPane-features" GridPane.rowIndex="1">
+                                                   <children>
+                                                      <HBox alignment="CENTER_LEFT" layoutY="2.0" prefHeight="53.0" prefWidth="189.0" spacing="15.0">
+                                                         <children>
+                                                            <ImageView fitHeight="35.0" fitWidth="31.0" pickOnBounds="true" preserveRatio="true" translateX="10.0">
+                                                               <image>
+                                                                  <Image url="@../atmimages/send.png" />
+                                                               </image>
+                                                            </ImageView>
+                                                            <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-black" text="Deposit" translateX="25.0" translateY="-1.0" />
+                                                         </children>
+                                                      </HBox>
+                                                      <AnchorPane fx:id="depositButton" layoutY="2.0" minHeight="28.0" prefHeight="28.0" prefWidth="189.0" styleClass="anchorPane-features-blue">
+                                                         <children>
+                                                            <HBox alignment="CENTER_LEFT" prefHeight="53.0" prefWidth="189.0" spacing="15.0">
+                                                               <children>
+                                                                  <ImageView fitHeight="35.0" fitWidth="31.0" pickOnBounds="true" preserveRatio="true" translateX="10.0">
+                                                                     <image>
+                                                                        <Image url="@../atmimages/send-white.png" />
+                                                                     </image>
+                                                                  </ImageView>
+                                                                  <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-white" text="Deposit" translateX="25.0" translateY="-1.0">
+                                                                     <font>
+                                                                        <Font size="15.0" />
+                                                                     </font>
+                                                                  </Text>
+                                                               </children>
+                                                            </HBox>
+                                                         </children>
+                                                      </AnchorPane>
+                                                   </children>
+                                                </AnchorPane>
+                                                <AnchorPane minHeight="37.0" prefHeight="40.0" prefWidth="200.0" styleClass="anchorPane-features" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                                   <children>
+                                                      <HBox alignment="CENTER_LEFT" layoutY="2.0" prefHeight="53.0" prefWidth="189.0" spacing="15.0">
+                                                         <children>
+                                                            <ImageView fitHeight="35.0" fitWidth="31.0" pickOnBounds="true" preserveRatio="true" translateX="10.0">
+                                                               <image>
+                                                                  <Image url="@../atmimages/send.png" />
+                                                               </image>
+                                                            </ImageView>
+                                                            <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-black" text="Withdrawal" translateX="25.0" translateY="-1.0" />
+                                                         </children>
+                                                      </HBox>
+                                                      <AnchorPane fx:id="WithdrawButton" layoutY="2.0" minHeight="28.0" prefHeight="28.0" prefWidth="189.0" styleClass="anchorPane-features-blue">
+                                                         <children>
+                                                            <HBox alignment="CENTER_LEFT" prefHeight="53.0" prefWidth="189.0" spacing="15.0">
+                                                               <children>
+                                                                  <ImageView fitHeight="35.0" fitWidth="31.0" pickOnBounds="true" preserveRatio="true" translateX="10.0">
+                                                                     <image>
+                                                                        <Image url="@../atmimages/send-white.png" />
+                                                                     </image>
+                                                                  </ImageView>
+                                                                  <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-white" text="Withdrawal" translateX="25.0" translateY="-1.0">
+                                                                     <font>
+                                                                        <Font size="15.0" />
+                                                                     </font>
+                                                                  </Text>
+                                                               </children>
+                                                            </HBox>
+                                                         </children>
+                                                      </AnchorPane>
+                                                   </children>
+                                                </AnchorPane>
+                                             </children>
+                                          </GridPane>
+                                       </children>
+                                       <padding>
+                                          <Insets bottom="-50.0" top="5.0" />
+                                       </padding>
+                                    </VBox>
+                                 </children>
+                              </AnchorPane>
+                              <AnchorPane maxHeight="317.0" maxWidth="375.0" prefHeight="317.0" prefWidth="375.0" styleClass="anchorPane-flexible-white">
+                                 <children>
+                                    <VBox alignment="TOP_CENTER" prefHeight="343.0" prefWidth="375.0" spacing="5.0">
+                                       <children>
+                                          <HBox alignment="CENTER_LEFT" prefHeight="21.0" prefWidth="375.0" spacing="198.0">
+                                             <children>
+                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-small-black" text="Transactions" textAlignment="CENTER" />
+                                                <Text fx:id="seeMoreWButton" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-blue" text="See more" textAlignment="CENTER" />
+                                             </children>
+                                             <VBox.margin>
+                                                <Insets left="15.0" />
+                                             </VBox.margin>
+                                          </HBox>
+                                          <ScrollPane id="3" fx:id="transactionVerticalScroll" hbarPolicy="NEVER" maxHeight="332.0" maxWidth="391.0" pannable="true" prefHeight="272.0" prefWidth="391.0" styleClass="scroll-pane-transaction" vbarPolicy="ALWAYS">
+                                             <content>
+                                                <VBox fx:id="transactionContainer" alignment="TOP_CENTER" prefHeight="800.0" prefWidth="373.0" spacing="3.0">
+                                                   <children>
+                                                      <AnchorPane fx:id="transactionDate" maxHeight="55.0" maxWidth="398.0" prefHeight="55.0" prefWidth="7.0" styleClass="anchorPane-transaction-date">
+                                                         <children>
+                                                            <BorderPane layoutX="3.0" maxHeight="35.0" maxWidth="377.0" prefHeight="35.0" prefWidth="364.0">
+                                                               <left>
+                                                                  <Text id="transactionDate" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-grey" text="22 May 2025" BorderPane.alignment="CENTER_RIGHT" />
+                                                               </left>
+                                                               <right>
+                                                                  <Text id="transactionTotal" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-grey" text="+1,235.99" textAlignment="RIGHT" BorderPane.alignment="CENTER_RIGHT" />
+                                                               </right>
+                                                               <padding>
+                                                                  <Insets left="10.0" right="8.0" />
+                                                               </padding>
+                                                            </BorderPane>
+                                                         </children>
+                                                      </AnchorPane>
+                                                      <AnchorPane fx:id="transactionItem" maxHeight="156.0" maxWidth="398.0" prefHeight="93.0" prefWidth="404.0" styleClass="anchorPane-transaction-item">
+                                                         <children>
+                                                            <Text id="transactionName" layoutX="72.0" layoutY="24.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-small-black" text="John doe" />
+                                                            <Text id="transactionDate" layoutX="72.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-grey" text="22 May 2025" />
+                                                            <Text id="transactionTime" layoutX="300.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-grey" text="05:30pm" textAlignment="RIGHT" />
+                                                            <Text id="transactionAmount" layoutX="292.0" layoutY="24.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-small-blue" text="+1,235.99" textAlignment="RIGHT" />
+                                                            <AnchorPane layoutX="7.0" layoutY="5.0" prefHeight="53.0" prefWidth="54.0" styleClass="anchorPane-flexible-blue" />
+                                                            <ImageView id="transactionIcon" fitHeight="40.0" fitWidth="40.0" layoutX="14.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
+                                                               <image>
+                                                                  <Image url="@../atmimages/profile-white.png" />
+                                                               </image>
+                                                            </ImageView>
+                                                         </children>
+                                                      </AnchorPane>
+                                                      <AnchorPane maxHeight="156.0" maxWidth="398.0" prefHeight="93.0" prefWidth="404.0" styleClass="anchorPane-transaction-item">
+                                                         <children>
+                                                            <Text id="transactionName" layoutX="72.0" layoutY="24.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-small-black" text="John doe" />
+                                                            <Text id="transactionDate" layoutX="72.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-grey" text="22 May 2025" />
+                                                            <Text id="transactionTime" layoutX="300.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-grey" text="05:30pm" textAlignment="RIGHT" />
+                                                            <Text id="transactionAmount" layoutX="292.0" layoutY="24.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-small-blue" text="+1,235.99" textAlignment="RIGHT" />
+                                                            <AnchorPane layoutX="7.0" layoutY="5.0" prefHeight="53.0" prefWidth="54.0" styleClass="anchorPane-flexible-blue" />
+                                                            <ImageView id="transactionIcon" fitHeight="40.0" fitWidth="40.0" layoutX="14.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
+                                                               <image>
+                                                                  <Image url="@../atmimages/profile-white.png" />
+                                                               </image>
+                                                            </ImageView>
+                                                         </children>
+                                                      </AnchorPane>
+                                                      <AnchorPane fx:id="transactionItem2" maxHeight="156.0" maxWidth="398.0" prefHeight="93.0" prefWidth="404.0" styleClass="anchorPane-transaction-item">
+                                                         <children>
+                                                            <Text id="transactionName" layoutX="72.0" layoutY="24.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-small-black" text="John doe" />
+                                                            <Text id="transactionDate" layoutX="72.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-grey" text="22 May 2025" />
+                                                            <Text id="transactionTime" layoutX="300.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-grey" text="05:30pm" textAlignment="RIGHT" />
+                                                            <Text id="transactionAmount" layoutX="292.0" layoutY="24.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-small-blue" text="+1,235.99" textAlignment="RIGHT" />
+                                                            <AnchorPane layoutX="7.0" layoutY="5.0" prefHeight="53.0" prefWidth="54.0" styleClass="anchorPane-flexible-blue" />
+                                                            <ImageView id="transactionIcon" fitHeight="40.0" fitWidth="40.0" layoutX="14.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
+                                                               <image>
+                                                                  <Image url="@../atmimages/profile-white.png" />
+                                                               </image>
+                                                            </ImageView>
+                                                         </children>
+                                                      </AnchorPane>
+                                                      <AnchorPane fx:id="transactionItem3" maxHeight="156.0" maxWidth="398.0" prefHeight="93.0" prefWidth="404.0" styleClass="anchorPane-transaction-item">
+                                                         <children>
+                                                            <Text id="transactionName" layoutX="72.0" layoutY="24.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-small-black" text="John doe" />
+                                                            <Text id="transactionDate" layoutX="72.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-grey" text="22 May 2025" />
+                                                            <Text id="transactionTime" layoutX="300.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-grey" text="05:30pm" textAlignment="RIGHT" />
+                                                            <Text id="transactionAmount" layoutX="292.0" layoutY="24.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-small-blue" text="+1,235.99" textAlignment="RIGHT" />
+                                                            <AnchorPane layoutX="7.0" layoutY="5.0" prefHeight="53.0" prefWidth="54.0" styleClass="anchorPane-flexible-blue" />
+                                                            <ImageView id="transactionIcon" fitHeight="40.0" fitWidth="40.0" layoutX="14.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
+                                                               <image>
+                                                                  <Image url="@../atmimages/profile-white.png" />
+                                                               </image>
+                                                            </ImageView>
+                                                         </children>
+                                                      </AnchorPane>
+                                                   </children>
+                                                </VBox>
+                                             </content>
+                                             <VBox.margin>
+                                                <Insets top="5.0" />
+                                             </VBox.margin>
+                                             <padding>
+                                                <Insets right="-14.0" />
+                                             </padding>
+                                          </ScrollPane>
+                                       </children>
+                                       <padding>
+                                          <Insets top="10.0" />
+                                       </padding>
+                                    </VBox>
+                                 </children>
+                              </AnchorPane>
+                              <AnchorPane maxHeight="317.0" maxWidth="375.0" prefHeight="317.0" prefWidth="375.0" styleClass="anchorPane-flexible">
+                                 <children>
+                                    <VBox alignment="CENTER_LEFT" prefHeight="312.0" prefWidth="375.0" spacing="5.0">
+                                       <children>
+                                          <VBox alignment="CENTER" prefHeight="36.0" prefWidth="375.0">
+                                             <children>
+                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-medium-black" text="Deposits" textAlignment="CENTER" />
+                                                <Text fx:id="seeMoreDButton" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-blue" text="See more" textAlignment="CENTER" />
+                                             </children>
+                                          </VBox>
+                                          <ScrollPane id="3" hbarPolicy="NEVER" maxHeight="332.0" maxWidth="470.0" pannable="true" prefHeight="274.0" prefWidth="470.0" styleClass="scroll-pane-transaction" vbarPolicy="ALWAYS">
+                                             <content>
+                                                <VBox prefHeight="800.0" prefWidth="377.0" spacing="3.0">
+                                                   <children>
+                                                      <AnchorPane maxHeight="55.0" maxWidth="398.0" prefHeight="55.0" prefWidth="404.0" styleClass="anchorPane-transaction-date">
+                                                         <children>
+                                                            <Text id="transactionDate" layoutX="14.0" layoutY="23.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-grey" text="22 May 2025" />
+                                                         </children>
+                                                      </AnchorPane>
+                                                      <AnchorPane maxHeight="156.0" maxWidth="398.0" prefHeight="93.0" prefWidth="404.0" styleClass="anchorPane-transaction-item">
+                                                         <children>
+                                                            <Text id="transactionName" layoutX="72.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-small-black" text="John doe" translateY="15.0" />
+                                                            <Text id="transactionDate" layoutX="72.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-grey" text="22 May 2025" />
+                                                            <Text id="transactionTime" layoutX="298.0" layoutY="49.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-grey-card" text="05:30pm" textAlignment="RIGHT" />
+                                                            <Text id="transactionAmount" layoutX="285.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-small-blue" text="+1,235.99" textAlignment="RIGHT" />
+                                                            <AnchorPane layoutX="8.0" layoutY="11.0" prefHeight="53.0" prefWidth="54.0" styleClass="anchorPane-flexible-blue" />
+                                                            <ImageView id="transactionIcon" fitHeight="40.0" fitWidth="40.0" layoutX="15.0" layoutY="17.0" pickOnBounds="true" preserveRatio="true">
+                                                               <image>
+                                                                  <Image url="@../atmimages/profile-white.png" />
+                                                               </image>
+                                                            </ImageView>
+                                                         </children>
+                                                      </AnchorPane>
+                                                      <AnchorPane maxHeight="156.0" maxWidth="398.0" prefHeight="93.0" prefWidth="404.0" styleClass="anchorPane-transaction-item">
+                                                         <children>
+                                                            <Text id="transactionName" layoutX="72.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-small-black" text="John doe" translateY="15.0" />
+                                                            <Text id="transactionDate" layoutX="72.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-grey" text="22 May 2025" />
+                                                            <Text id="transactionTime" layoutX="298.0" layoutY="49.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-grey-card" text="05:30pm" textAlignment="RIGHT" />
+                                                            <Text id="transactionAmount" layoutX="285.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-small-blue" text="+1,235.99" textAlignment="RIGHT" />
+                                                            <AnchorPane layoutX="8.0" layoutY="11.0" prefHeight="53.0" prefWidth="54.0" styleClass="anchorPane-flexible-blue" />
+                                                            <ImageView id="transactionIcon" fitHeight="40.0" fitWidth="40.0" layoutX="15.0" layoutY="17.0" pickOnBounds="true" preserveRatio="true">
+                                                               <image>
+                                                                  <Image url="@../atmimages/profile-white.png" />
+                                                               </image>
+                                                            </ImageView>
+                                                         </children>
+                                                      </AnchorPane>
+                                                      <AnchorPane maxHeight="156.0" maxWidth="398.0" prefHeight="93.0" prefWidth="404.0" styleClass="anchorPane-transaction-item">
+                                                         <children>
+                                                            <Text id="transactionName" layoutX="72.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-small-black" text="John doe" translateY="15.0" />
+                                                            <Text id="transactionDate" layoutX="72.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-grey" text="22 May 2025" />
+                                                            <Text id="transactionTime" layoutX="298.0" layoutY="49.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-grey-card" text="05:30pm" textAlignment="RIGHT" />
+                                                            <Text id="transactionAmount" layoutX="285.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-small-blue" text="+1,235.99" textAlignment="RIGHT" />
+                                                            <AnchorPane layoutX="8.0" layoutY="11.0" prefHeight="53.0" prefWidth="54.0" styleClass="anchorPane-flexible-blue" />
+                                                            <ImageView id="transactionIcon" fitHeight="40.0" fitWidth="40.0" layoutX="15.0" layoutY="17.0" pickOnBounds="true" preserveRatio="true">
+                                                               <image>
+                                                                  <Image url="@../atmimages/profile-white.png" />
+                                                               </image>
+                                                            </ImageView>
+                                                         </children>
+                                                      </AnchorPane>
+                                                   </children>
+                                                </VBox>
+                                             </content>
+                                             <VBox.margin>
+                                                <Insets />
+                                             </VBox.margin>
+                                             <padding>
+                                                <Insets left="-1.0" right="-15.0" />
+                                             </padding>
+                                          </ScrollPane>
+                                       </children>
+                                       <padding>
+                                          <Insets bottom="-50.0" />
+                                       </padding>
+                                    </VBox>
                                  </children>
                               </AnchorPane>
                            </children>
                         </VBox>
                      </content>
                   </ScrollPane>
-                  <ScrollPane id="3" fx:id="horizontalScroll" fitToHeight="true" hbarPolicy="ALWAYS" layoutX="22.0" layoutY="364.0" maxHeight="82.0" maxWidth="375.0" pannable="true" prefHeight="74.0" prefWidth="375.0" styleClass="scroll-pane-features" vbarPolicy="NEVER">
-                     <HBox fx:id="buttonContainer" alignment="CENTER_LEFT" prefHeight="95.0" prefWidth="1220.0" spacing="10">
-                        <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="anchorPane-features">
-                           <children>
-                              <HBox alignment="CENTER_LEFT" layoutY="1.5" prefHeight="53.0" prefWidth="114.0">
-                                 <children>
-                                    <ImageView fitHeight="35.0" fitWidth="31.0" pickOnBounds="true" preserveRatio="true" translateX="10.0">
-                                       <image>
-                                          <Image url="@../atmimages/send.png" />
-                                       </image>
-                                    </ImageView>
-                                    <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-black" text="Send" translateX="25.0" translateY="-1.0" />
-                                 </children>
-                              </HBox>
-                              <AnchorPane fx:id="sendButton" layoutY="1.5" prefHeight="200.0" prefWidth="200.0" styleClass="anchorPane-features-blue">
-                                 <children>
-                                    <HBox alignment="CENTER_LEFT" prefHeight="53.0" prefWidth="114.0">
-                                       <children>
-                                          <ImageView fitHeight="35.0" fitWidth="31.0" pickOnBounds="true" preserveRatio="true" translateX="10.0">
-                                             <image>
-                                                <Image url="@../atmimages/send-white.png" />
-                                             </image>
-                                          </ImageView>
-                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-white" text="Send" translateX="25.0" translateY="-1.0">
-                                             <font>
-                                                <Font size="15.0" />
-                                             </font>
-                                          </Text>
-                                       </children>
-                                    </HBox>
-                                 </children>
-                              </AnchorPane>
-                           </children>
-                        </AnchorPane>
-                        <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="anchorPane-features">
-                           <children>
-                              <HBox alignment="CENTER_LEFT" layoutY="1.5" prefHeight="53.0" prefWidth="114.0">
-                                 <children>
-                                    <ImageView fitHeight="35.0" fitWidth="31.0" pickOnBounds="true" preserveRatio="true" translateX="10.0">
-                                       <image>
-                                          <Image url="@../atmimages/recieve.png" />
-                                       </image>
-                                    </ImageView>
-                                    <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-black" text="Receive" translateX="19.0" translateY="-1.0" />
-                                 </children>
-                              </HBox>
-                              <AnchorPane fx:id="receiveButton" layoutY="1.5" prefHeight="200.0" prefWidth="200.0" styleClass="anchorPane-features-blue">
-                                 <children>
-                                    <HBox alignment="CENTER_LEFT" prefHeight="53.0" prefWidth="114.0">
-                                       <children>
-                                          <ImageView fitHeight="35.0" fitWidth="31.0" pickOnBounds="true" preserveRatio="true" translateX="10.0">
-                                             <image>
-                                                <Image url="@../atmimages/recieve-white.png" />
-                                             </image>
-                                          </ImageView>
-                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-white" text="Receive" translateX="19.0" translateY="-1.0">
-                                             <font>
-                                                <Font size="15.0" />
-                                             </font>
-                                          </Text>
-                                       </children>
-                                    </HBox>
-                                 </children>
-                              </AnchorPane>
-                           </children>
-                        </AnchorPane>
-                        <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="anchorPane-features">
-                           <children>
-                              <HBox alignment="CENTER_LEFT" layoutY="1.5" prefHeight="53.0" prefWidth="114.0">
-                                 <children>
-                                    <ImageView fitHeight="35.0" fitWidth="31.0" pickOnBounds="true" preserveRatio="true" translateX="10.0">
-                                       <image>
-                                          <Image url="@../atmimages/reward.png" />
-                                       </image>
-                                    </ImageView>
-                                    <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-black" text="Reward" translateX="18.0" translateY="-1.0" />
-                                 </children>
-                              </HBox>
-                              <AnchorPane fx:id="rewardButton" layoutY="1.5" prefHeight="200.0" prefWidth="200.0" styleClass="anchorPane-features-blue">
-                                 <children>
-                                    <HBox alignment="CENTER_LEFT" prefHeight="53.0" prefWidth="114.0">
-                                       <children>
-                                          <ImageView fitHeight="35.0" fitWidth="31.0" pickOnBounds="true" preserveRatio="true" translateX="10.0">
-                                             <image>
-                                                <Image url="@../atmimages/reward-white.png" />
-                                             </image>
-                                          </ImageView>
-                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-white" text="Reward" translateX="18.0" translateY="-1.0">
-                                             <font>
-                                                <Font size="15.0" />
-                                             </font>
-                                          </Text>
-                                       </children>
-                                    </HBox>
-                                 </children>
-                              </AnchorPane>
-                           </children>
-                        </AnchorPane>
-                        <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="anchorPane-features">
-                           <children>
-                              <HBox alignment="CENTER_LEFT" layoutY="1.5" prefHeight="53.0" prefWidth="114.0">
-                                 <children>
-                                    <ImageView fitHeight="35.0" fitWidth="31.0" opacity="0.0" pickOnBounds="true" preserveRatio="true" translateX="10.0">
-                                       <image>
-                                          <Image url="@../atmimages/reward.png" />
-                                       </image>
-                                    </ImageView>
-                                    <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-black" text="Option " translateX="18.0" translateY="-1.0" />
-                                 </children>
-                              </HBox>
-                              <AnchorPane layoutY="1.5" prefHeight="200.0" prefWidth="200.0" styleClass="anchorPane-features-blue">
-                                 <children>
-                                    <HBox alignment="CENTER_LEFT" prefHeight="53.0" prefWidth="114.0">
-                                       <children>
-                                          <ImageView fitHeight="35.0" fitWidth="31.0" opacity="0.0" pickOnBounds="true" preserveRatio="true" translateX="10.0">
-                                             <image>
-                                                <Image url="@../atmimages/reward-white.png" />
-                                             </image>
-                                          </ImageView>
-                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-white" text="Option " translateX="18.0" translateY="-1.0">
-                                             <font>
-                                                <Font size="15.0" />
-                                             </font>
-                                          </Text>
-                                       </children>
-                                    </HBox>
-                                 </children>
-                              </AnchorPane>
-                           </children>
-                        </AnchorPane>
-                        <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="anchorPane-features">
-                           <children>
-                              <HBox alignment="CENTER_LEFT" layoutY="1.5" prefHeight="53.0" prefWidth="114.0">
-                                 <children>
-                                    <ImageView fitHeight="35.0" fitWidth="31.0" opacity="0.0" pickOnBounds="true" preserveRatio="true" translateX="10.0">
-                                       <image>
-                                          <Image url="@../atmimages/reward.png" />
-                                       </image>
-                                    </ImageView>
-                                    <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-black" text="Option " translateX="18.0" translateY="-1.0" />
-                                 </children>
-                              </HBox>
-                              <AnchorPane layoutY="1.5" prefHeight="200.0" prefWidth="200.0" styleClass="anchorPane-features-blue">
-                                 <children>
-                                    <HBox alignment="CENTER_LEFT" prefHeight="53.0" prefWidth="114.0">
-                                       <children>
-                                          <ImageView fitHeight="35.0" fitWidth="31.0" opacity="0.0" pickOnBounds="true" preserveRatio="true" translateX="10.0">
-                                             <image>
-                                                <Image url="@../atmimages/reward-white.png" />
-                                             </image>
-                                          </ImageView>
-                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-white" text="Option " translateX="18.0" translateY="-1.0">
-                                             <font>
-                                                <Font size="15.0" />
-                                             </font>
-                                          </Text>
-                                       </children>
-                                    </HBox>
-                                 </children>
-                              </AnchorPane>
-                           </children>
-                        </AnchorPane>
-                        <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="anchorPane-features">
-                           <children>
-                              <HBox alignment="CENTER_LEFT" layoutY="1.5" prefHeight="53.0" prefWidth="114.0">
-                                 <children>
-                                    <ImageView fitHeight="35.0" fitWidth="31.0" opacity="0.0" pickOnBounds="true" preserveRatio="true" translateX="10.0">
-                                       <image>
-                                          <Image url="@../atmimages/reward.png" />
-                                       </image>
-                                    </ImageView>
-                                    <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-black" text="Option " translateX="18.0" translateY="-1.0" />
-                                 </children>
-                              </HBox>
-                              <AnchorPane layoutY="1.5" prefHeight="200.0" prefWidth="200.0" styleClass="anchorPane-features-blue">
-                                 <children>
-                                    <HBox alignment="CENTER_LEFT" prefHeight="53.0" prefWidth="114.0">
-                                       <children>
-                                          <ImageView fitHeight="35.0" fitWidth="31.0" opacity="0.0" pickOnBounds="true" preserveRatio="true" translateX="10.0">
-                                             <image>
-                                                <Image url="@../atmimages/reward-white.png" />
-                                             </image>
-                                          </ImageView>
-                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-white" text="Option " translateX="18.0" translateY="-1.0">
-                                             <font>
-                                                <Font size="15.0" />
-                                             </font>
-                                          </Text>
-                                       </children>
-                                    </HBox>
-                                 </children>
-                              </AnchorPane>
-                           </children>
-                        </AnchorPane>
-                        <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="anchorPane-features">
-                           <children>
-                              <HBox alignment="CENTER_LEFT" layoutY="1.5" prefHeight="53.0" prefWidth="114.0">
-                                 <children>
-                                    <ImageView fitHeight="35.0" fitWidth="31.0" opacity="0.0" pickOnBounds="true" preserveRatio="true" translateX="10.0">
-                                       <image>
-                                          <Image url="@../atmimages/reward.png" />
-                                       </image>
-                                    </ImageView>
-                                    <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-black" text="Option " translateX="18.0" translateY="-1.0" />
-                                 </children>
-                              </HBox>
-                              <AnchorPane layoutY="1.5" prefHeight="200.0" prefWidth="200.0" styleClass="anchorPane-features-blue">
-                                 <children>
-                                    <HBox alignment="CENTER_LEFT" prefHeight="53.0" prefWidth="114.0">
-                                       <children>
-                                          <ImageView fitHeight="35.0" fitWidth="31.0" opacity="0.0" pickOnBounds="true" preserveRatio="true" translateX="10.0">
-                                             <image>
-                                                <Image url="@../atmimages/reward-white.png" />
-                                             </image>
-                                          </ImageView>
-                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-white" text="Option " translateX="18.0" translateY="-1.0">
-                                             <font>
-                                                <Font size="15.0" />
-                                             </font>
-                                          </Text>
-                                       </children>
-                                    </HBox>
-                                 </children>
-                              </AnchorPane>
-                           </children>
-                        </AnchorPane>
-                        <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="anchorPane-features">
-                           <children>
-                              <HBox alignment="CENTER_LEFT" layoutY="1.5" prefHeight="53.0" prefWidth="114.0">
-                                 <children>
-                                    <ImageView fitHeight="35.0" fitWidth="31.0" opacity="0.0" pickOnBounds="true" preserveRatio="true" translateX="10.0">
-                                       <image>
-                                          <Image url="@../atmimages/reward.png" />
-                                       </image>
-                                    </ImageView>
-                                    <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-black" text="Option " translateX="18.0" translateY="-1.0" />
-                                 </children>
-                              </HBox>
-                              <AnchorPane layoutY="1.5" prefHeight="200.0" prefWidth="200.0" styleClass="anchorPane-features-blue">
-                                 <children>
-                                    <HBox alignment="CENTER_LEFT" prefHeight="53.0" prefWidth="114.0">
-                                       <children>
-                                          <ImageView fitHeight="35.0" fitWidth="31.0" opacity="0.0" pickOnBounds="true" preserveRatio="true" translateX="10.0">
-                                             <image>
-                                                <Image url="@../atmimages/reward-white.png" />
-                                             </image>
-                                          </ImageView>
-                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-white" text="Option " translateX="18.0" translateY="-1.0">
-                                             <font>
-                                                <Font size="15.0" />
-                                             </font>
-                                          </Text>
-                                       </children>
-                                    </HBox>
-                                 </children>
-                              </AnchorPane>
-                           </children>
-                        </AnchorPane>
-                        <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="anchorPane-features">
-                           <children>
-                              <HBox alignment="CENTER_LEFT" layoutY="1.5" prefHeight="53.0" prefWidth="114.0">
-                                 <children>
-                                    <ImageView fitHeight="35.0" fitWidth="31.0" opacity="0.0" pickOnBounds="true" preserveRatio="true" translateX="10.0">
-                                       <image>
-                                          <Image url="@../atmimages/reward.png" />
-                                       </image>
-                                    </ImageView>
-                                    <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-black" text="Option " translateX="18.0" translateY="-1.0" />
-                                 </children>
-                              </HBox>
-                              <AnchorPane layoutY="1.5" prefHeight="200.0" prefWidth="200.0" styleClass="anchorPane-features-blue">
-                                 <children>
-                                    <HBox alignment="CENTER_LEFT" prefHeight="53.0" prefWidth="114.0">
-                                       <children>
-                                          <ImageView fitHeight="35.0" fitWidth="31.0" opacity="0.0" pickOnBounds="true" preserveRatio="true" translateX="10.0">
-                                             <image>
-                                                <Image url="@../atmimages/reward-white.png" />
-                                             </image>
-                                          </ImageView>
-                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-white" text="Option " translateX="18.0" translateY="-1.0">
-                                             <font>
-                                                <Font size="15.0" />
-                                             </font>
-                                          </Text>
-                                       </children>
-                                    </HBox>
-                                 </children>
-                              </AnchorPane>
-                           </children>
-                        </AnchorPane>
-                     </HBox>
-                  </ScrollPane>
                </children>
             </AnchorPane>
-            <AnchorPane opacity="0.98" prefHeight="200.0" prefWidth="200.0" styleClass="anchorPane" />
+            <AnchorPane opacity="0.98" prefHeight="200.0" prefWidth="200.0" styleClass="anchorPane">
+               <children>
+                  <AnchorPane id="creditCard" layoutX="20.0" layoutY="140.0" prefHeight="185.0" prefWidth="230.0" styleClass="credit-card-small">
+                     <children>
+                        <ImageView fitHeight="185.0" fitWidth="375.0" opacity="0.34" pickOnBounds="true" preserveRatio="true" styleClass="images">
+                           <image>
+                              <Image url="@../atmimages/smallcardBackground.png" />
+                           </image>
+                        </ImageView>
+                        <Text fx:id="accountType1" layoutX="1.0" layoutY="4.0" opacity="0.75" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-small-white" text="Basic Account" translateX="5.0" translateY="15.0" />
+                        <Text fx:id="username1" layoutX="309.0" layoutY="18.0" opacity="0.75" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-small-white" text="John doe" textAlignment="RIGHT" />
+                        <Text fx:id="accountPIN1" layoutX="255.0" layoutY="159.0" opacity="0.75" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-small-white" text="53-22-11 634532" textAlignment="RIGHT" />
+                        <Text fx:id="accountCompany1" layoutX="6.0" layoutY="159.0" opacity="0.75" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-small-white" text="Mastercard" />
+                        <VBox alignment="CENTER" layoutY="50.0" prefHeight="53.0" prefWidth="364.0">
+                           <children>
+                              <Text fx:id="accountBalance1" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-large-white" text="£1,234.99" textAlignment="CENTER" />
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-small-white" text="Total balance" textAlignment="RIGHT" />
+                           </children>
+                        </VBox>
+                        <ImageView fx:id="accountCompanyIcon1" fitHeight="32.0" fitWidth="34.0" layoutX="166.0" layoutY="118.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../atmimages/mastercard.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </AnchorPane>
+               </children></AnchorPane>
             <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="anchorPane" />
          </children>
       </HBox>
@@ -365,17 +442,17 @@
       <AnchorPane mouseTransparent="true" pickOnBounds="false" prefHeight="200.0" prefWidth="200.0" rotate="180.0" styleClass="anchorPane-gradient-side-white" translateX="1242.0" />
       <AnchorPane fx:id="transactionScene" prefHeight="732.0" prefWidth="414.0" styleClass="anchorPane-grey" translateY="896.0">
          <children>
-            <Text layoutX="158.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-big-black" text="Send Cash" textAlignment="CENTER" />
-            <Text layoutX="23.0" layoutY="98.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-big-black" text="Select card" textAlignment="CENTER" />
-            <Text layoutX="95.0" layoutY="57.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-blue" text="Instant Transfer With One Touch " textAlignment="CENTER" />
-            <AnchorPane fx:id="cardItemGrey1" layoutX="24.0" layoutY="112.0" minHeight="30.0" prefHeight="30.0" prefWidth="157.0" styleClass="baseAnchorPane" />
+            <Text layoutX="157.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-big-black" text="Send Cash" textAlignment="CENTER" />
+            <Text layoutX="21.0" layoutY="108.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-small-black" text="Select card" textAlignment="CENTER" />
+            <Text layoutX="80.0" layoutY="57.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-blue" text="Instant Transfer With A Single Touch " textAlignment="CENTER" />
+            <AnchorPane fx:id="cardItemGrey1" layoutX="24.0" layoutY="112.0" minHeight="30.0" prefHeight="53.0" prefWidth="157.0" styleClass="baseAnchorPane" />
             <ScrollPane id="3" fx:id="cardHorizontalScroll" fitToHeight="true" hbarPolicy="ALWAYS" layoutX="21.0" layoutY="110.0" maxHeight="82.0" maxWidth="408.0" pannable="true" prefHeight="74.0" prefWidth="315.0" styleClass="scroll-pane-features" vbarPolicy="NEVER">
                <content>
                   <HBox fx:id="cardContainer" alignment="CENTER_LEFT" prefHeight="55.0" prefWidth="796.0" spacing="10">
                      <children>
-                        <AnchorPane fx:id="cardItemContainer" minHeight="30.0" prefHeight="30.0" prefWidth="157.0" styleClass="anchorPane-cardContainer">
+                        <AnchorPane fx:id="cardItemContainer" minHeight="41.0" prefHeight="77.0" prefWidth="184.0" styleClass="anchorPane-cardContainer">
                            <children>
-                              <AnchorPane fx:id="cardItemGrey" minHeight="30.0" prefHeight="30.0" prefWidth="157.0" styleClass="anchorPane-cards-grey">
+                              <AnchorPane fx:id="cardItemGrey" minHeight="30.0" prefHeight="106.0" prefWidth="157.0" styleClass="anchorPane-cards-grey">
                                  <children>
                                     <ImageView id="cardIcon" fitHeight="32.0" fitWidth="34.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
@@ -385,7 +462,7 @@
                                     <Text id="cardName" layoutX="47.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-grey-card" text="Physical Mastercard" />
                                  </children>
                               </AnchorPane>
-                              <AnchorPane fx:id="cardItemBlue" minHeight="30.0" prefHeight="30.0" prefWidth="157.0" styleClass="anchorPane-cards">
+                              <AnchorPane fx:id="cardItemBlue" minHeight="32.0" prefHeight="68.0" prefWidth="157.0" styleClass="anchorPane-cards">
                                  <children>
                                     <ImageView id="cardIcon" fitHeight="32.0" fitWidth="34.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
@@ -393,7 +470,7 @@
                                        </image>
                                     </ImageView>
                                     <Text id="cardName" layoutX="47.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-white-card" text="Physical Mastercard" />
-                                    <Text id="cardNumber" layoutX="47.0" layoutY="45.0" opacity="0.5" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-small-white" text="No. 23512" />
+                                    <Text id="cardNumber" layoutX="47.0" layoutY="45.0" opacity="0.5" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-small-white" text="53-22-11 634532" />
                                  </children>
                               </AnchorPane>
                            </children>
@@ -401,17 +478,20 @@
                      </children>
                   </HBox>
                </content>
+               <padding>
+                  <Insets bottom="-10.0" />
+               </padding>
             </ScrollPane>
-            <Text layoutX="26.0" layoutY="227.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-big-black" text="Choose recipient" textAlignment="CENTER" />
-            <TextField fx:id="recipientTextField" editable="false" layoutX="23.0" layoutY="242.0" promptText="Enter 6 digit PIN code" styleClass="baseTextField" text="Enter 6 digit PIN code">
+            <Text layoutX="22.0" layoutY="194.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-small-black" text="Choose recipient" textAlignment="CENTER" />
+            <TextField fx:id="recipientTextField" editable="false" layoutX="22.0" layoutY="199.0" prefWidth="375.0" promptText="Enter 6 digit PIN code" styleClass="baseTextField" text="Enter 6 digit PIN code">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets></TextField>
             <Button fx:id="exitButton" layoutX="173.0" layoutY="3.0" mnemonicParsing="false" prefHeight="16.0" prefWidth="152.0" styleClass="exitButton" text="exitButton" />
-            <Text layoutX="28.0" layoutY="311.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-big-black" text="Shown payees" textAlignment="CENTER" />
-            <ScrollPane id="3" fitToHeight="true" hbarPolicy="ALWAYS" layoutX="21.0" layoutY="324.0" maxHeight="90.0" maxWidth="383.0" pannable="true" prefHeight="90.0" prefWidth="383.0" styleClass="scroll-pane-payees" vbarPolicy="NEVER">
+            <Text layoutX="24.0" layoutY="273.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-small-black" text="Shown payees" textAlignment="CENTER" />
+            <ScrollPane id="3" fitToHeight="true" hbarPolicy="ALWAYS" layoutX="21.0" layoutY="280.0" maxHeight="90.0" maxWidth="383.0" pannable="true" prefHeight="90.0" prefWidth="370.0" styleClass="scroll-pane-payees" vbarPolicy="NEVER">
                <content>
-                  <HBox alignment="CENTER_LEFT" prefHeight="72.0" prefWidth="796.0" spacing="10">
+                  <HBox alignment="CENTER_LEFT" prefHeight="72.0" prefWidth="796.0" spacing="5.0">
                      <children>
                         <AnchorPane minHeight="30.0" minWidth="57.0" prefHeight="55.0" prefWidth="57.0" styleClass="anchorPane-cardContainer">
                            <children>
@@ -447,9 +527,9 @@
                   </HBox>
                </content>
             </ScrollPane>
-            <ScrollPane id="3" fx:id="payeesHorizontalScroll" fitToHeight="true" hbarPolicy="ALWAYS" layoutX="21.0" layoutY="324.0" maxHeight="90.0" maxWidth="408.0" pannable="true" prefHeight="90.0" prefWidth="315.0" styleClass="scroll-pane-payees" vbarPolicy="NEVER">
+            <ScrollPane id="3" fx:id="payeesHorizontalScroll" fitToHeight="true" fitToWidth="true" hbarPolicy="ALWAYS" layoutX="21.0" layoutY="280.0" maxHeight="90.0" maxWidth="408.0" pannable="true" prefHeight="90.0" prefWidth="315.0" styleClass="scroll-pane-payees" vbarPolicy="NEVER">
                <content>
-                  <HBox fx:id="payeesContainer" alignment="CENTER_LEFT" prefHeight="72.0" prefWidth="796.0" spacing="10">
+                  <HBox fx:id="payeesContainer" alignment="CENTER_LEFT" prefHeight="72.0" prefWidth="796.0" spacing="5.0">
                      <children>
                         <AnchorPane fx:id="payeeItemContainer" minHeight="30.0" minWidth="57.0" prefHeight="55.0" prefWidth="57.0" styleClass="anchorPane-cardContainer">
                            <children>
@@ -485,39 +565,227 @@
                               </AnchorPane>
                            </children>
                         </AnchorPane>
+                        <AnchorPane fx:id="payeeItemContainer1" minHeight="30.0" minWidth="57.0" prefHeight="55.0" prefWidth="57.0" styleClass="anchorPane-cardContainer">
+                           <children>
+                              <AnchorPane fx:id="payeeItemGrey1" minHeight="30.0" prefHeight="72.0" prefWidth="0.0" styleClass="anchorPane-payees">
+                                 <children>
+                                    <VBox alignment="BOTTOM_CENTER" prefHeight="72.0" prefWidth="43.0">
+                                       <children>
+                                          <Circle fill="DODGERBLUE" radius="27.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" styleClass="baseCircle-grey" />
+                                          <Text id="payeeName" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-grey" text="John" textAlignment="CENTER" />
+                                       </children>
+                                    </VBox>
+                                    <ImageView id="payeeIcon" fitHeight="32.0" fitWidth="34.0" layoutX="11.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../atmimages/profile-white.png" />
+                                       </image>
+                                    </ImageView>
+                                 </children>
+                              </AnchorPane>
+                              <AnchorPane fx:id="payeeItemBlue1" minHeight="30.0" prefHeight="72.0" prefWidth="0.0" styleClass="anchorPane-payees">
+                                 <children>
+                                    <VBox alignment="BOTTOM_CENTER" prefHeight="72.0" prefWidth="43.0">
+                                       <children>
+                                          <Circle id="payeeBackground" fill="DODGERBLUE" radius="27.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" styleClass="baseCircle" />
+                                          <Text id="payeeName" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-black" text="John" textAlignment="CENTER" />
+                                       </children>
+                                    </VBox>
+                                    <ImageView id="payeeIcon" fitHeight="32.0" fitWidth="34.0" layoutX="11.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../atmimages/profile-white.png" />
+                                       </image>
+                                    </ImageView>
+                                 </children>
+                              </AnchorPane>
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane fx:id="payeeItemContainer2" minHeight="30.0" minWidth="57.0" prefHeight="55.0" prefWidth="57.0" styleClass="anchorPane-cardContainer">
+                           <children>
+                              <AnchorPane fx:id="payeeItemGrey2" minHeight="30.0" prefHeight="72.0" prefWidth="0.0" styleClass="anchorPane-payees">
+                                 <children>
+                                    <VBox alignment="BOTTOM_CENTER" prefHeight="72.0" prefWidth="43.0">
+                                       <children>
+                                          <Circle fill="DODGERBLUE" radius="27.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" styleClass="baseCircle-grey" />
+                                          <Text id="payeeName" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-grey" text="John" textAlignment="CENTER" />
+                                       </children>
+                                    </VBox>
+                                    <ImageView id="payeeIcon" fitHeight="32.0" fitWidth="34.0" layoutX="11.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../atmimages/profile-white.png" />
+                                       </image>
+                                    </ImageView>
+                                 </children>
+                              </AnchorPane>
+                              <AnchorPane fx:id="payeeItemBlue2" minHeight="30.0" prefHeight="72.0" prefWidth="0.0" styleClass="anchorPane-payees">
+                                 <children>
+                                    <VBox alignment="BOTTOM_CENTER" prefHeight="72.0" prefWidth="43.0">
+                                       <children>
+                                          <Circle id="payeeBackground" fill="DODGERBLUE" radius="27.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" styleClass="baseCircle" />
+                                          <Text id="payeeName" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-black" text="John" textAlignment="CENTER" />
+                                       </children>
+                                    </VBox>
+                                    <ImageView id="payeeIcon" fitHeight="32.0" fitWidth="34.0" layoutX="11.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../atmimages/profile-white.png" />
+                                       </image>
+                                    </ImageView>
+                                 </children>
+                              </AnchorPane>
+                           </children>
+                        </AnchorPane>
                      </children>
                   </HBox>
                </content>
             </ScrollPane>
-            <Text layoutX="28.0" layoutY="427.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-big-black" text="Amount" textAlignment="CENTER" />
-            <Text layoutX="24.0" layoutY="188.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-blue" text="Selected card:" />
-            <Button alignment="CENTER" contentDisplay="CENTER" layoutX="34.0" layoutY="675.0" mnemonicParsing="false" styleClass="baseButton" text="Continue" textAlignment="CENTER" />
-            <Button alignment="CENTER" contentDisplay="CENTER" layoutX="34.0" layoutY="675.0" mnemonicParsing="false" styleClass="baseButton-pinpoint" text="Continue" textAlignment="CENTER" />
-            <TextField fx:id="amountTextField" editable="false" layoutX="23.0" layoutY="442.0" promptText="Enter the amount" styleClass="baseTextField" text="Enter the amount">
+            <Text layoutX="24.0" layoutY="379.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-small-black" text="Amount" textAlignment="CENTER" />
+            <Button alignment="CENTER" contentDisplay="CENTER" layoutX="32.0" layoutY="469.0" mnemonicParsing="false" styleClass="baseButton-pinpoint" text="Continue" textAlignment="CENTER" />
+            <Button fx:id="sendCashButton" alignment="CENTER" contentDisplay="CENTER" layoutX="32.0" layoutY="469.0" mnemonicParsing="false" opacity="0.0" styleClass="baseButton-blue" text="Continue" textAlignment="CENTER" />
+            <TextField fx:id="amountTextField" editable="false" layoutX="22.0" layoutY="386.0" promptText="Enter the amount" styleClass="baseTextField" text="Enter the amount">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
             </TextField>
-            <Text layoutX="25.0" layoutY="514.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-blue" text="Available balance:" textAlignment="CENTER" />
-            <Text layoutX="149.0" layoutY="514.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-small-black" text="£ 21.99" textAlignment="CENTER" />
-            <Text layoutX="118.0" layoutY="188.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-small-black" text="John doe Mastercard" textAlignment="CENTER" />
+            <Text layoutX="24.0" layoutY="450.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-grey" text="Available balance:" textAlignment="CENTER" />
+            <Text fx:id="textSelectedBalance" layoutX="148.0" layoutY="450.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-blue" text="£ 21.99" textAlignment="CENTER" />
+            <Text fx:id="textSelectedCard" layoutX="134.0" layoutY="105.0" opacity="0.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-blue" text="53-22-11 634532" />
+            <Text fx:id="textSelectedPayee" layoutX="192.0" layoutY="191.0" opacity="0.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-blue" text="John doe" />
          </children>
       </AnchorPane>
-      <HBox alignment="CENTER" layoutY="806.0" prefHeight="100.0" prefWidth="200.0" spacing="50.0" styleClass="hBox-hotbar-background">
+      <AnchorPane fx:id="transactionSummaryScene" prefHeight="732.0" prefWidth="414.0" styleClass="anchorPane-grey" translateX="425.0" translateY="896.0">
+         <children>
+            <Text layoutX="102.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-big-black" text="Transaction Summary" textAlignment="CENTER" />
+            <Text layoutX="111.0" layoutY="57.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-blue" text="View the amount of moolah" textAlignment="CENTER" />
+            <Button fx:id="exitButton1" layoutX="173.0" layoutY="3.0" mnemonicParsing="false" prefHeight="16.0" prefWidth="152.0" styleClass="exitButton" text="exitButton" />
+            <AnchorPane layoutX="1.0" layoutY="300.0" maxHeight="519.0" maxWidth="414.0" prefHeight="519.0" prefWidth="414.0" styleClass="anchorPane-flexible-white">
+               <children>
+                  <VBox alignment="TOP_CENTER" layoutY="-1.0" prefHeight="519.0" prefWidth="414.0" spacing="5.0">
+                     <children>
+                        <BorderPane prefHeight="8.0" prefWidth="414.0">
+                           <left>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-small-black" text="Transactions" textAlignment="CENTER" BorderPane.alignment="CENTER_RIGHT">
+                                 <BorderPane.margin>
+                                    <Insets left="35.0" />
+                                 </BorderPane.margin>
+                              </Text>
+                           </left>
+                           <right>
+                              <Text fx:id="sortButton" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-blue" text="All" textAlignment="RIGHT" BorderPane.alignment="CENTER_LEFT">
+                                 <BorderPane.margin>
+                                    <Insets right="50.0" />
+                                 </BorderPane.margin>
+                              </Text>
+                           </right>
+                        </BorderPane>
+                        <ScrollPane id="3" fx:id="transactionVerticalScroll1" hbarPolicy="NEVER" maxHeight="332.0" maxWidth="391.0" pannable="true" prefHeight="272.0" prefWidth="391.0" styleClass="scroll-pane-transaction" vbarPolicy="ALWAYS">
+                           <content>
+                              <VBox fx:id="transactionContainer1" alignment="TOP_CENTER" prefHeight="800.0" prefWidth="373.0" spacing="3.0">
+                                 <children>
+                                    <AnchorPane fx:id="transactionDate1" maxHeight="55.0" maxWidth="398.0" prefHeight="55.0" prefWidth="7.0" styleClass="anchorPane-transaction-date">
+                                       <children>
+                                          <BorderPane layoutX="3.0" maxHeight="35.0" maxWidth="377.0" prefHeight="35.0" prefWidth="364.0">
+                                             <left>
+                                                <Text id="transactionDate" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-grey" text="22 May 2025" BorderPane.alignment="CENTER_RIGHT" />
+                                             </left>
+                                             <right>
+                                                <Text id="transactionTotal" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-grey" text="+1,235.99" textAlignment="RIGHT" BorderPane.alignment="CENTER_RIGHT" />
+                                             </right>
+                                             <padding>
+                                                <Insets left="10.0" right="8.0" />
+                                             </padding>
+                                          </BorderPane>
+                                       </children>
+                                    </AnchorPane>
+                                    <AnchorPane fx:id="transactionItem1" maxHeight="156.0" maxWidth="398.0" prefHeight="93.0" prefWidth="404.0" styleClass="anchorPane-transaction-item">
+                                       <children>
+                                          <Text id="transactionName" layoutX="72.0" layoutY="24.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-small-black" text="John doe" />
+                                          <Text id="transactionDate" layoutX="72.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-grey" text="22 May 2025" />
+                                          <Text id="transactionTime" layoutX="300.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-grey" text="05:30pm" textAlignment="RIGHT" />
+                                          <Text id="transactionAmount" layoutX="292.0" layoutY="24.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-small-blue" text="+1,235.99" textAlignment="RIGHT" />
+                                          <AnchorPane layoutX="7.0" layoutY="5.0" prefHeight="53.0" prefWidth="54.0" styleClass="anchorPane-flexible-blue" />
+                                          <ImageView id="transactionIcon" fitHeight="40.0" fitWidth="40.0" layoutX="14.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../atmimages/profile-white.png" />
+                                             </image>
+                                          </ImageView>
+                                       </children>
+                                    </AnchorPane>
+                                    <AnchorPane fx:id="transactionItem11" maxHeight="156.0" maxWidth="398.0" prefHeight="93.0" prefWidth="404.0" styleClass="anchorPane-transaction-item">
+                                       <children>
+                                          <Text id="transactionName" layoutX="72.0" layoutY="24.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-small-black" text="John doe" />
+                                          <Text id="transactionDate" layoutX="72.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-grey" text="22 May 2025" />
+                                          <Text id="transactionTime" layoutX="300.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-grey" text="05:30pm" textAlignment="RIGHT" />
+                                          <Text id="transactionAmount" layoutX="292.0" layoutY="24.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-small-blue" text="+1,235.99" textAlignment="RIGHT" />
+                                          <AnchorPane layoutX="7.0" layoutY="5.0" prefHeight="53.0" prefWidth="54.0" styleClass="anchorPane-flexible-blue" />
+                                          <ImageView id="transactionIcon" fitHeight="40.0" fitWidth="40.0" layoutX="14.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../atmimages/profile-white.png" />
+                                             </image>
+                                          </ImageView>
+                                       </children>
+                                    </AnchorPane>
+                                    <AnchorPane fx:id="transactionItem21" maxHeight="156.0" maxWidth="398.0" prefHeight="93.0" prefWidth="404.0" styleClass="anchorPane-transaction-item">
+                                       <children>
+                                          <Text id="transactionName" layoutX="72.0" layoutY="24.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-small-black" text="John doe" />
+                                          <Text id="transactionDate" layoutX="72.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-grey" text="22 May 2025" />
+                                          <Text id="transactionTime" layoutX="300.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-grey" text="05:30pm" textAlignment="RIGHT" />
+                                          <Text id="transactionAmount" layoutX="292.0" layoutY="24.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-small-blue" text="+1,235.99" textAlignment="RIGHT" />
+                                          <AnchorPane layoutX="7.0" layoutY="5.0" prefHeight="53.0" prefWidth="54.0" styleClass="anchorPane-flexible-blue" />
+                                          <ImageView id="transactionIcon" fitHeight="40.0" fitWidth="40.0" layoutX="14.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../atmimages/profile-white.png" />
+                                             </image>
+                                          </ImageView>
+                                       </children>
+                                    </AnchorPane>
+                                    <AnchorPane fx:id="transactionItem31" maxHeight="156.0" maxWidth="398.0" prefHeight="93.0" prefWidth="404.0" styleClass="anchorPane-transaction-item">
+                                       <children>
+                                          <Text id="transactionName" layoutX="72.0" layoutY="24.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-small-black" text="John doe" />
+                                          <Text id="transactionDate" layoutX="72.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-grey" text="22 May 2025" />
+                                          <Text id="transactionTime" layoutX="300.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-grey" text="05:30pm" textAlignment="RIGHT" />
+                                          <Text id="transactionAmount" layoutX="292.0" layoutY="24.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-small-blue" text="+1,235.99" textAlignment="RIGHT" />
+                                          <AnchorPane layoutX="7.0" layoutY="5.0" prefHeight="53.0" prefWidth="54.0" styleClass="anchorPane-flexible-blue" />
+                                          <ImageView id="transactionIcon" fitHeight="40.0" fitWidth="40.0" layoutX="14.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../atmimages/profile-white.png" />
+                                             </image>
+                                          </ImageView>
+                                       </children>
+                                    </AnchorPane>
+                                 </children>
+                              </VBox>
+                           </content>
+                           <VBox.margin>
+                              <Insets top="5.0" />
+                           </VBox.margin>
+                           <padding>
+                              <Insets right="-14.0" />
+                           </padding>
+                        </ScrollPane>
+                     </children>
+                     <padding>
+                        <Insets top="10.0" />
+                     </padding>
+                  </VBox>
+               </children>
+            </AnchorPane>
+            <PieChart fx:id="pieChartTransaction" labelsVisible="false" layoutX="105.0" layoutY="74.0" prefHeight="197.0" prefWidth="202.0" />
+         </children>
+      </AnchorPane>
+      <HBox alignment="CENTER" layoutY="830.0" prefHeight="50.0" prefWidth="200.0" spacing="50.0" styleClass="hBox-hotbar-background">
          <children>
             <Button mnemonicParsing="false" pickOnBounds="false" styleClass="imageButton">
                <font>
                   <Font size="1.0" />
                </font>
                <graphic>
-                  <ImageView fitHeight="45.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true" styleClass="images">
+                  <ImageView fitHeight="45.0" fitWidth="77.0" pickOnBounds="true" preserveRatio="true" scaleX="1.5" scaleY="1.5" scaleZ="1.5" styleClass="images">
                      <image>
                         <Image url="@../atmimages/homepage-gray.png" />
                      </image>
                   </ImageView>
                </graphic>
             </Button>
-            <Button mnemonicParsing="false" pickOnBounds="false" styleClass="imageButton">
+            <Button mnemonicParsing="false" pickOnBounds="false" scaleX="0.9" scaleY="0.9" scaleZ="0.9" styleClass="imageButton">
                <font>
                   <Font size="1.0" />
                </font>
@@ -534,7 +802,7 @@
                   <Font size="1.0" />
                </font>
                <graphic>
-                  <ImageView fitHeight="45.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true" styleClass="images">
+                  <ImageView fitHeight="45.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true" scaleX="0.9" scaleY="0.9" scaleZ="0.9" styleClass="images">
                      <image>
                         <Image url="@../atmimages/profile-grey.png" />
                      </image>
@@ -543,38 +811,38 @@
             </Button>
          </children>
       </HBox>
-      <HBox alignment="CENTER" layoutY="806.0" prefHeight="100.0" prefWidth="200.0" spacing="50.0" styleClass="hBox-hotbar">
+      <HBox alignment="CENTER" layoutY="830.0" prefHeight="50.0" prefWidth="200.0" spacing="50.0" styleClass="hBox-hotbar">
          <children>
             <Button fx:id="homeButton" mnemonicParsing="false" styleClass="imageButton">
                <font>
                   <Font size="1.0" />
                </font>
                <graphic>
-                  <ImageView fitHeight="45.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true" styleClass="images">
+                  <ImageView fitHeight="45.0" fitWidth="57.0" opacity="0.0" pickOnBounds="true" preserveRatio="true" scaleX="1.5" scaleY="1.5" scaleZ="1.5" styleClass="images">
                      <image>
                         <Image url="@../atmimages/homepage-blue.png" />
                      </image>
                   </ImageView>
                </graphic>
             </Button>
-            <Button fx:id="walletButton" mnemonicParsing="false" styleClass="imageButton">
+            <Button fx:id="walletButton" mnemonicParsing="false" opacity="0.0" styleClass="imageButton">
                <font>
                   <Font size="1.0" />
                </font>
                <graphic>
-                  <ImageView fitHeight="45.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true" styleClass="images">
+                  <ImageView fitHeight="45.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true" scaleX="0.9" scaleY="0.9" scaleZ="0.9" styleClass="images">
                      <image>
                         <Image url="@../atmimages/wallet-blue.png" />
                      </image>
                   </ImageView>
                </graphic>
             </Button>
-            <Button fx:id="profileButton" mnemonicParsing="false" styleClass="imageButton">
+            <Button fx:id="profileButton" mnemonicParsing="false" opacity="0.0" styleClass="imageButton">
                <font>
                   <Font size="1.0" />
                </font>
                <graphic>
-                  <ImageView fitHeight="45.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true" styleClass="images">
+                  <ImageView fitHeight="45.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true" scaleX="0.9" scaleY="0.9" scaleZ="0.9" styleClass="images">
                      <image>
                         <Image url="@../atmimages/profile-blue.png" />
                      </image>
@@ -583,11 +851,114 @@
             </Button>
          </children>
       </HBox>
-      <HBox alignment="CENTER_LEFT" layoutX="17.0" layoutY="15.0" prefHeight="45.0" prefWidth="315.0" spacing="5.0" styleClass="vBox">
+      <AnchorPane fx:id="transactionReviewScene" prefHeight="732.0" prefWidth="414.0" styleClass="anchorPane-grey" translateY="896.0">
          <children>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-big-black" text="Greetings" textAlignment="CENTER" />
-            <Text fx:id="firstName" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-blue" text="John doe" textAlignment="CENTER" translateY="2.0" />
+            <Text layoutX="173.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-big-black" text="Review" textAlignment="CENTER" />
+            <Text layoutX="134.0" layoutY="57.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-blue" text="Check before sending" textAlignment="CENTER" />
+            <Button fx:id="exitButton2" layoutX="173.0" layoutY="3.0" mnemonicParsing="false" prefHeight="16.0" prefWidth="152.0" styleClass="exitButton" text="exitButton" />
+            <Button alignment="CENTER" contentDisplay="CENTER" layoutX="34.0" layoutY="575.0" mnemonicParsing="false" styleClass="baseButton-pinpoint" text="Confirm" textAlignment="CENTER" />
+            <Button fx:id="sendCashButton1" alignment="CENTER" contentDisplay="CENTER" layoutX="34.0" layoutY="575.0" mnemonicParsing="false" opacity="0.0" styleClass="baseButton-blue" text="Confirm" textAlignment="CENTER" />
+            <Text fx:id="textSelectedCard1" layoutX="134.0" layoutY="105.0" opacity="0.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-blue" text="53-22-11 634532" />
+            <Text fx:id="textSelectedPayee1" layoutX="192.0" layoutY="191.0" opacity="0.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-blue" text="John doe" />
+            <BorderPane layoutX="66.0" layoutY="72.0" prefHeight="48.0" prefWidth="200.0">
+               <top>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-small-black" text="From" textAlignment="CENTER" BorderPane.alignment="CENTER" />
+               </top>
+               <center>
+                  <AnchorPane id="creditCard" prefHeight="106.0" prefWidth="310.0" styleClass="credit-card-flexible" BorderPane.alignment="CENTER">
+                     <children>
+                        <ImageView fitHeight="126.0" fitWidth="349.0" opacity="0.34" pickOnBounds="true" preserveRatio="true" styleClass="images">
+                           <image>
+                              <Image url="@../atmimages/cardBackground.png" />
+                           </image>
+                        </ImageView>
+                        <Text fx:id="payerType" layoutX="1.0" layoutY="4.0" opacity="0.75" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-smaller-white" text="Basic Account" translateX="5.0" translateY="15.0" />
+                        <Text fx:id="payerUsername" layoutX="220.0" layoutY="18.0" opacity="0.75" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-smaller-white" text="John doe" textAlignment="RIGHT" />
+                        <Text fx:id="payerPIN" layoutX="176.0" layoutY="119.0" opacity="0.75" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-smaller-white" text="53-22-11 634532" textAlignment="RIGHT" />
+                        <Text fx:id="payerCompany" layoutX="5.0" layoutY="120.0" opacity="0.75" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-smaller-white" text="Mastercard" />
+                        <VBox alignment="CENTER" layoutX="37.0" layoutY="31.0" prefHeight="32.0" prefWidth="209.0">
+                           <children>
+                              <Text fx:id="payerBalance" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-large-white" text="£1,234.99" textAlignment="CENTER" />
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-smaller-white" text="Total balance" textAlignment="RIGHT" />
+                           </children>
+                        </VBox>
+                        <ImageView fx:id="payerCompanyIcon" fitHeight="32.0" fitWidth="34.0" layoutX="125.0" layoutY="93.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../atmimages/mastercard.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </AnchorPane>
+               </center>
+            </BorderPane>
+            <BorderPane layoutX="66.0" layoutY="241.0" prefHeight="48.0" prefWidth="200.0">
+               <top>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-small-black" text="To" textAlignment="CENTER" BorderPane.alignment="CENTER" />
+               </top>
+               <center>
+                  <AnchorPane id="creditCard" prefHeight="106.0" prefWidth="310.0" styleClass="credit-card-flexible-red" BorderPane.alignment="CENTER">
+                     <children>
+                        <ImageView fitHeight="126.0" fitWidth="349.0" opacity="0.34" pickOnBounds="true" preserveRatio="true" styleClass="images">
+                           <image>
+                              <Image url="@../atmimages/cardBackground.png" />
+                           </image>
+                        </ImageView>
+                        <Text fx:id="payeeType" layoutX="1.0" layoutY="4.0" opacity="0.75" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-smaller-white" text="Basic Account" translateX="5.0" translateY="15.0" />
+                        <Text fx:id="payeeUsername" layoutX="220.0" layoutY="18.0" opacity="0.75" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-smaller-white" text="John doe" textAlignment="RIGHT" />
+                        <Text fx:id="payeePIN" layoutX="189.0" layoutY="119.0" opacity="0.75" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-smaller-white" text="**-**-** ***532" textAlignment="RIGHT" />
+                        <Text fx:id="payeeCompany" layoutX="5.0" layoutY="120.0" opacity="0.75" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-smaller-white" text="Mastercard" />
+                        <ImageView fx:id="payeeCompanyIcon" fitHeight="32.0" fitWidth="34.0" layoutX="126.0" layoutY="91.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../atmimages/mastercard.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="payeeIcon" fitHeight="55.0" fitWidth="55.0" layoutX="114.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../atmimages/profile-white.png" />
+                           </image></ImageView>
+                     </children>
+                  </AnchorPane>
+               </center>
+            </BorderPane>
+            <BorderPane layoutX="67.0" layoutY="403.0" prefHeight="48.0" prefWidth="200.0">
+               <top>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-small-black" text="Amount" textAlignment="CENTER" BorderPane.alignment="CENTER" />
+               </top>
+               <center>
+                  <AnchorPane id="creditCard" prefHeight="79.0" prefWidth="301.0" styleClass="credit-card-flexible" BorderPane.alignment="CENTER">
+                     <children>
+                        <VBox alignment="CENTER" prefHeight="28.0" prefWidth="283.0">
+                           <children>
+                              <Text fx:id="reviewAmount" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-white" text="£1,234.99" textAlignment="CENTER" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </AnchorPane>
+               </center>
+            </BorderPane>
+            <BorderPane layoutX="66.0" layoutY="467.0" prefHeight="48.0" prefWidth="200.0">
+               <top>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-small-black" text="Date" textAlignment="CENTER" BorderPane.alignment="CENTER" />
+               </top>
+               <center>
+                  <AnchorPane id="creditCard" prefHeight="79.0" prefWidth="301.0" styleClass="credit-card-flexible" BorderPane.alignment="CENTER">
+                     <children>
+                        <VBox alignment="CENTER" prefHeight="28.0" prefWidth="283.0">
+                           <children>
+                              <Text fx:id="reviewDate" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-white" text="Today" textAlignment="CENTER" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </AnchorPane>
+               </center>
+            </BorderPane>
+            <Text layoutX="59.0" layoutY="658.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-grey-card" text="Check the information before confirming, since your money will immediately be sent and cannot be recalled." textAlignment="CENTER" wrappingWidth="300.0" />
+            <AnchorPane fx:id="transactionCompleteScene" prefHeight="818.0" prefWidth="414.0" styleClass="anchorPane-flexible-white">
+               <children>
+                  <Text layoutX="88.0" layoutY="403.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-blue" text="Transaction successfully processed!" />
+               </children>
+            </AnchorPane>
          </children>
-      </HBox>
+      </AnchorPane>
    </children>
 </AnchorPane>

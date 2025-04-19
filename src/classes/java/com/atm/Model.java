@@ -1,8 +1,11 @@
 package com.atm;
 
+import javafx.animation.PauseTransition;
+import javafx.util.Duration;
 import javafx.util.Pair;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Model
 {
@@ -21,16 +24,30 @@ public class Model
     private States inputState = States.DEFAULT;
     private States tutorialState = States.DEFAULT;
     private States loginState = States.DEFAULT;
+    private States signinState = States.DEFAULT;
     private States accountState = States.DEFAULT;
     private States transactionState = States.DEFAULT;
+    private States processState = States.DEFAULT;
 
     // Immutable variables for updates and stores.
-    private int input = 0;
+    private long input = 0;
+    private String inputString = "";
+    private double inputBalance = 0.00f;
+
     private int accountNumber = -1;
     private int accountPassword = -1;
 
     private Card selectedCard;
     private Account selectedPayee;
+
+    private String firstName;
+    private String lastName;
+    private String phoneNumber;
+
+    private String cardNumber;
+    private String sortNumber;
+    private String expiryDate;
+    private String cvvNumber;
 
     private String title = "Title";
     private String description = "description";
@@ -41,9 +58,44 @@ public class Model
         this.bank = bank;
     }
 
-    public int getInput()
+    public long getInput()
     {
         return this.input;
+    }
+
+    public String getStringInput()
+    {
+        return this.inputString;
+    }
+
+    public String getSortNumber()
+    {
+        return this.sortNumber;
+    }
+
+    public String getCardNumber()
+    {
+        return this.cardNumber;
+    }
+
+    private String getExpiryDate()
+    {
+        return this.expiryDate;
+    }
+
+    public String getFirstName()
+    {
+        return this.firstName;
+    }
+
+    public String getLastName()
+    {
+        return this.lastName;
+    }
+
+    public double getInputBalance()
+    {
+        return this.inputBalance / 100.00;
     }
 
     public int getAccountNumber()
@@ -60,12 +112,12 @@ public class Model
     {
         if (this.bank.account != null)
         {
-            return this.bank.cloneAccount(this.bank.account);
+            return this.bank.cloneAccount();
         }
         return null;
     }
 
-    public ArrayList<Account> findAccountPartially(int number)
+    public ArrayList<Account> findAccountPartially(long number)
     {
         return this.bank.findAccountsPartially(number);
     }
@@ -85,9 +137,87 @@ public class Model
         this.view.update();
     }
 
+    public void setCardNumber(String cardNumber)
+    {
+        if (cardNumber.isEmpty())
+        {
+            this.cardNumber = cardNumber;
+            this.input = 0;
+            return;
+        }
+        this.cardNumber = cardNumber;
+        this.input = Long.parseLong(cardNumber);
+    }
+
+    public void setSortNumber(String sortNumber)
+    {
+        if (sortNumber.isEmpty())
+        {
+            this.sortNumber = sortNumber;
+            this.input = 0;
+            return;
+        }
+        this.sortNumber = sortNumber;
+        this.input = Long.parseLong(sortNumber);
+    }
+
+    public void setExpiryDate(String expiryDate)
+    {
+        if (expiryDate.isEmpty())
+        {
+            this.expiryDate = expiryDate;
+            this.input = 0;
+            return;
+        }
+        this.expiryDate = expiryDate;
+        this.input = Integer.parseInt(expiryDate);
+    }
+
+    public void setCVVNumber(String cvvNumber)
+    {
+        if (cvvNumber.isEmpty())
+        {
+            this.cvvNumber = cvvNumber;
+            this.input = 0;
+            return;
+        }
+        this.cvvNumber = cvvNumber;
+        this.input = Integer.parseInt(cvvNumber);
+    }
+
+    public void setFirstName(String firstName)
+    {
+        this.firstName = firstName;
+        this.inputString = firstName;
+    }
+
+    public void setLastName(String lastName)
+    {
+        this.lastName = lastName;
+        this.inputString = lastName;
+    }
+
+    public void setPhoneNumber(String phoneNumber)
+    {
+        if (phoneNumber.isEmpty())
+        {
+            this.phoneNumber = phoneNumber;
+            this.input = 0;
+            return;
+        }
+
+        this.phoneNumber = phoneNumber;
+        this.input = Long.parseLong(phoneNumber);
+    }
+
     public void setSelectedCard(Card card)
     {
         this.selectedCard = card;
+
+        if (this.bank.account != null)
+        {
+            this.bank.account.setCard(card);
+        }
     }
 
     public void setSelectedPayee(Account payee)
@@ -105,12 +235,16 @@ public class Model
                     this.tutorialState = newState;
             case LOGIN ->
                     this.loginState = newState;
+            case SIGNIN ->
+                    this.signinState = newState;
             case INPUT ->
                     this.inputState = newState;
             case ACCOUNT ->
                     this.accountState = newState;
             case TRANSACTION ->
                     this.transactionState = newState;
+            case PROCESS ->
+                    this.processState = newState;
         }
     }
 
@@ -121,40 +255,200 @@ public class Model
             case NOTIFY -> this.notifyState;
             case TUTORIAL -> this.tutorialState;
             case LOGIN -> this.loginState;
+            case SIGNIN -> this.signinState;
             case INPUT -> this.inputState;
             case ACCOUNT -> this.accountState;
             case TRANSACTION -> this.transactionState;
+            case PROCESS -> this.processState;
         };
+    }
+
+    public void processState(States state)
+    {
+        this.setState(Scene.PROCESS, state);
+        this.display();
+    }
+
+    public void processBalance(String label)
+    {
+        char character = label.charAt(0);
+
+        this.inputBalance = this.inputBalance * 10 + (character - '0');
+
+        this.display();
     }
 
     public void processNumber(String label)
     {
-        char character = label.charAt(0);
+        States processState = this.getState(Scene.PROCESS);
 
-        // maximum input is below six digits
-        if (String.valueOf(this.input).length() >= 6)
+        System.out.println(processState + " " + this.input);
+
+        switch (processState)
         {
-           return;
+            case PROCESS_PHONE:
+            {
+                char character = label.charAt(0);
+
+                if (String.valueOf(this.input).length() >= 10)
+                {
+                    return;
+                }
+
+                this.input = this.input * 10 + character - 48;
+
+                break;
+            }
+            case PROCESS_DATE:
+            {
+                char character = label.charAt(0);
+
+                // maximum input is four
+                if (String.valueOf(this.input).length() >= 4)
+                {
+                    return;
+                }
+
+                long proposedInput = this.input * 10 + character - 48;
+
+                int length = String.valueOf(proposedInput).length();
+
+                if (length == 1)
+                {
+                    // The First digit must be 0 or 1 (month constraint)
+                    if (character > '1')
+                    {
+                        return;
+                    }
+                }
+                else if (length == 2)
+                {
+                    long month = proposedInput;
+                    // The Second digit must only be 1/12 based on the months.
+                    if (proposedInput < 1 || month > 12) {
+                        return;  // Invalid month, reject input.
+                    }
+                }
+
+                this.input = proposedInput;
+                break;
+            }
+            case PROCESS_CARDNUMBER:
+            {
+                char character = label.charAt(0);
+
+                // maximum input is below six digits
+                if (String.valueOf(this.input).length() >= 16)
+                {
+                    return;
+                }
+
+                this.input = this.input * 10 + character - 48;
+
+                break;
+            }
+            case PROCESS_CVV:
+            {
+                char character = label.charAt(0);
+
+                if (String.valueOf(this.input).length() >= 3)
+                {
+                    return;
+                }
+
+                this.input = this.input * 10 + character - 48;
+
+                break;
+            }
+            default:
+            {
+                char character = label.charAt(0);
+
+                // maximum input is below six digits
+                if (String.valueOf(this.input).length() >= 6)
+                {
+                    return;
+                }
+
+                this.input = this.input * 10 + character - 48;
+                break;
+            }
         }
 
-        this.input = this.input * 10 + character - 48;
+        this.display();
+    }
+
+    public void processString(String label)
+    {
+        // Fetch the first character only
+        char character = label.charAt(0);
+
+        // Condition needed here
+        this.inputString += character;
 
         this.display();
     }
 
     public void processClear()
     {
-        this.input = 0;
+        States inputState = this.getState(Scene.INPUT);
+
+        if (inputState.equals(States.INPUT_DIGIT))
+        {
+            this.input = 0;
+        }
+        else if (inputState.equals(States.INPUT_BALANCE))
+        {
+            this.inputBalance = 0.00f;
+        }
+        else if (inputState.equals(States.INPUT_STRING)) {
+            this.inputString = "";
+        }
+
         this.display();
     }
 
     public void processRemove()
     {
-        if (this.input > 0)
+        States inputState = this.getState(Scene.INPUT);
+
+        if (inputState.equals(States.INPUT_DIGIT))
         {
-            this.input = this.input / 10;
-            this.display();
+            if (this.input > 0)
+            {
+                this.input = this.input / 10;
+            }
         }
+
+        if (inputState.equals(States.INPUT_BALANCE))
+        {
+            // Previously, using the last method could indefinitely divide the balance,
+            // despite it's below the 2nd decimals.
+
+            // Instead, we verify if the balance isn't below the 2nd decimal place,
+            // otherwise the balance should completely be set as zero.
+
+            // Assume that the balance (10 = 0.10) is larger for acceptance division
+            if (this.inputBalance >= 10)
+            {
+                this.inputBalance = this.inputBalance / 10;
+            }
+            else
+            {
+                this.inputBalance = 0.00f;
+            }
+        }
+
+        if (inputState.equals(States.INPUT_STRING))
+        {
+            // Removing the last string based on its length - 1
+            if (!this.inputString.isEmpty())
+            {
+                this.inputString = this.inputString.substring(0, this.inputString.length() - 1);
+            }
+        }
+
+        this.display();
     }
 
     // Helper function for checking any sequential or repeating digits from the input.
@@ -172,7 +466,7 @@ public class Model
         return input.matches("(\\d)\\1{2,}"); // Checks for any digit repeating 3 or more times
     }
 
-    public Pair<Boolean, String> validateLoginInput(int input)
+    public Pair<Boolean, String> validateLoginInput(long input)
     {
         boolean successful = true;
         String message = "";
@@ -202,27 +496,142 @@ public class Model
         return new Pair<>(successful, message);
     }
 
+    // referenced from: https://simplycalc.com/luhn-source.php
+    private boolean isValidLuhn(String number)
+    {
+        int length = number.length();
+        int parity = length % 2;
+        int sum = 0;
+
+        // The Number is split into digits, and every second digit is doubled from right to left.
+        for (int index = number.length() - 1; index >= 0; index--)
+        {
+            int digit = number.charAt(index);
+
+            // every two digits, double it
+            if (index % 2 == parity)
+            {
+                digit *= 2;
+            }
+
+            // any digits resulted more than 9, subtract it
+            if (digit > 9)
+            {
+                digit -= 9;
+            }
+
+            sum += digit;
+        }
+
+        // lastly, use modulo operation with the sum
+        return (sum % 10 == 0);
+    }
+
     public void processInput(States state)
     {
         this.setState(Scene.INPUT, state);
         this.display();
     }
 
-    public void processTransaction(States state)
+    public void processTransaction(boolean close)
     {
-
-        switch (state)
+        if (close)
         {
-            case DEFAULT, TRANSACTION_PAGE:
+            this.setState(Scene.TRANSACTION, States.DEFAULT);
+            this.display();
+            return;
+        }
+
+        switch (this.transactionState)
+        {
+            // If the transaction is closed, clear any input.
+            case DEFAULT:
                 this.input = 0;
+                this.inputBalance = 0;
                 this.selectedCard = null;
                 this.selectedPayee = null;
+                this.setState(Scene.TRANSACTION, States.TRANSACTION_PAGE);
+                break;
+            case TRANSACTION_PAGE:
+                // confirmation section, ensuring that the inputs are filled and verified,
+                // revert to the TRANSACTION_PAGE if any isn't verified.
+
+                String title = "Incomplete Transaction";
+                String description = "";
+                boolean successful = true;
+
+                if (this.selectedCard == null)
+                {
+                    description += "❌ Must at least select any card.\n\n";
+                    successful = false;
+                }
+
+                if (this.selectedPayee == null)
+                {
+                    description += "❌ Must at least select payee.\n\n";
+                    successful = false;
+                }
+
+                if (inputBalance <= 1)
+                {
+                    description += String.format("❌ Minimum amount is £0.01. (%s)\n\n", this.getInputBalance());
+                    successful = false;
+                }
+
+                if (!successful)
+                {
+                    this.title = title;
+                    this.description = description;
+                    this.setState(Scene.NOTIFY, States.NOTIFY_SHOW);
+                    break;
+                }
+
+                // If successful, move onto the confirmation scene
+                this.setState(Scene.TRANSACTION, States.TRANSACTION_CONFIRM);
+                break;
+            case TRANSACTION_CONFIRM:
+                // Confirmation
+                this.bank.transfer(this.selectedPayee, this.getInputBalance());
+                this.setState(Scene.TRANSACTION, States.TRANSACTION_COMPLETE);
+
+                this.input = 0;
+                this.inputBalance = 0;
+                this.selectedCard = null;
+                this.selectedPayee = null;
+
+                // add duration like 1 second
+                PauseTransition pause = new PauseTransition(Duration.seconds(1));
+                pause.setOnFinished(event -> this.setState(Scene.TRANSACTION, States.DEFAULT));
+                pause.play();
                 break;
         }
 
-        System.out.println(selectedCard + " " + selectedPayee);
+        this.display();
+    }
 
-        this.setState(Scene.TRANSACTION, state);
+    public void processTransactionSummary(boolean close)
+    {
+        if (close)
+        {
+            this.setState(Scene.TRANSACTION, States.DEFAULT);
+            this.display();
+            return;
+        }
+
+        switch (this.transactionState)
+        {
+            // If the transaction is closed, clear any input.
+            case DEFAULT:
+                this.input = 0;
+                this.inputBalance = 0;
+                this.selectedCard = null;
+                this.selectedPayee = null;
+                this.setState(Scene.TRANSACTION, States.TRANSACTION_SUMMARY);
+                break;
+            case TRANSACTION_SUMMARY:
+                this.setState(Scene.TRANSACTION, States.DEFAULT);
+                break;
+        }
 
         this.display();
     }
@@ -328,6 +737,9 @@ public class Model
                     break;
                 case LOGIN_ONE:
 
+                    // ensuring that the Sign-in scene
+                    this.setState(Scene.SIGNIN, States.DEFAULT);
+
                     // using Pair by supporting multiple values from returning.
                     Pair<Boolean, String> loginResultPIN = validateLoginInput(this.input);
 
@@ -344,7 +756,7 @@ public class Model
                         return;
                     }
 
-                    this.accountNumber = this.input;
+                    this.accountNumber = (int) this.input;
 
                     this.input = 0;
 
@@ -369,7 +781,7 @@ public class Model
                         return;
                     }
 
-                    this.accountPassword = this.input;
+                    this.accountPassword = (int) this.input;
 
                     // verify if the account exists via two stored variables
 
@@ -405,6 +817,288 @@ public class Model
                     break;
             }
         }
+        this.display();
+    }
+
+    public void processSignIn(boolean reverse)
+    {
+        if (reverse)
+        {
+            switch (this.signinState)
+            {
+                case SIGN_ONE:
+                    this.input = 0;
+                    this.inputString = "";
+                    this.firstName = "";
+                    this.lastName = "";
+                    this.phoneNumber = "";
+                    this.sortNumber = "";
+                    this.expiryDate = "";
+                    this.cvvNumber = "";
+                    this.setState(Scene.SIGNIN, States.DEFAULT);
+                    break;
+                case SIGN_TWO:
+                    this.input = 0;
+                    this.inputString = "";
+                    this.setState(Scene.SIGNIN, States.SIGN_ONE);
+                    break;
+                case SIGN_THREE:
+                    this.input = 0;
+                    this.inputString = "";
+                    this.setState(Scene.SIGNIN, States.SIGN_TWO);
+                    break;
+                case SIGN_FOUR:
+                    this.input = 0;
+                    this.inputString = "";
+                    this.setState(Scene.SIGNIN, States.SIGN_THREE);
+                    break;
+            }
+        }
+        else
+        {
+            // The first scene of the sign-in, requiring username and etc
+            switch (this.signinState)
+            {
+                case DEFAULT:
+                    this.input = 0;
+                    this.inputString = "";
+                    this.firstName = "";
+                    this.lastName = "";
+                    this.phoneNumber = "";
+                    this.sortNumber = "";
+                    this.expiryDate = "";
+                    this.cvvNumber = "";
+                    this.setState(Scene.SIGNIN, States.SIGN_ONE);
+                    break;
+                case SIGN_ONE:
+                    // validate both first and last name, ensuring that these are formally formatted.
+                    // reset if the input is not valid
+
+                    String title = "Invalid First/Last Name";
+                    String description = "";
+                    boolean successful = true;
+
+                    if (this.firstName != null)
+                    {
+                        if (!this.firstName.isEmpty())
+                        {
+                            int length = this.firstName.length();
+                            char firstChar = this.firstName.charAt(0);
+                            String theRest = this.firstName.substring(1);
+
+                            if (!this.firstName.matches("[a-zA-Z]+"))
+                            {
+                                description += "❌ First Name must only contain alphabetic.\n\n";
+                                successful = false;
+                            }
+
+                            if (length < 5 || length > 15)
+                            {
+                                description += "❌ First Name is out of range (5-15 characters only).\n\n";
+                                successful = false;
+                            }
+
+                            if (!Character.isUpperCase(firstChar) || !theRest.equals(theRest.toLowerCase()))
+                            {
+                                description += "❌ First Name is not using proper Title Case format.\n\n";
+                                successful = false;
+                            }
+                        }
+                        else
+                        {
+                            description += "❌ First Name must be filled.\n\n";
+                            successful = false;
+                        }
+                    }
+                    else
+                    {
+                        description += "❌ First Name must be filled.\n\n";
+                        successful = false;
+                    }
+
+                    if (this.lastName != null)
+                    {
+                       if (!this.lastName.isEmpty())
+                       {
+                           int length = this.lastName.length();
+                           char firstChar = this.lastName.charAt(0);
+                           String theRest = this.lastName.substring(1);
+
+                           if (!this.lastName.matches("[a-zA-Z]+"))
+                           {
+                               description += "❌ Last Name must only contain alphabetic.\n\n";
+                               successful = false;
+                           }
+
+                           if (length < 5 || length > 15)
+                           {
+                               description += "❌ Last Name is out of range (5-15 characters only).\n\n";
+                               successful = false;
+                           }
+
+                           if (!Character.isUpperCase(firstChar) || !theRest.equals(theRest.toLowerCase()))
+                           {
+                               description += "❌ Last Name is not using proper Title Case format.\n\n";
+                               successful = false;
+                           }
+                       }
+                       else
+                       {
+                           description += "❌ Last Name must be filled.\n\n";
+                           successful = false;
+                       }
+                    }
+                    else
+                    {
+                        description += "❌ Last Name must be filled.\n\n";
+                        successful = false;
+                    }
+
+                    if (!successful)
+                    {
+                        this.title = title;
+                        this.description = description;
+                        this.setState(Scene.NOTIFY, States.NOTIFY_SHOW);
+                        break;
+                    }
+
+                    // If successful, move onto the confirmation scene
+
+                    this.input = 0;
+                    this.inputString = "";
+                    this.setState(Scene.SIGNIN, States.SIGN_TWO);
+                    break;
+                case SIGN_TWO:
+                    // Validate the phone number.
+
+                    title = "Invalid Phone number";
+                    description = "";
+                    successful = true;
+
+                    if (this.input > 0)
+                    {
+                        int length = String.valueOf(this.input).length();
+                        if (length != 10)
+                        {
+                            description += "❌ Phone number must have 10 digits.\n\n";
+                            successful = false;
+                        }
+                    }
+                    else
+                    {
+                        description += "❌ Phone number is empty.\n\n";
+                        successful = false;
+                    }
+
+
+                    if (!successful)
+                    {
+                        this.title = title;
+                        this.description = description;
+                        this.setState(Scene.NOTIFY, States.NOTIFY_SHOW);
+                        break;
+                    }
+
+                    this.input = 0;
+                    this.inputString = "";
+                    this.setState(Scene.SIGNIN, States.SIGN_THREE);
+                    break;
+                case SIGN_THREE:
+                    title = "Invalid credit card";
+                    description = "";
+                    successful = true;
+
+                    if (!this.cardNumber.isEmpty())
+                    {
+                        int length = this.cardNumber.length();
+
+                        if (length != 6)
+                        {
+                            description += "❌ Account Number must have 6 digits.\n";
+                            successful = false;
+                        }
+
+                        if (!isValidLuhn(this.cardNumber))
+                        {
+                            description += "❌ Account Number is invalid based on Luhn.\n";
+                            successful = false;
+                        }
+                    }
+                    else
+                    {
+                        description += "❌ Account Number is not filled.\n\n";
+                        successful = false;
+                    }
+
+                    if (!this.sortNumber.isEmpty())
+                    {
+                        int length = this.sortNumber.length();
+
+                        if (length != 6)
+                        {
+                            description += "❌ Sort Number must have 6 digits.\n";
+                            successful = false;
+                        }
+                    }
+                    else
+                    {
+                        description += "❌ Sort Number is not filled.\n\n";
+                        successful = false;
+                    }
+
+                    if (!this.expiryDate.isEmpty())
+                    {
+                        int length = this.expiryDate.length();
+                        String months = this.expiryDate.substring(0, 2);
+                        String years = this.expiryDate.substring(2);
+
+                        if (length != 4)
+                        {
+                            description += "❌ Expiry Date must have 4 digits.\n";
+                            successful = false;
+                        }
+
+                        if (Integer.parseInt(years) < 25 || Integer.parseInt(years) > 35)
+                        {
+                            description += "❌ Expiry Date in YY must be between 2025-2035.\n";
+                            successful = false;
+                        }
+                    }
+                    else
+                    {
+                        description += "❌ Expiry Date is not filled.\n\n";
+                        successful = false;
+                    }
+
+                    if (!this.cvvNumber.isEmpty())
+                    {
+                        int length = this.cvvNumber.length();
+                        if (length != 4)
+                        {
+                            description += "❌ CVV must have 4 digits.\n";
+                            successful = false;
+                        }
+                    }
+                    else
+                    {
+                        description += "❌ CVV is not filled.\n\n";
+                        successful = false;
+                    }
+
+                    if (!successful)
+                    {
+                        this.title = title;
+                        this.description = description;
+                        this.setState(Scene.NOTIFY, States.NOTIFY_SHOW);
+                        break;
+                    }
+
+                    break;
+                case SIGN_FOUR:
+                    break;
+            }
+        }
+
         this.display();
     }
 

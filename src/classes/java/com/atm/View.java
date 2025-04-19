@@ -61,9 +61,13 @@ public class View
         InputController inputScene = (InputController) loadScene("input.fxml", "input");
         inputScene.initialize(this.controller);
 
-        // Login scenes
+        // Account scene
         AccountController accountScene = (AccountController) loadScene("account.fxml", "account");
         accountScene.initialize(this.controller, this.model);
+
+        // SignIn scenes
+        SignInController signinScene = (SignInController) loadScene("signin.fxml", "signin");
+        signinScene.initialize(this.controller, this.model);
 
         // Login scenes
         LogInController loginScene = (LogInController) loadScene("login.fxml", "login");
@@ -141,7 +145,7 @@ public class View
 
     public void update()
     {
-        int input = this.model.getInput();
+        long input = this.model.getInput();
         String title = this.model.getTitle();
         String description = this.model.getDescription();
         Account account = this.model.getAccount();
@@ -162,6 +166,9 @@ public class View
         LogInController loginController = (LogInController) getController("login");
         loginController.slide(loginState);
         loginController.update(input, account);
+
+        SignInController signinController = (SignInController) getController("signin");
+        signinController.update();
 
         AccountController accountController = (AccountController) getController("account");
         accountController.slide(accountState);
