@@ -89,12 +89,33 @@ public class Controller
         }
     }
 
+    public void processSet(String action)
+    {
+        PersonalInfo personalInfo = this.model.getPersonalInfo();
+        switch (action)
+        {
+            case "FirstName" -> this.model.setFirstName();
+            case "LastName" -> this.model.setLastName();
+            default ->
+            {
+                // this.model.processUnknownKey(action);
+            }
+        }
+    }
+
+
     public void processString(String action, String string)
     {
         switch (action)
         {
             case "FirstName" -> this.model.setFirstName(string);
             case "LastName" -> this.model.setLastName(string);
+            case "CardIssuer" -> this.model.setCardIssuer(string);
+            case "AccountType" -> this.model.setAccountType(string);
+            case "Password" -> {
+                this.model.setState(Scene.PROCESS, States.DEFAULT);
+                this.model.setPassword(string);
+            }
             case "CardNumber" -> {
                 this.model.setState(Scene.PROCESS, States.PROCESS_CARDNUMBER);
                 this.model.setCardNumber(string);
@@ -102,6 +123,10 @@ public class Controller
             case "PhoneNumber" -> {
                 this.model.setState(Scene.PROCESS, States.PROCESS_PHONE);
                 this.model.setPhoneNumber(string);
+            }
+            case "OTPCode" -> {
+                this.model.setState(Scene.PROCESS, States.DEFAULT);
+                this.model.setOTPCode(string);
             }
             case "ExpiryDate" -> {
                 this.model.setState(Scene.PROCESS, States.PROCESS_DATE);

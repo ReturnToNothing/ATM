@@ -1,11 +1,15 @@
 package com.atm;
 
+import javafx.animation.Interpolator;
 import javafx.animation.PauseTransition;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.Property;
+import javafx.beans.property.StringProperty;
 import javafx.util.Duration;
 import javafx.util.Pair;
 
+import java.security.SecureRandom;
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class Model
 {
@@ -40,22 +44,25 @@ public class Model
     private Card selectedCard;
     private Account selectedPayee;
 
-    private String firstName;
-    private String lastName;
-    private String phoneNumber;
-
-    private String cardNumber;
-    private String sortNumber;
-    private String expiryDate;
-    private String cvvNumber;
-
     private String title = "Title";
     private String description = "description";
 
+    private final PersonalInfo personalInfo = new PersonalInfo();
+    private final CardInfo cardInfo = new CardInfo();
+
     public Model(Bank bank)
     {
-        //restart("Welcome to ATM: Enter your account number");
         this.bank = bank;
+    }
+
+    public PersonalInfo getPersonalInfo()
+    {
+        return this.personalInfo;
+    }
+
+    public CardInfo getCardInfo()
+    {
+        return this.cardInfo;
     }
 
     public long getInput()
@@ -68,44 +75,9 @@ public class Model
         return this.inputString;
     }
 
-    public String getSortNumber()
-    {
-        return this.sortNumber;
-    }
-
-    public String getCardNumber()
-    {
-        return this.cardNumber;
-    }
-
-    private String getExpiryDate()
-    {
-        return this.expiryDate;
-    }
-
-    public String getFirstName()
-    {
-        return this.firstName;
-    }
-
-    public String getLastName()
-    {
-        return this.lastName;
-    }
-
     public double getInputBalance()
     {
         return this.inputBalance / 100.00;
-    }
-
-    public int getAccountNumber()
-    {
-        return this.accountNumber;
-    }
-
-    public int getAccountPassword()
-    {
-        return this.accountPassword;
     }
 
     public Account getAccount()
@@ -137,6 +109,30 @@ public class Model
         this.view.update();
     }
 
+    public void setCardIssuer(String cardIssuer)
+    {
+        if (cardIssuer.isEmpty())
+        {
+            this.cardIssuer = cardIssuer;
+            this.inputString = "";
+            return;
+        }
+        this.cardIssuer = cardIssuer;
+        this.inputString = cardIssuer;
+    }
+
+    public void setAccountType(String accountType)
+    {
+        if (accountType.isEmpty())
+        {
+            this.accountType = accountType;
+            this.inputString = "";
+            return;
+        }
+        this.accountType = accountType;
+        this.inputString = accountType;
+    }
+
     public void setCardNumber(String cardNumber)
     {
         if (cardNumber.isEmpty())
@@ -147,18 +143,6 @@ public class Model
         }
         this.cardNumber = cardNumber;
         this.input = Long.parseLong(cardNumber);
-    }
-
-    public void setSortNumber(String sortNumber)
-    {
-        if (sortNumber.isEmpty())
-        {
-            this.sortNumber = sortNumber;
-            this.input = 0;
-            return;
-        }
-        this.sortNumber = sortNumber;
-        this.input = Long.parseLong(sortNumber);
     }
 
     public void setExpiryDate(String expiryDate)
@@ -185,16 +169,57 @@ public class Model
         this.input = Integer.parseInt(cvvNumber);
     }
 
-    public void setFirstName(String firstName)
+    public void setPersonalInfo(Property<?> property)
+
+    // Sets the first name to the provided input and updates the inputString reference.
+    public void setFirstName(String input)
     {
-        this.firstName = firstName;
-        this.inputString = firstName;
+        StringProperty firstName = this.personalInfo.getFirstName();
+        firstName.set(input);
+        this.inputString = firstName.get();
     }
 
-    public void setLastName(String lastName)
+    // Overloaded method: assigns the current firstName value to inputString reference without reassignments.
+    public void setFirstName()
     {
-        this.lastName = lastName;
-        this.inputString = lastName;
+        this.inputString = this.personalInfo.getFirstName().get();
+    }
+
+    public void setLastName(String input)
+    {
+        StringProperty lastName = this.personalInfo.getLastName();
+        lastName.set(input);
+        this.inputString = lastName.get();
+    }
+
+    public void setLastName()
+    {
+        this.inputString = this.personalInfo.getLastName().get();
+    }
+
+    public void setNewPIN(int input)
+    {
+        IntegerProperty newPIN = this.personalInfo.getPIN();
+        newPIN.set(input);
+        this.input = newPIN.get();
+    }
+
+    public void setNewPIN()
+    {
+        this.input = this.
+    }
+
+    public void setPassword(String password)
+    {
+        System.out.println(password);
+        if (password.isEmpty())
+        {
+            this.accountPassword = 0;
+            this.input = 0;
+            return;
+        }
+        this.accountPassword = Integer.parseInt(password);
+        this.input = Long.parseLong(password);
     }
 
     public void setPhoneNumber(String phoneNumber)
@@ -208,6 +233,19 @@ public class Model
 
         this.phoneNumber = phoneNumber;
         this.input = Long.parseLong(phoneNumber);
+    }
+
+    public void setOTPCode(String OTPCode)
+    {
+        if (OTPCode.isEmpty())
+        {
+            this.OTPCode = OTPCode;
+            this.input = 0;
+            return;
+        }
+
+        this.OTPCode = OTPCode;
+        this.input = Long.parseLong(OTPCode);
     }
 
     public void setSelectedCard(Card card)
@@ -281,8 +319,6 @@ public class Model
     public void processNumber(String label)
     {
         States processState = this.getState(Scene.PROCESS);
-
-        System.out.println(processState + " " + this.input);
 
         switch (processState)
         {
@@ -832,7 +868,7 @@ public class Model
                     this.firstName = "";
                     this.lastName = "";
                     this.phoneNumber = "";
-                    this.sortNumber = "";
+                    this.OTPCode = "";
                     this.expiryDate = "";
                     this.cvvNumber = "";
                     this.setState(Scene.SIGNIN, States.DEFAULT);
@@ -852,6 +888,11 @@ public class Model
                     this.inputString = "";
                     this.setState(Scene.SIGNIN, States.SIGN_THREE);
                     break;
+                case SIGN_FIVE:
+                    this.input = 0;
+                    this.inputString = "";
+                    this.setState(Scene.SIGNIN, States.SIGN_FOUR);
+                    break;
             }
         }
         else
@@ -861,18 +902,20 @@ public class Model
             {
                 case DEFAULT:
                     this.input = 0;
+                    this.accountPassword = 0;
+                    this.accountNumber = 0;
+                    this.cardIssuer = "";
+                    this.accountType = "";
                     this.inputString = "";
                     this.firstName = "";
                     this.lastName = "";
                     this.phoneNumber = "";
-                    this.sortNumber = "";
                     this.expiryDate = "";
                     this.cvvNumber = "";
                     this.setState(Scene.SIGNIN, States.SIGN_ONE);
                     break;
                 case SIGN_ONE:
                     // validate both first and last name, ensuring that these are formally formatted.
-                    // reset if the input is not valid
 
                     String title = "Invalid First/Last Name";
                     String description = "";
@@ -930,9 +973,9 @@ public class Model
                                successful = false;
                            }
 
-                           if (length < 5 || length > 15)
+                           if (length < 4 || length > 15)
                            {
-                               description += "❌ Last Name is out of range (5-15 characters only).\n\n";
+                               description += "❌ Last Name is out of range (4-15 characters only).\n\n";
                                successful = false;
                            }
 
@@ -954,6 +997,20 @@ public class Model
                         successful = false;
                     }
 
+                    if (this.accountPassword != 0)
+                    {
+                        if (this.accountPassword < 6)
+                        {
+                            description += "❌ New Password must at least contain 6 digits.\n\n";
+                            successful = false;
+                        }
+                    }
+                    else
+                    {
+                        description += "❌ New Password must be filled.\n\n";
+                        successful = false;
+                    }
+
                     if (!successful)
                     {
                         this.title = title;
@@ -966,6 +1023,7 @@ public class Model
 
                     this.input = 0;
                     this.inputString = "";
+                    this.accountNumber = generateAccountNumber();
                     this.setState(Scene.SIGNIN, States.SIGN_TWO);
                     break;
                 case SIGN_TWO:
@@ -990,6 +1048,40 @@ public class Model
                         successful = false;
                     }
 
+                    if (!successful)
+                    {
+                        this.title = title;
+                        this.description = description;
+                        this.setState(Scene.NOTIFY, States.NOTIFY_SHOW);
+                        break;
+                    }
+
+                    this.newOPTCode = generateOTP();
+
+                    this.input = 0;
+                    this.inputString = "";
+                    this.setState(Scene.SIGNIN, States.SIGN_THREE);
+                    break;
+                case SIGN_THREE:
+                    // authenticate the phone number via OTP (One-time Password)
+
+                    title = "OTP incorrect code";
+                    description = "";
+                    successful = true;
+
+                    if (!this.OTPCode.isEmpty())
+                    {
+                        if (!this.OTPCode.equals(this.newOPTCode))
+                        {
+                            description += "❌ OPT Code doesn't match.\n\n";
+                            successful = false;
+                        }
+                    }
+                    else
+                    {
+                        description += "❌ OTP is empty.\n\n";
+                        successful = false;
+                    }
 
                     if (!successful)
                     {
@@ -999,11 +1091,14 @@ public class Model
                         break;
                     }
 
+                    this.accountNumber = generateAccountNumber();
+
                     this.input = 0;
                     this.inputString = "";
-                    this.setState(Scene.SIGNIN, States.SIGN_THREE);
+                    this.setState(Scene.SIGNIN, States.SIGN_FOUR);
                     break;
-                case SIGN_THREE:
+                case SIGN_FOUR:
+
                     title = "Invalid credit card";
                     description = "";
                     successful = true;
@@ -1012,37 +1107,21 @@ public class Model
                     {
                         int length = this.cardNumber.length();
 
-                        if (length != 6)
+                        if (length != 16)
                         {
-                            description += "❌ Account Number must have 6 digits.\n";
+                            description += "❌ Card Number must have 16 digits.\n\n";
                             successful = false;
                         }
 
                         if (!isValidLuhn(this.cardNumber))
                         {
-                            description += "❌ Account Number is invalid based on Luhn.\n";
+                            description += "❌ Card Number is invalid based on Luhn.\n\n";
                             successful = false;
                         }
                     }
                     else
                     {
                         description += "❌ Account Number is not filled.\n\n";
-                        successful = false;
-                    }
-
-                    if (!this.sortNumber.isEmpty())
-                    {
-                        int length = this.sortNumber.length();
-
-                        if (length != 6)
-                        {
-                            description += "❌ Sort Number must have 6 digits.\n";
-                            successful = false;
-                        }
-                    }
-                    else
-                    {
-                        description += "❌ Sort Number is not filled.\n\n";
                         successful = false;
                     }
 
@@ -1054,13 +1133,13 @@ public class Model
 
                         if (length != 4)
                         {
-                            description += "❌ Expiry Date must have 4 digits.\n";
+                            description += "❌ Expiry Date must have 4 digits.\n\n";
                             successful = false;
                         }
 
                         if (Integer.parseInt(years) < 25 || Integer.parseInt(years) > 35)
                         {
-                            description += "❌ Expiry Date in YY must be between 2025-2035.\n";
+                            description += "❌ Expiry Date in YY must be between 2025-2035.\n\n";
                             successful = false;
                         }
                     }
@@ -1073,9 +1152,9 @@ public class Model
                     if (!this.cvvNumber.isEmpty())
                     {
                         int length = this.cvvNumber.length();
-                        if (length != 4)
+                        if (length != 3)
                         {
-                            description += "❌ CVV must have 4 digits.\n";
+                            description += "❌ CVV must have 3 digits.\n";
                             successful = false;
                         }
                     }
@@ -1093,13 +1172,58 @@ public class Model
                         break;
                     }
 
+
+                    //    Account newAccount = this.createAccount(name, number, password, type);
+
+                    this.bank.addAccount(
+                            this.firstName + " " + this.lastName,
+                            this.accountNumber,
+                            this.accountPassword,
+                            Types.valueOf(this.accountType)
+                    );
+
+
+                    this.input = 0;
+                    this.inputString = "";
+                    this.setState(Scene.SIGNIN, States.SIGN_FIVE);
                     break;
-                case SIGN_FOUR:
+                case SIGN_FIVE:
+                    this.input = 0;
+                    this.accountPassword = 0;
+                    this.accountNumber = 0;
+                    this.cardIssuer = "";
+                    this.accountType = "";
+                    this.inputString = "";
+                    this.firstName = "";
+                    this.lastName = "";
+                    this.phoneNumber = "";
+                    this.expiryDate = "";
+                    this.cvvNumber = "";
+
+                    this.setState(Scene.SIGNIN, States.SIGN_SIX);
                     break;
             }
         }
 
         this.display();
+    }
+
+    // A simple 6-digits OPT generator that similarly
+    private static String generateOTP()
+    {
+        // Referenced: https://stackoverflow.com/questions/49460963/generating-otp-through-java
+        // Using SecureRandom instead of Random class since the generated code could easily be
+        // predicted via LCG.
+        SecureRandom random = new SecureRandom();
+        int otp = 100000 + random.nextInt(900000);
+        return String.valueOf(otp);
+    }
+
+    private static int generateAccountNumber()
+    {
+        SecureRandom random = new SecureRandom();
+        int number = 10000000 + random.nextInt(10000000);
+        return number;
     }
 
 /*

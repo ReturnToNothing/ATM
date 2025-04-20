@@ -120,7 +120,6 @@ public class InputController
             {
                 case INPUT_DIGIT ->
                 {
-                    System.out.println("action " + "prcessed onced");
                     this.controller.process(action);
                 }
                 case INPUT_BALANCE ->

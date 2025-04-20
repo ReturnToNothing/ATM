@@ -13,10 +13,8 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
-
 
 public class SignInController
 {
@@ -32,6 +30,9 @@ public class SignInController
     @FXML public CheckBox checkBox7;
     @FXML public CheckBox checkBox8;
     @FXML public CheckBox checkBox9;
+    @FXML public CheckBox checkBox10;
+    @FXML public CheckBox checkBox11;
+    @FXML public CheckBox checkBox12;
 
     @FXML public Button returnButton;
     @FXML public Button returnButton1;
@@ -40,28 +41,38 @@ public class SignInController
     @FXML public Button signInButton;
     @FXML public Button signInButton1;
     @FXML public Button signInButton2;
+    @FXML public Button signInButton3;
     @FXML public Button loginButton;
 
     @FXML public TextField firstTextField;
     @FXML public TextField lastTextField;
+    @FXML public TextField passwordTextField;
     @FXML public TextField phoneTextField;
+    @FXML public TextField OPTTextField;
+
+    @FXML public Text phoneNumberText;
+    @FXML public Text OPTcode;
 
     @FXML public TextField cardNumberTextField;
     @FXML public TextField expiryDateTextField;
     @FXML public TextField cvvTextField;
 
     @FXML public Text type;
-    @FXML public Text username;
+    @FXML public Text fullname;
     @FXML public Text company;
     @FXML public Text number;
     @FXML public ImageView companyIcon;
 
-    @FXML public ChoiceBox<String> companyDropBox;
+    @FXML public ChoiceBox<String> issuerDropBox;
+    @FXML public ChoiceBox<String> accountTypeDropBox;
+    @FXML public Text username;
 
     private TextFieldContext selectedTextField;
     private TextFieldContext firstTextFieldContext;
     private TextFieldContext lastTextFieldContext;
+    private TextFieldContext passwordTextFieldContext;
     private TextFieldContext phoneTextFieldContext;
+    private TextFieldContext OTPTextFieldContext;
 
     private TextFieldContext cardNumberTextFieldContext;
     private TextFieldContext expiryDateTextFieldContext;
@@ -70,14 +81,15 @@ public class SignInController
     private StringProperty firstName;
     private StringProperty lastName;
     private StringProperty phoneNumber;
-    private StringProperty OTPNumber;
+    private StringProperty password;
+    private StringProperty OTPCode;
 
     private StringProperty cardNumber;
     private StringProperty expiryDate;
     private StringProperty cvvNumber;
 
-    private StringProperty cardCompany;
-    private StringProperty cardType;
+    private StringProperty cardIssuer;
+    private StringProperty accountType;
 
     private Model model;
     private Controller controller;
@@ -94,27 +106,34 @@ public class SignInController
 
         this.firstName = new SimpleStringProperty("");
         this.lastName = new SimpleStringProperty("");
+        this.password = new SimpleStringProperty("");
         this.phoneNumber = new SimpleStringProperty("");
-        this.OTPNumber = new SimpleStringProperty("");
+        this.OTPCode = new SimpleStringProperty("");
         this.cardNumber = new SimpleStringProperty("");
         this.expiryDate = new SimpleStringProperty("");
         this.cvvNumber = new SimpleStringProperty("");
-        this.cardCompany = new SimpleStringProperty("");
-        this.cardType = new SimpleStringProperty("");
+        this.cardIssuer = new SimpleStringProperty("");
+        this.accountType = new SimpleStringProperty("");
 
-        returnButton.setId("Return-SignIn");
-        loginButton.setId("Start-LogIn");
-        signInButton.setId("Start-SignIn");
-        signInButton1.setId("Start-SignIn");
-        signInButton2.setId("Start-SignIn");
+        this.returnButton.setId("Return-SignIn");
+        this.returnButton1.setId("Return-SignIn");
+        this.returnButton2.setId("Return-SignIn");
+        this.returnButton3.setId("Return-SignIn");
+        this.loginButton.setId("Start-LogIn");
+        this.signInButton.setId("Start-SignIn");
+        this.signInButton1.setId("Start-SignIn");
+        this.signInButton2.setId("Start-SignIn");
+        this.signInButton3.setId("Start-SignIn");
 
-        firstTextField.setId("Open-Input-String");
-        lastTextField.setId("Open-Input-String");
-        phoneTextField.setId("Open-Input");
+        this.firstTextField.setId("Open-Input-String");
+        this.lastTextField.setId("Open-Input-String");
+        this.passwordTextField.setId("Open-Input");
+        this.phoneTextField.setId("Open-Input");
+        this.OPTTextField.setId("Open-Input");
 
-        cardNumberTextField.setId("Open-Input");
-        expiryDateTextField.setId("Open-Input");
-        cvvTextField.setId("Open-Input");
+        this.cardNumberTextField.setId("Open-Input");
+        this.expiryDateTextField.setId("Open-Input");
+        this.cvvTextField.setId("Open-Input");
 
         this.firstTextFieldContext = new TextFieldContext(
                 this.firstTextField,
@@ -126,11 +145,22 @@ public class SignInController
                 "LastName",
                 this.lastName
         );
+        this.passwordTextFieldContext = new TextFieldContext(
+                this.passwordTextField,
+                "Password",
+                this.password
+        );
         this.phoneTextFieldContext = new TextFieldContext(
                 this.phoneTextField,
                 "PhoneNumber",
                 this.phoneNumber
         );
+        this.OTPTextFieldContext = new TextFieldContext(
+                this.OPTTextField,
+                "OTPCode",
+                this.OTPCode
+        );
+
         this.cardNumberTextFieldContext = new TextFieldContext(
                 this.cardNumberTextField,
                 "CardNumber",
@@ -149,12 +179,26 @@ public class SignInController
 
         // despite the choiceBox using a listener for choosing an item should trigger the same
         // event when the TextField are selected via Mouse.
-        this.companyDropBox.getItems().addAll("Visa", "Mastercard", "HSBC");
-        this.companyDropBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-          this.controller.process("Update");
+
+        // few terms to cover - issuers are HSBC, Barclays, and Chase,
+        // meanwhile, networks are Visa, MasterCard, and American Express.
+        this.issuerDropBox.getItems().addAll("Visa", "Mastercard", "HSBC");
+        this.issuerDropBox.setValue("Visa");
+        this.issuerDropBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            System.out.println(newValue);
+            this.controller.processString("CardIssuer", newValue);
+            this.cardIssuer.set(newValue.toLowerCase());
         });
 
-        anchor.setTranslateX(414);
+        this.accountTypeDropBox.getItems().addAll("Basic", "Prime", "Apex");
+        this.accountTypeDropBox.setValue("Basic");
+        this.accountTypeDropBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            System.out.println(newValue);
+            this.controller.processString("AccountType", newValue);
+            this.accountType.set(newValue.toUpperCase());
+        });
+
+        this.anchor.setTranslateX(414);
 
         BindButtons();
         BindTextFields();
@@ -163,7 +207,7 @@ public class SignInController
     public void BindButtons()
     {
         Button[] buttons = {
-                returnButton, signInButton, signInButton1, signInButton2
+                returnButton, returnButton1, returnButton2, returnButton3, signInButton, signInButton1, signInButton2, signInButton3
         };
 
         Button[] textButtons = {
@@ -185,7 +229,7 @@ public class SignInController
     public void BindTextFields()
     {
         TextFieldContext[] textFieldContexts = {
-                firstTextFieldContext, lastTextFieldContext, phoneTextFieldContext,
+                firstTextFieldContext, lastTextFieldContext, passwordTextFieldContext, phoneTextFieldContext, OTPTextFieldContext,
                 cardNumberTextFieldContext, expiryDateTextFieldContext, cvvTextFieldContext
         };
 
@@ -276,7 +320,9 @@ public class SignInController
             case SIGN_TWO -> -414;
             case SIGN_THREE -> -414 * 2;
             case SIGN_FOUR -> -414 * 3;
-            default -> 424; // Default position for the welcome page
+            case SIGN_FIVE -> -414 * 4;
+            case SIGN_SIX -> -414 * 5;
+            default -> 424;
         };
 
         double nextTargetX = switch (state)
@@ -286,7 +332,9 @@ public class SignInController
             case SIGN_TWO -> 414 * 2;
             case SIGN_THREE -> 414 * 3;
             case SIGN_FOUR -> 414 * 4;
-            default -> 424; // Default position for the welcome page
+            case SIGN_FIVE -> 414 * 5;
+            case SIGN_SIX -> 414 * 10;
+            default -> 424;
         };
 
         // Make the anchor transparent when in DEFAULT state
@@ -306,27 +354,31 @@ public class SignInController
         slideAnimation.play();
     }
 
-    public void updateThird(States inputState)
+    public void updateFourth(States inputState)
     {
+        String selectedCardIssuer = this.cardIssuer.get();
+        String firstName = this.firstName.get();
+        String lastName = this.lastName.get();
+
+        if (firstName != null && lastName != null)
+        {
+            this.fullname.setText(firstName + " " + lastName);
+        }
+
+        if (selectedCardIssuer != null && !selectedCardIssuer.isEmpty())
+        {
+            this.company.setText(selectedCardIssuer);
+            this.companyIcon.setImage(View.getCardImage(selectedCardIssuer.toLowerCase()));
+        }
+
         if (this.selectedTextField == null)
         {
             return;
         }
 
-        this.username.setText(this.firstName.get() + " " + this.lastName.get());
-
-        if (this.companyDropBox.getValue() != null)
-        {
-            String companyName = this.companyDropBox.getValue();
-            this.company.setText(companyName);
-            this.companyIcon.setImage(View.getCardImage(companyName.toLowerCase()));
-        }
-
         TextField currentTextField = this.selectedTextField.textField();
         String currentAction = this.selectedTextField.action();
         StringProperty currentVariable = this.selectedTextField.variable();
-
-        this.cardCompany.set(this.companyDropBox.getValue());
 
         if (inputState.equals(States.INPUT_DIGIT))
         {
@@ -368,6 +420,53 @@ public class SignInController
         this.inputState = inputState;
     }
 
+    public void updateThird(States inputState)
+    {
+        if (this.phoneNumber.getValue() != null)
+        {
+            this.phoneNumberText.setText("Enter the OPT sent to: " + formatPhoneNumber(this.phoneNumber.getValue(), false, true));
+        }
+
+        if (this.model.getOTP() != null)
+        {
+            this.OPTcode.setText(this.model.getOTP());
+        }
+
+        if (this.selectedTextField == null)
+        {
+            return;
+        }
+
+        TextField currentTextField = this.selectedTextField.textField();
+        String currentAction = this.selectedTextField.action();
+        StringProperty currentVariable = this.selectedTextField.variable();
+
+        if (inputState.equals(States.INPUT_DIGIT))
+        {
+            applyTextFieldStyle(currentTextField);
+
+            if (!this.inputState.equals(inputState))
+            {
+                this.controller.processString(currentAction, currentVariable.get());
+            }
+
+            long input = this.model.getInput();
+
+            currentTextField.setText(String.valueOf(input));
+            currentVariable.set(currentTextField.getText());
+
+            validateOTP(checkBox10, checkBox11, checkBox12);
+        }
+        else
+        {
+            resetTextFieldStyle(currentTextField);
+            this.controller.processString(currentAction, currentVariable.get());
+            this.selectedTextField = null;
+        }
+
+        this.inputState = inputState;
+    }
+
     public void updateSecond(States inputState)
     {
         if (this.selectedTextField == null)
@@ -390,11 +489,11 @@ public class SignInController
 
             long input = this.model.getInput();
 
-            currentTextField.setText(formatPhoneNumber(String.valueOf(input), false));
+            currentTextField.setText(formatPhoneNumber(String.valueOf(input), false, false));
 
             if (currentTextField.equals(phoneTextField))
             {
-                currentVariable.set(formatPhoneNumber(currentTextField.getText(), true));
+                currentVariable.set(formatPhoneNumber(currentTextField.getText(), true, false));
             }
 
             validatePhoneInput(checkBox4, checkBox5, checkBox6);
@@ -422,7 +521,7 @@ public class SignInController
         String currentAction = this.selectedTextField.action();
         StringProperty currentVariable = this.selectedTextField.variable();
 
-        if (inputState.equals(States.INPUT_STRING))
+        if (inputState.equals(States.INPUT_STRING) || inputState.equals(States.INPUT_DIGIT))
         {
             applyTextFieldStyle(currentTextField);
 
@@ -431,13 +530,23 @@ public class SignInController
             // Once deselected, the first or last name is updated.
             if (!this.inputState.equals(inputState))
             {
-                this.controller.processString(currentAction, currentVariable.get());
+                this.controller.processString(currentAction, currentVariable.get()); // fetch the data
             }
 
             String stringInput = this.model.getStringInput();
+            long input = this.model.getInput();
+
             stringInput = toTitleCase(stringInput);
 
-            currentTextField.setText(stringInput);
+            if (currentTextField.equals(passwordTextField))
+            {
+                System.out.println(input);
+                currentTextField.setText(String.valueOf(input));
+            }
+            else
+            {
+                currentTextField.setText(stringInput);
+            }
 
             currentVariable.set(currentTextField.getText());
 
@@ -471,6 +580,14 @@ public class SignInController
         if (signingState.equals(States.SIGN_THREE))
         {
             updateThird(inputState);
+        }
+        if (signingState.equals(States.SIGN_FOUR))
+        {
+            updateFourth(inputState);
+        }
+        if (signingState.equals(States.SIGN_FIVE))
+        {
+            this.username.setText(this.firstName.get() + " " + this.lastName.get());
         }
 
         if (signingState.equals(States.DEFAULT))
@@ -525,18 +642,22 @@ public class SignInController
             checkAlphabet.setSelected(input.matches("[a-zA-Z]+") && !input.isEmpty());
         }
 
-        // Minimum and maximum length from 5-12.
+        // Minimum and maximum length from 4-12.
         if (checkLength != null)
         {
             int length = input.length();
-            checkLength.setSelected(length > 5 && length < 15);
+            checkLength.setSelected(length > 4 && length < 15);
         }
 
         // Proper case sensitivity and formatting.
-        if (checkFormat != null) {
-            if (input.isEmpty()) {
+        if (checkFormat != null)
+        {
+            if (input.isEmpty())
+            {
                 checkFormat.setSelected(false);
-            } else {
+            }
+            else
+            {
                 char firstChar = input.charAt(0);
                 String theRest = input.substring(1);
 
@@ -567,6 +688,28 @@ public class SignInController
         }
     }
 
+    private void validateOTP(CheckBox checkDigits, CheckBox checkLength, CheckBox checkFormat)
+    {
+        if (!this.OTPCode.get().isEmpty())
+        {
+            long OPT = Long.parseLong(this.OTPCode.get());
+
+            // Only Digits Allowed--always true since the input always be a digit
+            checkDigits.setSelected(OPT > 0);
+
+            // maximum length from 10 digits.
+            if (checkLength != null)
+            {
+                int length = String.valueOf(OPT).length();
+
+                checkLength.setSelected(length == 6);
+            }
+
+            // always true despite that the input never includes whitespaces, letters or any special symbols.
+            checkFormat.setSelected(true);
+        }
+    }
+
     private void validateCard(CheckBox checkAll, CheckBox checkExpiry, CheckBox checksum)
     {
         // All fields must be filled.
@@ -576,7 +719,7 @@ public class SignInController
                     !this.cardNumber.get().isEmpty() &
                     !this.expiryDate.get().isEmpty() &
                     !this.cvvNumber.get().isEmpty() &
-                    this.companyDropBox.getValue() != null
+                    this.issuerDropBox.getValue() != null
             );
         }
 
@@ -625,12 +768,9 @@ public class SignInController
         // lastly, use modulo operation with the sum
         return (sum % 10 == 0);
     }
-/*
-
-    */
 
     // Helper method for formatting string with a country code
-    private String formatPhoneNumber(String input, boolean unformat)
+    private String formatPhoneNumber(String input, boolean unformat, boolean anonymise)
     {
         if (unformat)
         {
@@ -650,7 +790,28 @@ public class SignInController
         // format phone number by prepending with a UK's country code
         if (!input.isEmpty())
         {
-            return "+44 " + input;
+            String formatted = "+44 " + input;
+
+            // added anonymizing feature by masking the user's phone number
+            if (anonymise)
+            {
+                // Mask lasts 4 digits with X's (if length allows)
+                int numbersToMask = 6;
+                int totalLength = formatted.length();
+
+                // "+44 " + digits
+                if (totalLength >= numbersToMask + 4)
+                {
+                    return formatted.substring(0, totalLength - numbersToMask) + "X".repeat(numbersToMask);
+                }
+                else
+                {
+                    // If not enough digits to mask, assume it like +44 123456, mask the rest after it.
+                    return "+44 " + "X".repeat(input.length());
+                }
+            }
+
+            return formatted;
         }
 
         // Return the input as is if invalid or empty

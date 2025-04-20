@@ -42,6 +42,8 @@ public class Bank  //make it protected
         if (this.accounts.size() < this.maxAccounts)
         {
             Account newAccount = this.createAccount(name, number, password, type);
+
+            System.out.println(newAccount);
             this.accounts.add(newAccount);
             return true;
         }

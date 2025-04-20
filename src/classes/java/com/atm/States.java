@@ -36,6 +36,8 @@ public enum States
     SIGN_TWO,
     SIGN_THREE,
     SIGN_FOUR,
+    SIGN_FIVE,
+    SIGN_SIX,
 
     // Model's internal state for swapping input processes
     PROCESS_CARDNUMBER,
