@@ -1,9 +1,21 @@
 .anchorPane {
-     -fx-background-color: white;
+     -fx-background-color: #F2F2F2; /*F2F2F2*/
      -fx-max-height: 896;
      -fx-max-width: 414;
      -fx-pref-height: 896;
      -fx-pref-width: 414;
+}
+.anchorPane-flexible {
+     -fx-background-color: #F2F3F3;
+     -fx-background-radius: 16;
+}
+.anchorPane-flexible-blue {
+     -fx-background-color: #199EFF;
+     -fx-background-radius: 16;
+}
+.anchorPane-flexible-white {
+     -fx-background-color: #FFFFFF;
+     -fx-background-radius: 16;
 }
 .anchorPane-grey {
      -fx-background-color: #F2F3F3;
@@ -21,12 +33,39 @@
      -fx-pref-width: 54; /*four pages are 414x4*/
      -fx-alignment: centre;
 }
+.anchorPane-gradient-grey {
+     -fx-background-color: linear-gradient(from 60% 50% to 0% 50%, #F2F3F3, transparent);
+}
+.anchorPane-gradient-white {
+     -fx-background-color: linear-gradient(from 60% 50% to 0% 50%, #FFFFFF, transparent);
+}
+.anchorPane-gradient-black {
+     -fx-background-color: linear-gradient(from 60% 50% to 0% 50%, #000000, transparent);
+}
 .anchorPane-item {
      -fx-background-color: #999EA1;
      -fx-max-height: 85;
      -fx-max-width: 364;
      -fx-pref-height: 85;
      -fx-pref-width: 364;
+}
+.anchorPane-transaction-item {
+     -fx-background-color: #FFFFFF;
+     -fx-background-border: 8;
+     -fx-background-radius: 16;
+     -fx-max-height: 63;
+     -fx-max-width: 365;
+     -fx-pref-height: 63;
+     -fx-pref-width: 365;
+}
+.anchorPane-transaction-date {
+     -fx-background-color: #FFFFFF;
+     -fx-background-border: 8;
+     -fx-background-radius: 16;
+     -fx-max-height: 35;
+     -fx-max-width: 365;
+     -fx-pref-height: 35;
+     -fx-pref-width: 365;
 }
 .hBox {
       -fx-background-color: transparent;
@@ -37,9 +76,9 @@
 }
 .hBox-hotbar {
       -fx-background-color: transparent;
-      -fx-max-height: 90;
+      -fx-max-height: 70;
       -fx-max-width: 414;
-      -fx-pref-height: 90;
+      -fx-pref-height: 70;
       -fx-pref-width: 414;
 
       -fx-border-radius: 8px;
@@ -47,10 +86,10 @@
       -fx-border-color: #F2F3F3;
 }
 .hBox-hotbar-background {
-      -fx-background-color: #FFFFFF;
-      -fx-max-height: 90;
+      -fx-background-color: #F2F3F3;
+      -fx-max-height: 70;
       -fx-max-width: 414;
-      -fx-pref-height: 90;
+      -fx-pref-height: 70;
       -fx-pref-width: 414;
 
       -fx-background-radius: 8px;
@@ -63,10 +102,30 @@
      -fx-background-color: #199EFF;
      -fx-background-radius: 8px;
 
+     -fx-max-width: 364px;
+     -fx-max-height: 167px;
+
      -fx-pref-width: 364px;
      -fx-pref-height: 167px;
 }
+.credit-card-flexible {
+     -fx-background-color: #199EFF;
+     -fx-background-radius: 8px;
+}
+.credit-card-flexible-red {
+     -fx-background-color: #E66100;
+     -fx-background-radius: 8px;
+}
+.credit-card-small {
+     -fx-background-color: #199EFF;
+     -fx-background-radius: 8px;
 
+      -fx-max-width: 182px;
+      -fx-max-height: 167px;
+
+     -fx-pref-width: 182px;
+     -fx-pref-height: 167px;
+}
 
 /* CSS properties for the first layer */
 .text-blue {
@@ -111,6 +170,13 @@
      -fx-font-weight: 700;
      -fx-fill: #000000;
 }
+.text-medium-black {
+     -fx-font-family: "Kanit", sans-serif;
+     -fx-font-size: 1.5em;
+     -fx-line-height: 1em;
+     -fx-font-weight: 700;
+     -fx-fill: #000000;
+}
 .text-small-black {
      -fx-font-family: "Kanit", sans-serif;
      -fx-font-size: 1.2em;
@@ -139,6 +205,13 @@
      -fx-font-weight: 700;
      -fx-fill: #FFFFFF;
 }
+.text-smaller-white {
+     -fx-font-family: "Kanit", sans-serif;
+     -fx-font-size: 1em;
+     -fx-line-height: 1em;
+     -fx-font-weight: 700;
+     -fx-fill: #FFFFFF;
+}
 .text-large-white {
      -fx-font-family: "Kanit", sans-serif;
      -fx-font-size: 3em;
@@ -148,10 +221,10 @@
 }
 .text-small-blue {
      -fx-font-family: "Kanit", sans-serif;
-     -fx-font-size: 1.1em;
+     -fx-font-size: 1.2em;
      -fx-line-height: 1em;
      -fx-font-weight: 700;
-     -fx-fill: #000000;
+     -fx-fill: #199EFF;
 }
 .text-big {
      -fx-font-family: "Kanit", sans-serif;
@@ -205,7 +278,7 @@
 }
 .baseAnchorPane {
      -fx-pref-width: 370px;
-     -fx-pref-height: 52px;
+     -fx-pref-height: 51px;
 
      -fx-background-color: #FFFFFF;
      -fx-text-fill: #999EA1;
@@ -234,23 +307,23 @@
      -fx-pref-height: 48px;
 
      -fx-background-color: #FFFFFF;
-     -fx-text-fill: #999EA1;
+     -fx-text-fill: #199EFF;
 
      -fx-background-radius: 8px;
 
-      -fx-border-color: transparent transparent #199EFF transparent;
-      -fx-border-width: 0 0 2px 0;
-      -fx-border-radius: 0 0 8px 8px;
+     -fx-border-color: transparent transparent #199EFF transparent;
+     -fx-border-width: 0 0 2px 0;
+     -fx-border-radius: 0 0 8px 8px;
 }
 .anchorPane-features {
        -fx-font-family: "Kanit", sans-serif;
        -fx-font-weight: 700;
        -fx-font-size: 1.3em;
 
-       -fx-pref-width: 117;
+       -fx-pref-width: 188;
        -fx-pref-height: 52;
 
-       -fx-min-width: 113;
+       -fx-min-width: 188;
        -fx-min-height: 52;
 
        -fx-background-color: #F2F3F3;
@@ -263,10 +336,10 @@
        -fx-font-weight: 700;
        -fx-font-size: 1.3em;
 
-       -fx-pref-width: 117;
+       -fx-pref-width: 188;
        -fx-pref-height: 52;
 
-       -fx-min-width: 113;
+       -fx-min-width: 188;
        -fx-min-height: 52;
 
        -fx-background-color: #199EFF;
@@ -275,12 +348,6 @@
        -fx-background-radius: 8px;
 }
 .anchorPane-cardContainer {
-       -fx-pref-width: 55;
-       -fx-pref-height: 72;
-
-       -fx-min-width: 55;
-       -fx-min-height: 72;
-
        -fx-background-color: transparent;
 }
 .anchorPane-payeesContainer {
@@ -306,7 +373,7 @@
        -fx-font-weight: 700;
        -fx-font-size: 1.2em;
 
-       -fx-pref-width: 180;
+       -fx-pref-width: 181;
        -fx-pref-height: 52;
 
        -fx-min-width: 174;
@@ -321,7 +388,7 @@
        -fx-font-weight: 700;
        -fx-font-size: 1.2em;
 
-       -fx-pref-width: 180;
+       -fx-pref-width: 181;
        -fx-pref-height: 52;
 
        -fx-min-width: 174;
@@ -338,10 +405,10 @@
        -fx-font-size: 1.2em;
 
        -fx-pref-width: 173;
-       -fx-pref-height: 52;
+       -fx-pref-height: 48;
 
        -fx-min-width: 173;
-       -fx-min-height: 52;
+       -fx-min-height: 48;
 
        -fx-background-color: transparent;
        -fx-text-fill: #61686D;
@@ -362,17 +429,23 @@
      -fx-fill: #FFFFFF;
      -fx-stroke-width: 0px;
 }
-.scroll-pane-features {
-     -fx-max-height: 72;
+.scroll-pane-transaction {
+     -fx-max-height: 317;
      -fx-max-width: 375;
-     -fx-pref-height: 72;
+     -fx-pref-height: 317;
+     -fx-pref-width: 375;
+}
+.scroll-pane-features {
+     -fx-max-height: 57;
+     -fx-max-width: 375;
+     -fx-pref-height: 57;
      -fx-pref-width: 375;
 }
 .scroll-pane-payees {
      -fx-max-height: 95;
-     -fx-max-width: 390;
+     -fx-max-width: 370;
      -fx-pref-height: 95;
-     -fx-pref-width: 390;
+     -fx-pref-width: 370;
 }
 .scroll-pane-amount {
      -fx-background-color: #FFFFFF;
@@ -408,7 +481,34 @@
 .vBox {
       -fx-border-radius: 8px;
       -fx-border-width: 2px;
-      -fx-border-color: #FFFFFF;
+      -fx-border-color: #999EA1;
+}
+.check-box {
+    -fx-background-color: transparent;
+    -fx-font-family: "Kanit", sans-serif;
+    -fx-font-size: 1em;
+    -fx-line-height: 1em;
+    -fx-font-weight: 700;
+    -fx-text-fill: #ADB6CA;
+}
+.check-box.selected {
+    -fx-background-color: transparent;
+    -fx-font-family: "Kanit", sans-serif;
+    -fx-font-size: 1em;
+    -fx-line-height: 1em;
+    -fx-font-weight: 700;
+    -fx-text-fill: #199EFF;
+}
+.check-box .box {
+     -fx-background-color: #FFFFFF;
+     -fx-background-radius: 8px;
+     -fx-border-color: #999EA1;
+     -fx-border-width: 2px;
+     -fx-border-radius: 8px;
+     -fx-padding: 5px;
+}
+.check-box:selected .mark {
+    -fx-border-color: #199EFF;
 }
 .baseButton {
      -fx-font-family: "Kanit", sans-serif;
@@ -439,4 +539,17 @@
      -fx-border-radius: 8px;
      -fx-border-width: 2px;
      -fx-border-color: #199EFF;
+}
+.baseButton-blue {
+     -fx-font-family: "Kanit", sans-serif;
+     -fx-font-weight: 700;
+     -fx-font-size: 1.4em;
+
+     -fx-background-color: #199EFF;
+     -fx-text-fill: #FFFFFF;
+
+     -fx-pref-width: 350px;
+     -fx-pref-height: 55px;
+
+     -fx-background-radius: 8px;
 }

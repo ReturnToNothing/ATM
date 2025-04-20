@@ -15,6 +15,7 @@ import javafx.util.Duration;
 public class LogInController
 {
     @FXML public AnchorPane anchor;
+    @FXML public AnchorPane anchorRight;
 
     @FXML public TextField textField1;
     @FXML public TextField textField2;
@@ -172,6 +173,16 @@ public class LogInController
             default -> 424; // Default position for the welcome page
         };
 
+        double nextTargetX = switch (state)
+        {
+            case DEFAULT -> 0;
+            case LOGIN_ONE -> 414;
+            case LOGIN_TWO -> 414 * 2;
+            case LOGIN_THREE -> 414 * 3;
+            case LOGIN_FOUR -> 414;
+            default -> 424; // Default position for the welcome page
+        };
+
         // Make the anchor transparent when in DEFAULT state
         // Simply because login overlaps with the tutorial scene
 
@@ -180,15 +191,19 @@ public class LogInController
        Timeline slideAnimation = new Timeline(
                 new KeyFrame(Duration.seconds(1),
                         new KeyValue(anchor.translateXProperty(), targetX, new SineInterpolator())
-                )
+                ),
+               new KeyFrame(Duration.seconds(1.2),
+                       new KeyValue(anchorRight.translateXProperty(), nextTargetX - 20, new SineInterpolator())
+               )
        );
 
         slideAnimation.play();
     }
 
-    public void update(int input, Account account)
+    public void update(long input, Account account)
     {
-        if (account != null) {
+        if (account != null)
+        {
             this.username.setText(account.getName());
         }
 

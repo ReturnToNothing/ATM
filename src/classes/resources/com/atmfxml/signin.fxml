@@ -1,0 +1,354 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane fx:id="anchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mouseTransparent="true" prefHeight="896.0" prefWidth="406.0" styleClass="anchorPane" stylesheets="@../atmcss/signin.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.atm.SignInController">
+   <children>
+      <HBox alignment="CENTER_LEFT" fillHeight="false" nodeOrientation="LEFT_TO_RIGHT" styleClass="hBox">
+         <children>
+            <AnchorPane styleClass="anchorPane-Welcome">
+               <children>
+                  <Text layoutX="20.0" layoutY="113.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-big-black" text="Sign In" textAlignment="CENTER" />
+                  <Button alignment="CENTER" contentDisplay="CENTER" layoutX="32.0" layoutY="601.0" mnemonicParsing="false" styleClass="baseButton-pinpoint" text="Continue" textAlignment="CENTER" />
+                  <Button fx:id="signInButton" alignment="CENTER" contentDisplay="CENTER" layoutX="32.0" layoutY="601.0" mnemonicParsing="false" opacity="0.0" styleClass="logInButton" text="Continue" textAlignment="CENTER" />
+                  <Text layoutX="127.0" layoutY="673.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-small-black" text="Already registered?" textAlignment="CENTER" />
+                  <Button fx:id="loginButton" alignment="CENTER" contentDisplay="CENTER" layoutX="236.0" layoutY="656.0" mnemonicParsing="false" styleClass="registerButton" text="Log In" textAlignment="CENTER" />
+                  <Text layoutX="20.0" layoutY="141.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-blue" text="Enter your Full Name and Password" textAlignment="CENTER" />
+                  <VBox alignment="CENTER_LEFT" layoutX="25.0" layoutY="380.0" prefHeight="201.0" prefWidth="364.0" spacing="25.0" styleClass="vBox">
+                     <children>
+                        <StackPane alignment="CENTER_LEFT">
+                           <children>
+                              <CheckBox fx:id="checkBox1" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" mouseTransparent="true" pickOnBounds="false" styleClass="checkBox" text="Only alphabetic characters allowed." textAlignment="CENTER" />
+                           </children>
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                        </StackPane>
+                        <StackPane alignment="CENTER_LEFT" mouseTransparent="true" pickOnBounds="false">
+                           <children>
+                              <CheckBox fx:id="checkBox2" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" mouseTransparent="true" pickOnBounds="false" styleClass="checkBox" text="Minimum and maximum length from 4-15." textAlignment="CENTER" />
+                           </children>
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
+                        </StackPane>
+                        <StackPane alignment="CENTER_LEFT">
+                           <children>
+                              <CheckBox fx:id="checkBox3" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" mouseTransparent="true" pickOnBounds="false" styleClass="checkBox" text="Proper case sensitivity and formatting." textAlignment="CENTER" />
+                           </children>
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
+                        </StackPane>
+                     </children>
+                     <padding>
+                        <Insets left="15.0" />
+                     </padding>
+                  </VBox>
+                  <Button alignment="CENTER" contentDisplay="CENTER" layoutX="184.0" layoutY="365.0" mnemonicParsing="false" styleClass="InvisButton" text="Rules" textAlignment="CENTER" />
+                  <ImageView fitHeight="45.0" fitWidth="45.0" layoutX="22.0" layoutY="18.0" pickOnBounds="true" preserveRatio="true" styleClass="images" translateX="-5.0">
+                     <image>
+                        <Image url="@../atmimages/Arrow-gray.png" />
+                     </image>
+                  </ImageView>
+                  <Button fx:id="returnButton" alignment="CENTER" contentDisplay="CENTER" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="55.0" styleClass="imageButton" translateX="-5.0">
+                     <graphic>
+                        <ImageView fitHeight="45.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true" styleClass="images">
+                           <image>
+                              <Image url="@../atmimages/Arrow-blue.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <TextField fx:id="firstTextField" editable="false" layoutX="20.0" layoutY="168.0" prefWidth="373.0" promptText="Enter your First Name" styleClass="baseTextField" />
+                  <Button alignment="CENTER" contentDisplay="CENTER" layoutX="30.0" layoutY="156.0" mnemonicParsing="false" styleClass="InvisButton" text="First Name" textAlignment="CENTER" />
+                  <TextField fx:id="lastTextField" editable="false" layoutX="21.0" layoutY="242.0" prefWidth="373.0" promptText="Enter your Last Name" styleClass="baseTextField" />
+                  <Button alignment="CENTER" contentDisplay="CENTER" layoutX="31.0" layoutY="230.0" mnemonicParsing="false" styleClass="InvisButton" text="Last Name" textAlignment="CENTER" />
+                  <TextField fx:id="passwordTextField" editable="false" layoutX="20.0" layoutY="317.0" prefWidth="373.0" promptText="Enter your New PIN" styleClass="baseTextField" />
+                  <Button alignment="CENTER" contentDisplay="CENTER" layoutX="30.0" layoutY="305.0" mnemonicParsing="false" styleClass="InvisButton" text="New PIN" textAlignment="CENTER" />
+               </children>
+            </AnchorPane>
+            <AnchorPane prefHeight="200.0" prefWidth="0.0" styleClass="anchorPane-Welcome">
+               <children>
+                  <Text layoutX="20.0" layoutY="113.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-big-black" text="Sign In" textAlignment="CENTER" />
+                  <Button alignment="CENTER" contentDisplay="CENTER" layoutX="32.0" layoutY="459.0" mnemonicParsing="false" styleClass="baseButton-pinpoint" text="Continue" textAlignment="CENTER" />
+                  <Button fx:id="signInButton1" alignment="CENTER" contentDisplay="CENTER" layoutX="32.0" layoutY="459.0" mnemonicParsing="false" opacity="0.0" styleClass="logInButton" text="Continue" textAlignment="CENTER" />
+                  <Text layoutX="137.0" layoutY="531.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-small-black" text="Not registered?" textAlignment="CENTER" />
+                  <Button fx:id="registerButton1" alignment="CENTER" contentDisplay="CENTER" layoutX="224.0" layoutY="514.0" mnemonicParsing="false" styleClass="registerButton" text="Sign In" textAlignment="CENTER" />
+                  <Text layoutX="20.0" layoutY="141.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-blue" text="Enter your Phone Number" textAlignment="CENTER" />
+                  <VBox alignment="CENTER_LEFT" layoutX="22.0" layoutY="238.0" prefHeight="201.0" prefWidth="373.0" spacing="25.0" styleClass="vBox">
+                     <children>
+                        <StackPane alignment="CENTER_LEFT">
+                           <children>
+                              <CheckBox fx:id="checkBox4" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" mouseTransparent="true" pickOnBounds="false" styleClass="checkBox" text="Only Digits Allowed." textAlignment="CENTER" />
+                           </children>
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                        </StackPane>
+                        <StackPane alignment="CENTER_LEFT" mouseTransparent="true" pickOnBounds="false">
+                           <children>
+                              <CheckBox fx:id="checkBox5" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" mouseTransparent="true" pickOnBounds="false" styleClass="checkBox" text="10-digits length only." textAlignment="CENTER" />
+                           </children>
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
+                        </StackPane>
+                        <StackPane alignment="CENTER_LEFT">
+                           <children>
+                              <CheckBox fx:id="checkBox6" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" mouseTransparent="true" pickOnBounds="false" styleClass="checkBox" text="No whitespaces, letters, or special symbols." textAlignment="CENTER" />
+                           </children>
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
+                        </StackPane>
+                     </children>
+                     <padding>
+                        <Insets left="15.0" />
+                     </padding>
+                  </VBox>
+                  <Button alignment="CENTER" contentDisplay="CENTER" layoutX="181.0" layoutY="223.0" mnemonicParsing="false" styleClass="InvisButton" text="Rules" textAlignment="CENTER" />
+                  <ImageView fitHeight="45.0" fitWidth="45.0" layoutX="22.0" layoutY="18.0" pickOnBounds="true" preserveRatio="true" styleClass="images" translateX="-5.0">
+                     <image>
+                        <Image url="@../atmimages/Arrow-gray.png" />
+                     </image>
+                  </ImageView>
+                  <Button fx:id="returnButton1" alignment="CENTER" contentDisplay="CENTER" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="55.0" styleClass="imageButton" translateX="-5.0">
+                     <graphic>
+                        <ImageView fitHeight="45.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true" styleClass="images">
+                           <image>
+                              <Image url="@../atmimages/Arrow-blue.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <TextField fx:id="phoneTextField" editable="false" layoutX="21.0" layoutY="168.0" prefWidth="373.0" promptText="Enter your Phone Number" styleClass="baseTextField" />
+                  <Button alignment="CENTER" contentDisplay="CENTER" layoutX="30.0" layoutY="156.0" mnemonicParsing="false" styleClass="InvisButton" text="Phone Number" textAlignment="CENTER" />
+                  <ImageView fitHeight="32.0" fitWidth="30.0" layoutX="308.0" layoutY="90.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../atmimages/profile-blue.png" />
+                     </image>
+                  </ImageView>
+                  <Text fx:id="username" layoutX="338.0" layoutY="109.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-grey" text="Username" textAlignment="CENTER" />
+               </children>
+            </AnchorPane>
+            <AnchorPane prefHeight="200.0" prefWidth="0.0" styleClass="anchorPane-Welcome">
+               <children>
+                  <Text layoutX="20.0" layoutY="113.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-big-black" text="Sign In" textAlignment="CENTER" />
+                  <Button alignment="CENTER" contentDisplay="CENTER" layoutX="32.0" layoutY="459.0" mnemonicParsing="false" styleClass="baseButton-pinpoint" text="Continue" textAlignment="CENTER" />
+                  <Button fx:id="signInButton2" alignment="CENTER" contentDisplay="CENTER" layoutX="32.0" layoutY="459.0" mnemonicParsing="false" opacity="0.0" styleClass="logInButton" text="Continue" textAlignment="CENTER" />
+                  <Text layoutX="117.0" layoutY="531.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-small-black" text="Have not recieved the code yet?" textAlignment="CENTER" />
+                  <Button fx:id="registerButton12" alignment="CENTER" contentDisplay="CENTER" layoutX="169.0" layoutY="534.0" mnemonicParsing="false" styleClass="registerButton" text="Send again" textAlignment="CENTER" />
+                  <Text fx:id="phoneNumberText" layoutX="20.0" layoutY="141.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-blue" text="Enter the OPT sent to:" textAlignment="CENTER" />
+                  <VBox alignment="CENTER_LEFT" layoutX="22.0" layoutY="238.0" prefHeight="201.0" prefWidth="373.0" spacing="25.0" styleClass="vBox">
+                     <children>
+                        <StackPane alignment="CENTER_LEFT">
+                           <children>
+                              <CheckBox fx:id="checkBox10" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" mouseTransparent="true" pickOnBounds="false" styleClass="checkBox" text="Only Digits Allowed." textAlignment="CENTER" />
+                           </children>
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                        </StackPane>
+                        <StackPane alignment="CENTER_LEFT" mouseTransparent="true" pickOnBounds="false">
+                           <children>
+                              <CheckBox fx:id="checkBox11" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" mouseTransparent="true" pickOnBounds="false" styleClass="checkBox" text="6-digits length only." textAlignment="CENTER" />
+                           </children>
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
+                        </StackPane>
+                        <StackPane alignment="CENTER_LEFT">
+                           <children>
+                              <CheckBox fx:id="checkBox12" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" mouseTransparent="true" pickOnBounds="false" styleClass="checkBox" text="No whitespaces, letters, or special symbols." textAlignment="CENTER" />
+                           </children>
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
+                        </StackPane>
+                     </children>
+                     <padding>
+                        <Insets left="15.0" />
+                     </padding>
+                  </VBox>
+                  <Button alignment="CENTER" contentDisplay="CENTER" layoutX="181.0" layoutY="223.0" mnemonicParsing="false" styleClass="InvisButton" text="Rules" textAlignment="CENTER" />
+                  <ImageView fitHeight="45.0" fitWidth="45.0" layoutX="22.0" layoutY="18.0" pickOnBounds="true" preserveRatio="true" styleClass="images" translateX="-5.0">
+                     <image>
+                        <Image url="@../atmimages/Arrow-gray.png" />
+                     </image>
+                  </ImageView>
+                  <Button fx:id="returnButton2" alignment="CENTER" contentDisplay="CENTER" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="55.0" styleClass="imageButton" translateX="-5.0">
+                     <graphic>
+                        <ImageView fitHeight="45.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true" styleClass="images">
+                           <image>
+                              <Image url="@../atmimages/Arrow-blue.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <TextField fx:id="OPTTextField" editable="false" layoutX="21.0" layoutY="168.0" prefWidth="373.0" promptText="Enter the OPT code" styleClass="baseTextField" />
+                  <Button alignment="CENTER" contentDisplay="CENTER" layoutX="30.0" layoutY="156.0" mnemonicParsing="false" styleClass="InvisButton" text="OPT Code" textAlignment="CENTER" />
+                  <Text fx:id="OPTcode" layoutX="183.0" layoutY="572.0" opacity="0.15" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-grey" text="123456" textAlignment="CENTER" />
+               </children>
+            </AnchorPane>
+            <AnchorPane prefHeight="200.0" prefWidth="0.0" styleClass="anchorPane-Welcome">
+               <children>
+                  <Text layoutX="20.0" layoutY="113.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-big-black" text="Sign In" textAlignment="CENTER" />
+                  <Button alignment="CENTER" contentDisplay="CENTER" layoutX="33.0" layoutY="768.0" mnemonicParsing="false" styleClass="baseButton-pinpoint" text="Continue" textAlignment="CENTER" />
+                  <Button fx:id="signInButton3" alignment="CENTER" contentDisplay="CENTER" layoutX="33.0" layoutY="768.0" mnemonicParsing="false" opacity="0.0" styleClass="logInButton" text="Continue" textAlignment="CENTER" />
+                  <Text layoutX="138.0" layoutY="840.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-small-black" text="Not registered?" textAlignment="CENTER" />
+                  <Button fx:id="registerButton11" alignment="CENTER" contentDisplay="CENTER" layoutX="225.0" layoutY="823.0" mnemonicParsing="false" styleClass="registerButton" text="Sign In" textAlignment="CENTER" />
+                  <Text layoutX="20.0" layoutY="141.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-blue" text="Add your first card" textAlignment="CENTER" />
+                  <VBox alignment="CENTER_LEFT" layoutX="22.0" layoutY="544.0" prefHeight="201.0" prefWidth="373.0" spacing="25.0" styleClass="vBox">
+                     <children>
+                        <StackPane alignment="CENTER_LEFT">
+                           <children>
+                              <CheckBox fx:id="checkBox7" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" mouseTransparent="true" pickOnBounds="false" styleClass="checkBox" text="All fields must be filled." textAlignment="CENTER" />
+                           </children>
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                        </StackPane>
+                        <StackPane alignment="CENTER_LEFT" mouseTransparent="true" pickOnBounds="false">
+                           <children>
+                              <CheckBox fx:id="checkBox8" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" mouseTransparent="true" pickOnBounds="false" styleClass="checkBox" text="Expiry date must be between 2025–2035." textAlignment="CENTER" />
+                           </children>
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
+                        </StackPane>
+                        <StackPane alignment="CENTER_LEFT">
+                           <children>
+                              <CheckBox fx:id="checkBox9" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" mouseTransparent="true" pickOnBounds="false" styleClass="checkBox" text="Card number must be valid, according to the Luhn sum." textAlignment="CENTER" />
+                           </children>
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
+                        </StackPane>
+                     </children>
+                     <padding>
+                        <Insets left="15.0" />
+                     </padding>
+                  </VBox>
+                  <Button alignment="CENTER" contentDisplay="CENTER" layoutX="180.0" layoutY="532.0" mnemonicParsing="false" styleClass="InvisButton" text="Rules" textAlignment="CENTER" />
+                  <ImageView fitHeight="45.0" fitWidth="45.0" layoutX="22.0" layoutY="18.0" pickOnBounds="true" preserveRatio="true" styleClass="images" translateX="-5.0">
+                     <image>
+                        <Image url="@../atmimages/Arrow-gray.png" />
+                     </image>
+                  </ImageView>
+                  <Button fx:id="returnButton3" alignment="CENTER" contentDisplay="CENTER" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="55.0" styleClass="imageButton" translateX="-5.0">
+                     <graphic>
+                        <ImageView fitHeight="45.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true" styleClass="images">
+                           <image>
+                              <Image url="@../atmimages/Arrow-blue.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <TextField fx:id="cardNumberTextField" editable="false" layoutX="21.0" layoutY="168.0" prefWidth="373.0" promptText="Enter your Card Number" styleClass="baseTextField" />
+                  <Button alignment="CENTER" contentDisplay="CENTER" layoutX="30.0" layoutY="156.0" mnemonicParsing="false" styleClass="InvisButton" text="Card Number" textAlignment="CENTER" />
+                  <TextField fx:id="expiryDateTextField" editable="false" layoutX="21.0" layoutY="243.0" prefWidth="177.0" promptText="MM/YY" styleClass="baseTextFieldHalf-pinpoint" />
+                  <Button alignment="CENTER" contentDisplay="CENTER" layoutX="30.0" layoutY="231.0" mnemonicParsing="false" styleClass="InvisButton" text="Expiry Date" textAlignment="CENTER" />
+                  <TextField fx:id="cvvTextField" editable="false" layoutX="208.0" layoutY="243.0" prefWidth="177.0" promptText="CVV" styleClass="baseTextFieldHalf-pinpoint" />
+                  <Button alignment="CENTER" contentDisplay="CENTER" layoutX="217.0" layoutY="231.0" mnemonicParsing="false" styleClass="InvisButton" text="CVV" textAlignment="CENTER" />
+                  <BorderPane layoutX="62.0" layoutY="377.0" prefHeight="48.0" prefWidth="200.0">
+                     <top>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-version" text="Preview" textAlignment="CENTER" BorderPane.alignment="CENTER" />
+                     </top>
+                     <center>
+                        <AnchorPane id="creditCard" prefHeight="106.0" prefWidth="310.0" styleClass="credit-card-flexible" BorderPane.alignment="CENTER">
+                           <children>
+                              <ImageView fitHeight="126.0" fitWidth="349.0" opacity="0.34" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../atmimages/cardBackground.png" />
+                                 </image>
+                              </ImageView>
+                              <Text fx:id="type" layoutX="1.0" layoutY="4.0" opacity="0.75" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-smaller-white" text="Basic Account" translateX="5.0" translateY="15.0" />
+                              <Text fx:id="fullname" layoutX="220.0" layoutY="18.0" opacity="0.75" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-smaller-white" text="First Last" textAlignment="RIGHT" />
+                              <Text fx:id="number" layoutX="176.0" layoutY="119.0" opacity="0.75" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-smaller-white" text="**-**-** ********" textAlignment="RIGHT" />
+                              <Text fx:id="company" layoutX="5.0" layoutY="120.0" opacity="0.75" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-smaller-white" text="Mastercard" />
+                              <VBox alignment="CENTER" layoutX="37.0" layoutY="31.0" prefHeight="32.0" prefWidth="209.0">
+                                 <children>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-large-white" text="£1,234.56" textAlignment="CENTER" />
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-smaller-white" text="Total balance" textAlignment="RIGHT" />
+                                 </children>
+                              </VBox>
+                              <ImageView fx:id="companyIcon" fitHeight="32.0" fitWidth="34.0" layoutX="125.0" layoutY="93.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../atmimages/mastercard.png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                        </AnchorPane>
+                     </center>
+                  </BorderPane>
+                  <ChoiceBox fx:id="issuerDropBox" layoutX="22.0" layoutY="314.0" prefWidth="150.0" styleClass="dropBox" />
+                  <Button alignment="CENTER" contentDisplay="CENTER" layoutX="31.0" layoutY="302.0" mnemonicParsing="false" styleClass="InvisButton" text="Card Issuer" textAlignment="CENTER" />
+                  <ChoiceBox fx:id="accountTypeDropBox" layoutX="244.0" layoutY="314.0" prefWidth="150.0" styleClass="dropBox" />
+                  <Button alignment="CENTER" contentDisplay="CENTER" layoutX="253.0" layoutY="302.0" mnemonicParsing="false" styleClass="InvisButton" text="Account Type" textAlignment="CENTER" />
+               </children>
+            </AnchorPane>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="anchorPane-Welcome">
+               <children>
+                  <VBox alignment="CENTER" layoutX="23.0" layoutY="49.0" prefHeight="126.0" prefWidth="373.0">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-big-black" text="Welcome!" textAlignment="CENTER" />
+                        <Text fx:id="username" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-blue" text="User" textAlignment="CENTER" />
+                     </children>
+                  </VBox>
+                  <Button alignment="CENTER" contentDisplay="CENTER" layoutX="29.0" layoutY="745.0" mnemonicParsing="false" styleClass="baseButton-pinpoint" text="Log In" textAlignment="CENTER" />
+                  <Button fx:id="loginButton2" alignment="CENTER" contentDisplay="CENTER" layoutX="29.0" layoutY="745.0" mnemonicParsing="false" opacity="0.0" styleClass="logInButton" text="Log In" textAlignment="CENTER" />
+                  <Text layoutX="86.0" layoutY="817.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-small-black" text="Want to know more about?" textAlignment="CENTER" />
+                  <Button fx:id="registerButton2" alignment="CENTER" contentDisplay="CENTER" layoutX="241.0" layoutY="800.0" mnemonicParsing="false" styleClass="registerButton" text="Learn more" textAlignment="CENTER" />
+                  <VBox alignment="CENTER" layoutX="22.0" layoutY="238.0" prefHeight="201.0" prefWidth="373.0" spacing="8.0" styleClass="vBox">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-version" text="MyHome" textAlignment="CENTER" wrappingWidth="194.0" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-version" text="MyWallet" textAlignment="CENTER" wrappingWidth="194.0" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-version" text="MyProfile" textAlignment="CENTER" wrappingWidth="194.0" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-version" text="MyStock" textAlignment="CENTER" wrappingWidth="194.0" />
+                     </children>
+                  </VBox>
+                  <Button alignment="CENTER" contentDisplay="CENTER" layoutX="174.0" layoutY="226.0" mnemonicParsing="false" styleClass="InvisButton" text="Services" textAlignment="CENTER" />
+                  <Text layoutX="34.0" layoutY="195.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-small-black" text="Before we commence, here's the following features provided by our service:" textAlignment="CENTER" wrappingWidth="350.0" />
+                  <VBox alignment="CENTER" layoutX="23.0" layoutY="519.0" prefHeight="201.0" prefWidth="373.0" spacing="8.0" styleClass="vBox">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-version" text="Data" textAlignment="CENTER" wrappingWidth="194.0" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-version" text="More Data" textAlignment="CENTER" wrappingWidth="194.0" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-version" text="Even More Data!" textAlignment="CENTER" wrappingWidth="194.0" />
+                     </children>
+                  </VBox>
+                  <Button alignment="CENTER" contentDisplay="CENTER" layoutX="158.0" layoutY="507.0" mnemonicParsing="false" styleClass="InvisButton" text="Requirements" textAlignment="CENTER" />
+                  <Text layoutX="35.0" layoutY="475.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-small-black" text="Especially to ensure the security, privacy and refinements of our service, we require:" textAlignment="CENTER" wrappingWidth="350.0" />
+               </children>
+            </AnchorPane>
+         </children>
+      </HBox>
+      <AnchorPane fx:id="anchorRight" layoutX="414.0" mouseTransparent="true" opacity="0.0" pickOnBounds="false" prefHeight="200.0" prefWidth="200.0" styleClass="anchorPane-gradient-right" translateY="852.0" />
+      <AnchorPane layoutX="-54.0" layoutY="-1000.0" mouseTransparent="true" pickOnBounds="false" prefHeight="200.0" prefWidth="200.0" styleClass="anchorPane-gradient-side-white" translateY="1000.0" />
+      <AnchorPane layoutX="828.0" mouseTransparent="true" pickOnBounds="false" prefHeight="200.0" prefWidth="200.0" rotate="180.0" styleClass="anchorPane-gradient-side-white" translateX="1242.0" />
+   </children>
+</AnchorPane>

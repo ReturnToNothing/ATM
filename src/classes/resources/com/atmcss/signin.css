@@ -33,9 +33,9 @@
 .hBox {
       -fx-background-color: transparent;
       -fx-max-height: 896;
-      -fx-max-width: 1242;
+      -fx-max-width: 2070;
       -fx-pref-height: 896;
-      -fx-pref-width: 1242; /*four pages are 414x4*/
+      -fx-pref-width: 2070; /*four pages are 414x4*/
 }
 
 /* CSS properties for the first layer */
@@ -52,6 +52,15 @@
      -fx-line-height: 1em;
      -fx-font-weight: 700;
      -fx-fill: #199EFF;
+}
+.text-grey {
+     -fx-font-family: "Kanit", sans-serif;
+     -fx-font-size: 1em;
+     -fx-line-height: 1em;
+     -fx-font-weight: 700;
+     -fx-fill: #61686D;
+
+     -fx-background-color: #FFFFFF;
 }
 .text-big-black {
      -fx-font-family: "Kanit", sans-serif;
@@ -87,6 +96,20 @@
      -fx-line-height: 1em;
      -fx-font-weight: 600;
      -fx-fill: #199EFF;
+}
+.text-smaller-white {
+     -fx-font-family: "Kanit", sans-serif;
+     -fx-font-size: 1em;
+     -fx-line-height: 1em;
+     -fx-font-weight: 700;
+     -fx-fill: #FFFFFF;
+}
+.text-large-white {
+     -fx-font-family: "Kanit", sans-serif;
+     -fx-font-size: 3em;
+     -fx-line-height: 1em;
+     -fx-font-weight: 700;
+     -fx-fill: #FFFFFF;
 }
 .text-powered {
      -fx-font-family: "Kanit", sans-serif;
@@ -309,4 +332,103 @@
      -fx-max-width: 414;
      -fx-pref-height: 896;
      -fx-pref-width: 414;
+}
+.dropBox {
+    -fx-background-color: white;
+    -fx-font-family: "Kanit", sans-serif;
+    -fx-font-weight: 700;
+    -fx-text-fill: #199EFF;
+    -fx-font-size: 14px;
+    -fx-padding: 5px;
+
+    -fx-border-width: 2px;
+    -fx-border-radius: 8px;
+    -fx-border-color: #999EA1;
+}
+.dropBox.list-cell {
+    -fx-background-color: #34495e;
+    -fx-text-fill: white;
+}
+.dropBox.list-cell:hover {
+    -fx-background-color: #3d566e;
+}
+.dropBox.arrow {
+    -fx-background-color: #199EFF;
+}
+.dropBox .label {
+    -fx-text-fill: #999EA1;
+}
+
+/* CSS properties from other stylesheets */
+.credit-card-flexible {
+     -fx-background-color: #199EFF;
+     -fx-background-radius: 8px;
+}
+.baseTextField {
+     -fx-font-family: "Kanit", sans-serif;
+     -fx-font-weight: 700;
+     -fx-font-size: 1.2em;
+
+     -fx-pref-width: 373px;
+     -fx-pref-height: 48px;
+
+     -fx-background-color: #FFFFFF;
+     -fx-text-fill: #999EA1;
+
+     -fx-background-radius: 8px;
+
+     -fx-border-width: 2px;
+     -fx-border-radius: 8px;
+     -fx-border-color:  #999EA1;
+}
+.baseTextFieldHalf {
+     -fx-font-family: "Kanit", sans-serif;
+     -fx-font-weight: 700;
+     -fx-font-size: 1.2em;
+
+     -fx-pref-width: 186.5px;
+     -fx-pref-height: 48px;
+
+     -fx-background-color: #FFFFFF;
+     -fx-text-fill: #999EA1;
+
+     -fx-background-radius: 8px;
+
+     -fx-border-width: 2px;
+     -fx-border-radius: 8px;
+     -fx-border-color:  #999EA1;
+}
+.baseTextFieldHalf-pinpoint {
+     -fx-font-family: "Kanit", sans-serif;
+     -fx-font-weight: 700;
+     -fx-font-size: 1.2em;
+
+     -fx-pref-width: 186.5px;
+     -fx-pref-height: 48px;
+
+     -fx-background-color: #FFFFFF;
+     -fx-text-fill: #999EA1;
+
+     -fx-background-radius: 8px;
+
+     -fx-border-width: 2px;
+     -fx-border-radius: 8px;
+     -fx-border-color:  #999EA1;
+}
+.baseTextField-pinpoint {
+     -fx-font-family: "Kanit", sans-serif;
+     -fx-font-weight: 700;
+     -fx-font-size: 1.2em;
+
+     -fx-pref-width: 373px;
+     -fx-pref-height: 48px;
+
+     -fx-background-color: #FFFFFF;
+     -fx-text-fill: #199EFF;
+
+     -fx-background-radius: 8px;
+
+     -fx-border-color: transparent transparent #199EFF transparent;
+     -fx-border-width: 0 0 2px 0;
+     -fx-border-radius: 0 0 8px 8px;
 }

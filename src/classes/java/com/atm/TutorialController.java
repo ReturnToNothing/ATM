@@ -13,22 +13,24 @@ public class TutorialController
     @FXML public AnchorPane anchor;
     @FXML public AnchorPane anchorRight;
     @FXML public AnchorPane anchorLeft;
+
     @FXML public Button logButton;
     @FXML public Button startButton;
     @FXML public Button registerButton;
     @FXML public Button continueButton;
+
     @FXML public Button logButton1;
     @FXML public Button continueButton1;
     @FXML public Button logButton2;
     @FXML public Button logButton4;
-    @FXML  public Button returnButton;
+
+    @FXML public Button returnButton;
 
     private Controller controller;
     private States state;
 
     public void initialize(Controller controller)
     {
-        //this.view = view;
         this.controller = controller;
         this.state = States.DEFAULT;
 

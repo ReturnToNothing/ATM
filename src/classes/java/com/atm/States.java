@@ -8,12 +8,17 @@ public enum States
     PROFILE_PAGE,
 
     TRANSACTION_PAGE,
+    TRANSACTION_CONFIRM,
+    TRANSACTION_COMPLETE,
+    TRANSACTION_SUMMARY,
 
     // Model's internal state for notification
     NOTIFY_SHOW,
 
     // Model's internal state for input
     INPUT_DIGIT,
+    INPUT_BALANCE,
+    INPUT_STRING,
 
     // Model's internal state for tutorial
     TUTORIAL_ONE,
@@ -25,6 +30,20 @@ public enum States
     LOGIN_ONE,
     LOGIN_TWO,
     LOGIN_THREE,
+
+    // Model's internal state for sign-in
+    SIGN_ONE,
+    SIGN_TWO,
+    SIGN_THREE,
+    SIGN_FOUR,
+    SIGN_FIVE,
+    SIGN_SIX,
+
+    // Model's internal state for swapping input processes
+    PROCESS_CARDNUMBER,
+    PROCESS_PHONE,
+    PROCESS_DATE,
+    PROCESS_CVV,
 
     // Model's internal state
     ACCOUNT_NO,

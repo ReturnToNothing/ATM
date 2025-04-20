@@ -1,5 +1,8 @@
 package com.atm;
 
+import javafx.util.Pair;
+
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -24,9 +27,14 @@ public class Bank  //make it protected
     }
 
     // Another method that creates an immutable copy from a legitimate account.
-    public Account cloneAccount(Account account)
+    public Account cloneAccount()
     {
-        return new Account(account.getName(), account.getNumber(), account.getPassword(), account.getType());
+        if (this.IsLogged())
+        {
+            return null;
+        }
+
+        return this.account.clone();
     }
 
     public boolean addAccount(String name, int number, int password, Types type)
@@ -34,6 +42,8 @@ public class Bank  //make it protected
         if (this.accounts.size() < this.maxAccounts)
         {
             Account newAccount = this.createAccount(name, number, password, type);
+
+            System.out.println(newAccount);
             this.accounts.add(newAccount);
             return true;
         }
@@ -81,7 +91,7 @@ public class Bank  //make it protected
         {
             if (card != null)
             {
-                if (Objects.equals(card.cardNumber(), cardNumber))
+                if (Objects.equals(card.getCardNumber(), cardNumber))
                 {
                     return card;
                 }
@@ -91,7 +101,7 @@ public class Bank  //make it protected
         return null;
     }
 
-    public ArrayList<Account> findAccountsPartially(int PIN)
+    public ArrayList<Account> findAccountsPartially(long PIN)
     {
         ArrayList<Account> matches = new ArrayList<>();
         String partialPin = String.valueOf(PIN);
@@ -122,6 +132,43 @@ public class Bank  //make it protected
         this.account = null;
     }
 
+    public Status transfer(Account payee, double amount)
+    {
+        if (this.IsLogged())
+        {
+            return Status.UNSUCCESSFUL;
+        }
+
+        amount = Math.abs(amount);
+
+        // Fetches the primary card of the payer and the payee
+        Card payerCard = this.account.getCard();
+        Card payeeCard = payee.getCard();
+
+        double payerBalance = payerCard.getCardBalance();
+        double payeeBalance = payeeCard.getCardBalance();
+
+        // Verifying if the card's balance is over than 0.01,
+        // hence 1 exchanged as 0.01
+        if (payerBalance >= 1)
+        {
+            payerCard.setCardBalance(payerBalance - amount);
+            payeeCard.setCardBalance(payeeBalance + amount);
+
+            Pair<String, String> time = TimeFormatter.getTime();
+
+            History transferHistory = new History(payee, payerCard, amount, time.getKey(), time.getValue());
+
+            this.account.addHistory(transferHistory);
+        }
+        else
+        {
+            return Status.INSUFFICIENT_FUNDS;
+        }
+
+        return Status.SUCCESSFUL;
+    }
+/*
     public Status deposit(double amount)
     {
         if (this.IsLogged())
@@ -188,4 +235,6 @@ public class Bank  //make it protected
 
         return this.account.getBalance();
     }
+
+ */
 }
