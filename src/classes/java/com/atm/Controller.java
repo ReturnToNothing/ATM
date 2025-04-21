@@ -1,5 +1,9 @@
 package com.atm;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.LongProperty;
+import javafx.beans.property.StringProperty;
+
 import java.util.Set;
 
 public class Controller
@@ -92,10 +96,69 @@ public class Controller
     public void processSet(String action)
     {
         PersonalInfo personalInfo = this.model.getPersonalInfo();
+        CardInfo cardInfo = this.model.getCardInfo();
         switch (action)
         {
-            case "FirstName" -> this.model.setFirstName();
-            case "LastName" -> this.model.setLastName();
+            case "FirstName" ->
+            {
+                StringProperty firstName = personalInfo.getFirstName();
+                this.model.setInfo(firstName);
+                this.model.setState(Scene.PROCESS, States.PROCESS_FIRST);
+            }
+            case "LastName" ->
+            {
+                StringProperty lastName = personalInfo.getLastName();;
+                this.model.setInfo(lastName);
+                this.model.setState(Scene.PROCESS, States.PROCESS_LAST);
+            }
+            case "PIN" ->
+            {
+                IntegerProperty PIN = personalInfo.getPIN();
+                this.model.setInfo(PIN);
+                this.model.setState(Scene.PROCESS, States.DEFAULT);
+            }
+            case "PhoneNumber" ->
+            {
+                LongProperty phoneNumber = personalInfo.getPhoneNumber();
+                this.model.setInfo(phoneNumber);
+                this.model.setState(Scene.PROCESS, States.PROCESS_PHONE);
+            }
+            case "OPT" ->
+            {
+                IntegerProperty OPT = personalInfo.getOTPCode();
+                this.model.setInfo(OPT);
+                this.model.setState(Scene.PROCESS, States.DEFAULT);
+            }
+            case "CardNumber" ->
+            {
+                LongProperty cardNumber = cardInfo.getCardNumber();
+                this.model.setInfo(cardNumber);
+                this.model.setState(Scene.PROCESS, States.PROCESS_CARDNUMBER);
+            }
+            case "ExpirationDate" ->
+            {
+                IntegerProperty expirationDate = cardInfo.getExpirationDate();
+                this.model.setInfo(expirationDate);
+                this.model.setState(Scene.PROCESS, States.PROCESS_DATE);
+            }
+            case "CVV" ->
+            {
+                IntegerProperty CVV = cardInfo.getCVVCode();
+                this.model.setInfo(CVV);
+                this.model.setState(Scene.PROCESS, States.PROCESS_CVV);
+            }
+            case "Issuer" ->
+            {
+                StringProperty issuer = cardInfo.getCardIssuer();
+                this.model.setInfo(issuer);
+                this.model.setState(Scene.PROCESS, States.PROCESS_ISSUER);
+            }
+            case "Type" ->
+            {
+                StringProperty type = cardInfo.getAccountType();
+                this.model.setInfo(type);
+                this.model.setState(Scene.PROCESS, States.DEFAULT);
+            }
             default ->
             {
                 // this.model.processUnknownKey(action);
@@ -103,38 +166,61 @@ public class Controller
         }
     }
 
-
-    public void processString(String action, String string)
+    public void processSet(String action, Object value)
     {
+        PersonalInfo personalInfo = this.model.getPersonalInfo();
+        CardInfo cardInfo = this.model.getCardInfo();
         switch (action)
         {
-            case "FirstName" -> this.model.setFirstName(string);
-            case "LastName" -> this.model.setLastName(string);
-            case "CardIssuer" -> this.model.setCardIssuer(string);
-            case "AccountType" -> this.model.setAccountType(string);
-            case "Password" -> {
-                this.model.setState(Scene.PROCESS, States.DEFAULT);
-                this.model.setPassword(string);
+            case "FirstName" ->
+            {
+                StringProperty firstName = personalInfo.getFirstName();
+                this.model.setInfo(firstName, value);
             }
-            case "CardNumber" -> {
-                this.model.setState(Scene.PROCESS, States.PROCESS_CARDNUMBER);
-                this.model.setCardNumber(string);
+            case "LastName" ->
+            {
+                StringProperty lastName = personalInfo.getLastName();;
+                this.model.setInfo(lastName, value);
             }
-            case "PhoneNumber" -> {
-                this.model.setState(Scene.PROCESS, States.PROCESS_PHONE);
-                this.model.setPhoneNumber(string);
+            case "PIN" ->
+            {
+                IntegerProperty PIN = personalInfo.getPIN();
+                this.model.setInfo(PIN, value);
             }
-            case "OTPCode" -> {
-                this.model.setState(Scene.PROCESS, States.DEFAULT);
-                this.model.setOTPCode(string);
+            case "PhoneNumber" ->
+            {
+                LongProperty phoneNumber = personalInfo.getPhoneNumber();
+                this.model.setInfo(phoneNumber, value);
             }
-            case "ExpiryDate" -> {
-                this.model.setState(Scene.PROCESS, States.PROCESS_DATE);
-                this.model.setExpiryDate(string);
+            case "OPT" ->
+            {
+                IntegerProperty OPT = personalInfo.getOTPCode();
+                this.model.setInfo(OPT, value);
             }
-            case "CVVNumber" -> {
-                this.model.setState(Scene.PROCESS, States.PROCESS_CVV);
-                this.model.setCVVNumber(string);
+            case "CardNumber" ->
+            {
+                LongProperty cardNumber = cardInfo.getCardNumber();
+                this.model.setInfo(cardNumber, value);
+            }
+            case "ExpirationDate" ->
+            {
+                IntegerProperty expirationDate = cardInfo.getExpirationDate();
+                this.model.setInfo(expirationDate, value);
+            }
+            case "CVV" ->
+            {
+                IntegerProperty CVV = cardInfo.getCVVCode();
+                this.model.setInfo(CVV, value);
+            }
+            case "Issuer" ->
+            {
+                StringProperty issuer = cardInfo.getCardIssuer();
+                this.model.setInfo(issuer, value);
+            }
+            case "Type" ->
+            {
+                StringProperty type = cardInfo.getAccountType();
+                this.model.setInfo(type, value);
             }
             default ->
             {

@@ -45,6 +45,10 @@ public enum States
     PROCESS_DATE,
     PROCESS_CVV,
 
+    PROCESS_FIRST,
+    PROCESS_LAST,
+    PROCESS_ISSUER,
+
     // Model's internal state
     ACCOUNT_NO,
     PASSWORD_NO,

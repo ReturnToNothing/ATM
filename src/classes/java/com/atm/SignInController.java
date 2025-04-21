@@ -78,24 +78,14 @@ public class SignInController
     private TextFieldContext expiryDateTextFieldContext;
     private TextFieldContext cvvTextFieldContext;
 
-    private StringProperty firstName;
-    private StringProperty lastName;
-    private StringProperty phoneNumber;
-    private StringProperty password;
-    private StringProperty OTPCode;
-
-    private StringProperty cardNumber;
-    private StringProperty expiryDate;
-    private StringProperty cvvNumber;
-
-    private StringProperty cardIssuer;
-    private StringProperty accountType;
-
     private Model model;
     private Controller controller;
 
     private States inputState;
     private States state;
+
+    private PersonalInfo personalInfo;
+    private CardInfo cardInfo;
 
     public void initialize(Controller controller, Model model)
     {
@@ -103,17 +93,6 @@ public class SignInController
         this.inputState = States.DEFAULT;
         this.controller = controller;
         this.model = model;
-
-        this.firstName = new SimpleStringProperty("");
-        this.lastName = new SimpleStringProperty("");
-        this.password = new SimpleStringProperty("");
-        this.phoneNumber = new SimpleStringProperty("");
-        this.OTPCode = new SimpleStringProperty("");
-        this.cardNumber = new SimpleStringProperty("");
-        this.expiryDate = new SimpleStringProperty("");
-        this.cvvNumber = new SimpleStringProperty("");
-        this.cardIssuer = new SimpleStringProperty("");
-        this.accountType = new SimpleStringProperty("");
 
         this.returnButton.setId("Return-SignIn");
         this.returnButton1.setId("Return-SignIn");
@@ -135,46 +114,49 @@ public class SignInController
         this.expiryDateTextField.setId("Open-Input");
         this.cvvTextField.setId("Open-Input");
 
+        this.personalInfo = this.model.getPersonalInfo();
+        this.cardInfo = this.model.getCardInfo();
+
         this.firstTextFieldContext = new TextFieldContext(
                 this.firstTextField,
                 "FirstName",
-                this.firstName
+                this.personalInfo.getFirstName().get()
         );
         this.lastTextFieldContext = new TextFieldContext(
                 this.lastTextField,
                 "LastName",
-                this.lastName
+                this.personalInfo.getLastName().get()
         );
         this.passwordTextFieldContext = new TextFieldContext(
                 this.passwordTextField,
-                "Password",
-                this.password
-        );
-        this.phoneTextFieldContext = new TextFieldContext(
-                this.phoneTextField,
-                "PhoneNumber",
-                this.phoneNumber
+                "PIN",
+                this.personalInfo.getPIN().get()
         );
         this.OTPTextFieldContext = new TextFieldContext(
                 this.OPTTextField,
                 "OTPCode",
-                this.OTPCode
+                this.personalInfo.getOTPCode().get()
+        );
+        this.phoneTextFieldContext = new TextFieldContext(
+                this.phoneTextField,
+                "PhoneNumber",
+                this.personalInfo.getPhoneNumber().get()
         );
 
         this.cardNumberTextFieldContext = new TextFieldContext(
                 this.cardNumberTextField,
                 "CardNumber",
-                this.cardNumber
+                this.cardInfo.getCardNumber().get()
         );
         this.expiryDateTextFieldContext = new TextFieldContext(
                 this.expiryDateTextField,
                 "ExpiryDate",
-                this.expiryDate
+                this.cardInfo.getExpirationDate().get()
         );
         this.cvvTextFieldContext = new TextFieldContext(
                 this.cvvTextField,
                 "CVVNumber",
-                this.cvvNumber
+                this.cardInfo.getCVVCode().get()
         );
 
         // despite the choiceBox using a listener for choosing an item should trigger the same
@@ -186,16 +168,14 @@ public class SignInController
         this.issuerDropBox.setValue("Visa");
         this.issuerDropBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             System.out.println(newValue);
-            this.controller.processString("CardIssuer", newValue);
-            this.cardIssuer.set(newValue.toLowerCase());
+            this.controller.processSet("Issuer", newValue.toLowerCase());
         });
 
         this.accountTypeDropBox.getItems().addAll("Basic", "Prime", "Apex");
         this.accountTypeDropBox.setValue("Basic");
         this.accountTypeDropBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             System.out.println(newValue);
-            this.controller.processString("AccountType", newValue);
-            this.accountType.set(newValue.toUpperCase());
+            this.controller.processSet("Type", newValue.toUpperCase());
         });
 
         this.anchor.setTranslateX(414);
@@ -353,7 +333,7 @@ public class SignInController
 
         slideAnimation.play();
     }
-
+/*
     public void updateFourth(States inputState)
     {
         String selectedCardIssuer = this.cardIssuer.get();
@@ -507,7 +487,7 @@ public class SignInController
 
         this.inputState = inputState;
     }
-
+*/
     public void updateFirst(States inputState)
     {
         if (this.selectedTextField == null)
@@ -519,7 +499,7 @@ public class SignInController
            accessible, bindable, and greatly reduced the previous duplication. */
         TextField currentTextField = this.selectedTextField.textField();
         String currentAction = this.selectedTextField.action();
-        StringProperty currentVariable = this.selectedTextField.variable();
+        Object currentValue = this.selectedTextField.value();
 
         if (inputState.equals(States.INPUT_STRING) || inputState.equals(States.INPUT_DIGIT))
         {
@@ -530,32 +510,29 @@ public class SignInController
             // Once deselected, the first or last name is updated.
             if (!this.inputState.equals(inputState))
             {
-                this.controller.processString(currentAction, currentVariable.get()); // fetch the data
+                this.controller.processSet(currentAction); //Fetch data of the current context
             }
 
-            String stringInput = this.model.getStringInput();
-            long input = this.model.getInput();
-
-            stringInput = toTitleCase(stringInput);
-
-            if (currentTextField.equals(passwordTextField))
+            if (inputState.equals(States.INPUT_STRING))
             {
-                System.out.println(input);
-                currentTextField.setText(String.valueOf(input));
+                String stringInput = this.model.getStringInput();
+                stringInput = toTitleCase(stringInput);
+
+                currentTextField.setText(stringInput);
             }
             else
             {
-                currentTextField.setText(stringInput);
+                long input = this.model.getInput();
+                currentTextField.setText(String.valueOf(input));
             }
 
-            currentVariable.set(currentTextField.getText());
-
-            validateInput(stringInput, checkBox1, checkBox2, checkBox3);
+            // Once the textField is settled, we update the current data of the context.
+            this.controller.processSet(currentAction, currentTextField.getText());
+            validateInput(currentTextField.getText(), checkBox1, checkBox2, checkBox3);
         }
         else
         {
             resetTextFieldStyle(currentTextField);
-            this.controller.processString(currentAction, currentVariable.get());
             this.selectedTextField = null;
         }
 
@@ -569,38 +546,32 @@ public class SignInController
 
         slide(signingState);
 
+        if (signingState.equals(States.DEFAULT))
+        {
+            this.selectedTextField = null;
+        }
+
         if (signingState.equals(States.SIGN_ONE))
         {
             updateFirst(inputState);
         }
         if (signingState.equals(States.SIGN_TWO))
         {
-            updateSecond(inputState);
+         //   updateSecond(inputState);
         }
         if (signingState.equals(States.SIGN_THREE))
         {
-            updateThird(inputState);
+          //  updateThird(inputState);
         }
         if (signingState.equals(States.SIGN_FOUR))
         {
-            updateFourth(inputState);
+          //  updateFourth(inputState);
         }
         if (signingState.equals(States.SIGN_FIVE))
         {
-            this.username.setText(this.firstName.get() + " " + this.lastName.get());
-        }
-
-        if (signingState.equals(States.DEFAULT))
-        {
-            this.selectedTextField = null;
-
-            // might actually remove these from view into the model instead.
-            this.firstName.set("");
-            this.lastName.set("");
-            this.phoneNumber.set("");
-            this.cardNumber.set("");
-            this.expiryDate.set("");
-            this.cvvNumber.set("");
+            StringProperty firstName = this.personalInfo.getFirstName();
+            StringProperty lastName = this.personalInfo.getLastName();
+            this.username.setText(firstName.get() + " " + lastName.get());
         }
     }
 
@@ -665,7 +636,7 @@ public class SignInController
             }
         }
     }
-
+/*
     private void validatePhoneInput(CheckBox checkDigits, CheckBox checkLength, CheckBox checkFormat)
     {
         if (!this.phoneNumber.get().isEmpty())
@@ -738,7 +709,7 @@ public class SignInController
         // Card number must be valid, according to the Luhn sum.
         checksum.setSelected(isValidLuhn(this.cardNumber.get()));
     }
-
+*/
     // referenced from: https://simplycalc.com/luhn-source.php
     private boolean isValidLuhn(String number)
     {
