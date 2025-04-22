@@ -9,7 +9,7 @@ import java.util.Set;
 public class Controller
 {
     public Model model;
-
+    
     public Controller()
     {
     }
