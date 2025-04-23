@@ -113,36 +113,36 @@ public class Model
     // Sets the personalInfo's property with the provided value before updating the corresponding reference.
     public void setInfo(Property<?> property, Object value)
     {
-        if (property instanceof StringProperty && value instanceof String)
+        switch (property)
         {
-            ((StringProperty) property).set((String) value);
-            this.inputString = ((StringProperty) property).get();
-        }
-        else if (property instanceof IntegerProperty && value instanceof Integer)
-        {
-            ((IntegerProperty) property).set((Integer) value);
-            this.input = ((IntegerProperty) property).get();
-        }
-        else
-        {
-            throw new IllegalArgumentException("Unsupported property or value type");
+            case StringProperty stringProperty when value instanceof String ->
+            {
+                stringProperty.set((String) value);
+                this.inputString = stringProperty.get();
+            }
+            case IntegerProperty integerProperty when value instanceof Integer ->
+            {
+                integerProperty.set((Integer) value);
+                this.input = integerProperty.get();
+            }
+            case LongProperty longProperty when value instanceof Long ->
+            {
+                longProperty.set((Long) value);
+                this.input = longProperty.get();
+            }
+            case null, default -> throw new IllegalArgumentException("Unsupported property or value type");
         }
     }
 
     // Overloaded method: simply assigns the corresponding reference with the provided property.
     public void setInfo(Property<?> property)
     {
-        if (property instanceof StringProperty)
+        switch (property)
         {
-            this.inputString = ((StringProperty) property).get();
-        }
-        else if (property instanceof IntegerProperty)
-        {
-            this.input = ((IntegerProperty) property).get();
-        }
-        else
-        {
-            throw new IllegalArgumentException("Unsupported property");
+            case StringProperty stringProperty -> this.inputString = stringProperty.get();
+            case IntegerProperty integerProperty -> this.input = integerProperty.get();
+            case LongProperty longProperty -> this.input = longProperty.get();
+            case null, default -> throw new IllegalArgumentException("Unsupported property");
         }
     }
 
