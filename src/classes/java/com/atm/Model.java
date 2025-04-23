@@ -194,12 +194,6 @@ public class Model
         };
     }
 
-    public void processState(States state)
-    {
-        this.setState(Scene.PROCESS, state);
-        this.display();
-    }
-
     public void processBalance(String label)
     {
         char character = label.charAt(0);
@@ -310,14 +304,13 @@ public class Model
     public void processString(String label)
     {
         States processState = this.getState(Scene.PROCESS);
-
         switch (processState)
         {
             case PROCESS_FIRST, PROCESS_LAST:
             {
                 char character = label.charAt(0);
 
-                if (label.length() >= 15)
+                if (this.inputString.length() >= 15)
                 {
                     return;
                 }
@@ -329,7 +322,7 @@ public class Model
             {
                 char character = label.charAt(0);
 
-                if (label.length() >= 20)
+                if (this.inputString.length() >= 20)
                 {
                     return;
                 }
@@ -340,7 +333,7 @@ public class Model
             default:
                 char character = label.charAt(0);
 
-                if (label.length() >= 6)
+                if (this.inputString.length() >= 6)
                 {
                     return;
                 }
