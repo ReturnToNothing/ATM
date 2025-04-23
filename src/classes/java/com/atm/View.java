@@ -163,12 +163,12 @@ public class View
         TutorialController tutorialController = (TutorialController) getController("tutorial");
         tutorialController.slide(tutorialState);
 
+        SignInController signinController = (SignInController) getController("signin");
+        signinController.update();
+
         LogInController loginController = (LogInController) getController("login");
         loginController.slide(loginState);
         loginController.update(input, account);
-
-        SignInController signinController = (SignInController) getController("signin");
-        signinController.update();
 
         AccountController accountController = (AccountController) getController("account");
         accountController.slide(accountState);
