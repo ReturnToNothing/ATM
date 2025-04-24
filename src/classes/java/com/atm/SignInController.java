@@ -5,7 +5,6 @@ import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.LongProperty;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -45,6 +44,7 @@ public class SignInController
     @FXML public Button signInButton2;
     @FXML public Button signInButton3;
     @FXML public Button loginButton;
+    @FXML public Button loginButton2;
 
     @FXML public TextField firstTextField;
     @FXML public TextField lastTextField;
@@ -101,6 +101,7 @@ public class SignInController
         this.returnButton2.setId("Return-SignIn");
         this.returnButton3.setId("Return-SignIn");
         this.loginButton.setId("Start-LogIn");
+        this.loginButton2.setId("Start-SignIn");
         this.signInButton.setId("Start-SignIn");
         this.signInButton1.setId("Start-SignIn");
         this.signInButton2.setId("Start-SignIn");
@@ -113,7 +114,7 @@ public class SignInController
         this.OPTTextField.setId("Open-Input");
 
         this.cardNumberTextField.setId("Open-Input");
-        this.expiryDateTextField.setId("Open-Input");
+        this.expiryDateTextField.setId("Open-Input-Numeric-String");
         this.cvvTextField.setId("Open-Input");
 
         this.personalInfo = this.model.getPersonalInfo();
@@ -122,43 +123,43 @@ public class SignInController
         this.firstTextFieldContext = new TextFieldContext(
                 this.firstTextField,
                 "FirstName",
-                this.personalInfo.getFirstName().get()
+                this.personalInfo.getFirstName()
         );
         this.lastTextFieldContext = new TextFieldContext(
                 this.lastTextField,
                 "LastName",
-                this.personalInfo.getLastName().get()
+                this.personalInfo.getLastName()
         );
         this.passwordTextFieldContext = new TextFieldContext(
                 this.passwordTextField,
                 "PIN",
-                this.personalInfo.getPIN().get()
+                this.personalInfo.getPIN()
         );
         this.OTPTextFieldContext = new TextFieldContext(
                 this.OPTTextField,
-                "OTPCode",
-                this.personalInfo.getOTPCode().get()
+                "OPT",
+                this.personalInfo.getOTPCode()
         );
         this.phoneTextFieldContext = new TextFieldContext(
                 this.phoneTextField,
                 "PhoneNumber",
-                this.personalInfo.getPhoneNumber().get()
+                this.personalInfo.getPhoneNumber()
         );
 
         this.cardNumberTextFieldContext = new TextFieldContext(
                 this.cardNumberTextField,
                 "CardNumber",
-                this.cardInfo.getCardNumber().get()
+                this.cardInfo.getCardNumber()
         );
         this.expiryDateTextFieldContext = new TextFieldContext(
                 this.expiryDateTextField,
-                "ExpiryDate",
-                this.cardInfo.getExpirationDate().get()
+                "ExpirationDate",
+                this.cardInfo.getExpirationDate()
         );
         this.cvvTextFieldContext = new TextFieldContext(
                 this.cvvTextField,
-                "CVVNumber",
-                this.cardInfo.getCVVCode().get()
+                "CVV",
+                this.cardInfo.getCVVCode()
         );
 
         // despite the choiceBox using a listener for choosing an item should trigger the same
@@ -169,14 +170,12 @@ public class SignInController
         this.issuerDropBox.getItems().addAll("Visa", "Mastercard", "HSBC");
         this.issuerDropBox.setValue("Visa");
         this.issuerDropBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            System.out.println(newValue);
             this.controller.processSet("Issuer", newValue.toLowerCase());
         });
 
         this.accountTypeDropBox.getItems().addAll("Basic", "Prime", "Apex");
         this.accountTypeDropBox.setValue("Basic");
         this.accountTypeDropBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            System.out.println(newValue);
             this.controller.processSet("Type", newValue.toUpperCase());
         });
 
@@ -189,7 +188,7 @@ public class SignInController
     public void BindButtons()
     {
         Button[] buttons = {
-                returnButton, returnButton1, returnButton2, returnButton3, signInButton, signInButton1, signInButton2, signInButton3
+                returnButton, returnButton1, returnButton2, returnButton3, signInButton, signInButton1, signInButton2, signInButton3, loginButton2
         };
 
         Button[] textButtons = {
@@ -335,177 +334,28 @@ public class SignInController
 
         slideAnimation.play();
     }
-/*
-    public void updateFourth(States inputState)
-    {
-        String selectedCardIssuer = this.cardIssuer.get();
-        String firstName = this.firstName.get();
-        String lastName = this.lastName.get();
-
-        if (firstName != null && lastName != null)
-        {
-            this.fullname.setText(firstName + " " + lastName);
-        }
-
-        if (selectedCardIssuer != null && !selectedCardIssuer.isEmpty())
-        {
-            this.company.setText(selectedCardIssuer);
-            this.companyIcon.setImage(View.getCardImage(selectedCardIssuer.toLowerCase()));
-        }
-
-        if (this.selectedTextField == null)
-        {
-            return;
-        }
-
-        TextField currentTextField = this.selectedTextField.textField();
-        String currentAction = this.selectedTextField.action();
-        StringProperty currentVariable = this.selectedTextField.variable();
-
-        if (inputState.equals(States.INPUT_DIGIT))
-        {
-            applyTextFieldStyle(currentTextField);
-
-            if (!this.inputState.equals(inputState))
-            {
-                this.controller.processString(currentAction, currentVariable.get());
-            }
-
-            String inputString = String.valueOf(this.model.getInput());
-
-            if (currentTextField.equals(cardNumberTextField))
-            {
-                currentTextField.setText(formatCardNumber(inputString, false));
-                currentVariable.set(formatCardNumber(currentTextField.getText(), true));
-            }
-            else if (currentTextField.equals(expiryDateTextField))
-            {
-                currentTextField.setText(formatExpiryDate(inputString, false));
-                currentVariable.set(formatExpiryDate(currentTextField.getText(), true));
-            }
-            else
-            {
-                currentTextField.setText(inputString);
-                currentVariable.set(currentTextField.getText());
-            }
-
-            validateCard(checkBox7, checkBox8, checkBox9);
-        }
-        else
-        {
-            resetTextFieldStyle(currentTextField);
-
-            this.controller.processString(currentAction, currentVariable.get());
-            this.selectedTextField = null;
-        }
-
-        this.inputState = inputState;
-    }
-
-    public void updateThird(States inputState)
-    {
-        if (this.phoneNumber.getValue() != null)
-        {
-            this.phoneNumberText.setText("Enter the OPT sent to: " + formatPhoneNumber(this.phoneNumber.getValue(), false, true));
-        }
-
-        if (this.model.getOTP() != null)
-        {
-            this.OPTcode.setText(this.model.getOTP());
-        }
-
-        if (this.selectedTextField == null)
-        {
-            return;
-        }
-
-        TextField currentTextField = this.selectedTextField.textField();
-        String currentAction = this.selectedTextField.action();
-        StringProperty currentVariable = this.selectedTextField.variable();
-
-        if (inputState.equals(States.INPUT_DIGIT))
-        {
-            applyTextFieldStyle(currentTextField);
-
-            if (!this.inputState.equals(inputState))
-            {
-                this.controller.processString(currentAction, currentVariable.get());
-            }
-
-            long input = this.model.getInput();
-
-            currentTextField.setText(String.valueOf(input));
-            currentVariable.set(currentTextField.getText());
-
-            validateOTP(checkBox10, checkBox11, checkBox12);
-        }
-        else
-        {
-            resetTextFieldStyle(currentTextField);
-            this.controller.processString(currentAction, currentVariable.get());
-            this.selectedTextField = null;
-        }
-
-        this.inputState = inputState;
-    }
-
-    public void updateSecond(States inputState)
-    {
-        if (this.selectedTextField == null)
-        {
-            return;
-        }
-
-        TextField currentTextField = this.selectedTextField.textField();
-        String currentAction = this.selectedTextField.action();
-        StringProperty currentVariable = this.selectedTextField.variable();
-
-        if (inputState.equals(States.INPUT_DIGIT))
-        {
-            applyTextFieldStyle(currentTextField);
-
-           if (!this.inputState.equals(inputState))
-            {
-                this.controller.processString(currentAction, currentVariable.get());
-            }
-
-            long input = this.model.getInput();
-
-            currentTextField.setText(formatPhoneNumber(String.valueOf(input), false, false));
-
-            if (currentTextField.equals(phoneTextField))
-            {
-                currentVariable.set(formatPhoneNumber(currentTextField.getText(), true, false));
-            }
-
-            validatePhoneInput(checkBox4, checkBox5, checkBox6);
-        }
-        else
-        {
-            resetTextFieldStyle(currentTextField);
-            this.controller.processString(currentAction, currentVariable.get());
-            this.selectedTextField = null;
-        }
-
-        this.inputState = inputState;
-    }
-*/
 
     public void updateFourth(States inputState)
     {
-        String selectedCardIssuer = this.cardInfo.getCardIssuer().get();
-        String firstName = this.personalInfo.getFirstName().get();
-        String lastName = this.personalInfo.getLastName().get();
+        String cardIssuer = this.issuerDropBox.getValue();
+        StringProperty firstName = (StringProperty) this.firstTextFieldContext.value();
+        StringProperty lastName = (StringProperty) this.lastTextFieldContext.value();
+        String type = this.accountTypeDropBox.getValue();
 
         if (firstName != null && lastName != null)
         {
-            this.fullname.setText(firstName + " " + lastName);
+            this.fullname.setText(firstName.get() + " " + lastName.get());
         }
 
-        if (selectedCardIssuer != null && !selectedCardIssuer.isEmpty())
+        if (cardIssuer != null && !cardIssuer.isEmpty())
         {
-            this.company.setText(selectedCardIssuer);
-            this.companyIcon.setImage(View.getCardImage(selectedCardIssuer.toLowerCase()));
+            this.company.setText(cardIssuer);
+            this.companyIcon.setImage(View.getCardImage(cardIssuer.toLowerCase()));
+        }
+
+        if (type != null && !type.isEmpty())
+        {
+            this.type.setText(type + " Account");
         }
 
         if (this.selectedTextField == null)
@@ -517,7 +367,7 @@ public class SignInController
         String currentAction = this.selectedTextField.action();
         Object currentValue = this.selectedTextField.value();
 
-        if ((inputState.equals(States.INPUT_STRING) || inputState.equals(States.INPUT_DIGIT)))
+        if ((inputState.equals(States.INPUT_STRING) || inputState.equals(States.INPUT_NUMERIC) || inputState.equals(States.INPUT_STRING_NUMERIC)))
         {
             applyTextFieldStyle(currentTextField);
 
@@ -536,8 +386,13 @@ public class SignInController
             }
             else if (currentTextField.equals(expiryDateTextField))
             {
-                currentTextField.setText(formatExpiryDate(String.valueOf(input), false));
-                this.controller.processSet(currentAction, input);
+                currentTextField.setText(formatExpiryDate(inputString, false));
+                this.controller.processSet(currentAction, inputString);
+            }
+            else if (currentTextField.equals(cvvTextField))
+            {
+                currentTextField.setText(String.valueOf(input));
+                this.controller.processSet(currentAction, (int) input);
             }
             else
             {
@@ -546,6 +401,28 @@ public class SignInController
             }
 
             validateCard(checkBox7, checkBox8, checkBox9);
+
+            if (currentValue instanceof StringProperty)
+            {
+                if (((StringProperty) currentValue).get().isEmpty())
+                {
+                    currentTextField.clear();
+                }
+            }
+            else if (currentValue instanceof IntegerProperty)
+            {
+                if (((IntegerProperty) currentValue).get() <= 0)
+                {
+                    currentTextField.clear();
+                }
+            }
+            else if (currentValue instanceof LongProperty)
+            {
+                if (((LongProperty) currentValue).get() <= 0)
+                {
+                    currentTextField.clear();
+                }
+            }
         }
         else
         {
@@ -578,7 +455,7 @@ public class SignInController
         String currentAction = this.selectedTextField.action();
         Object currentValue = this.selectedTextField.value();
 
-        if (inputState.equals(States.INPUT_DIGIT))
+        if (inputState.equals(States.INPUT_NUMERIC))
         {
             applyTextFieldStyle(currentTextField);
 
@@ -587,12 +464,34 @@ public class SignInController
                 this.controller.processSet(currentAction);
             }
 
-            long input = this.model.getInput();
+            int input = (int) this.model.getInput();
 
             currentTextField.setText(String.valueOf(input));
             this.controller.processSet(currentAction, input);
 
             validateOTP(input, checkBox10, checkBox11, checkBox12);
+
+            if (currentValue instanceof StringProperty)
+            {
+                if (((StringProperty) currentValue).get().isEmpty())
+                {
+                    currentTextField.clear();
+                }
+            }
+            else if (currentValue instanceof IntegerProperty)
+            {
+                if (((IntegerProperty) currentValue).get() <= 0)
+                {
+                    currentTextField.clear();
+                }
+            }
+            else if (currentValue instanceof LongProperty)
+            {
+                if (((LongProperty) currentValue).get() <= 0)
+                {
+                    currentTextField.clear();
+                }
+            }
         }
         else
         {
@@ -614,7 +513,7 @@ public class SignInController
         String currentAction = this.selectedTextField.action();
         Object currentValue = this.selectedTextField.value();
 
-        if (inputState.equals(States.INPUT_DIGIT))
+        if (inputState.equals(States.INPUT_NUMERIC))
         {
             applyTextFieldStyle(currentTextField);
 
@@ -632,6 +531,28 @@ public class SignInController
             }
 
             validatePhoneInput(input, checkBox4, checkBox5, checkBox6);
+
+            if (currentValue instanceof StringProperty)
+            {
+                if (((StringProperty) currentValue).get().isEmpty())
+                {
+                    currentTextField.clear();
+                }
+            }
+            else if (currentValue instanceof IntegerProperty)
+            {
+                if (((IntegerProperty) currentValue).get() <= 0)
+                {
+                    currentTextField.clear();
+                }
+            }
+            else if (currentValue instanceof LongProperty)
+            {
+                if (((LongProperty) currentValue).get() <= 0)
+                {
+                    currentTextField.clear();
+                }
+            }
         }
         else
         {
@@ -655,7 +576,7 @@ public class SignInController
         String currentAction = this.selectedTextField.action();
         Object currentValue = this.selectedTextField.value();
 
-        if (inputState.equals(States.INPUT_STRING) || inputState.equals(States.INPUT_DIGIT))
+        if (inputState.equals(States.INPUT_STRING) || inputState.equals(States.INPUT_NUMERIC))
         {
             applyTextFieldStyle(currentTextField);
 
@@ -677,17 +598,40 @@ public class SignInController
             }
             else
             {
-                long input = this.model.getInput();
+                int input = (int) this.model.getInput();
                 currentTextField.setText(String.valueOf(input));
                 this.controller.processSet(currentAction, input);
             }
 
             // Once the textField is settled, we update the current data of the context.
             validateInput(currentTextField.getText(), checkBox1, checkBox2, checkBox3);
+
+            if (currentValue instanceof StringProperty)
+            {
+                if (((StringProperty) currentValue).get().isEmpty())
+                {
+                    currentTextField.clear();
+                }
+            }
+            else if (currentValue instanceof IntegerProperty)
+            {
+                if (((IntegerProperty) currentValue).get() <= 0)
+                {
+                    currentTextField.clear();
+                }
+            }
+            else if (currentValue instanceof LongProperty)
+            {
+                if (((LongProperty) currentValue).get() <= 0)
+                {
+                    currentTextField.clear();
+                }
+            }
         }
         else
         {
             resetTextFieldStyle(currentTextField);
+
             this.selectedTextField = null;
         }
 
@@ -825,14 +769,14 @@ public class SignInController
     {
 
         LongProperty cardNumber = (LongProperty) this.cardNumberTextFieldContext.value();
-        IntegerProperty expiryDate = (IntegerProperty) this.expiryDateTextFieldContext.value();
+        StringProperty expiryDate = (StringProperty) this.expiryDateTextFieldContext.value();
         IntegerProperty cvvCode = (IntegerProperty) this.cvvTextFieldContext.value();
         // All fields must be filled.
         if (checkAll != null)
         {
             checkAll.setSelected(
                     cardNumber.get() > 0 &
-                            expiryDate.get() > 0 &
+                            !expiryDate.get().isEmpty() &
                             cvvCode.get() > 0 &
                             this.issuerDropBox.getValue() != null
             );
@@ -841,10 +785,10 @@ public class SignInController
         // The Expiry date must be between 2025–2035.
         if (checkExpiry != null)
         {
-            int length = (int) Math.log10(expiryDate.get()) + 1;
+            int length = expiryDate.get().length();
             if (length >= 4)
             {
-                int year = expiryDate.get() % 100;
+                int year = Integer.parseInt(expiryDate.get().substring(2));
                 checkExpiry.setSelected(year > 24 && year < 35);
             }
             else
@@ -855,80 +799,6 @@ public class SignInController
         checksum.setSelected(isValidLuhn(String.valueOf(cardNumber.get())));
     }
 
-/*
-    private void validatePhoneInput(CheckBox checkDigits, CheckBox checkLength, CheckBox checkFormat)
-    {
-        if (!this.phoneNumber.get().isEmpty())
-        {
-            long phoneNumber = Long.parseLong(this.phoneNumber.get());
-
-            // Only Digits Allowed--always true since the input always be a digit
-            checkDigits.setSelected(phoneNumber > 0);
-
-            // maximum length from 10 digits.
-            if (checkLength != null)
-            {
-                int length = String.valueOf(phoneNumber).length();
-
-                checkLength.setSelected(length == 10);
-            }
-
-            // always true despite that the input is automatically formatted.
-            checkFormat.setSelected(true);
-        }
-    }
-
-    private void validateOTP(CheckBox checkDigits, CheckBox checkLength, CheckBox checkFormat)
-    {
-        if (!this.OTPCode.get().isEmpty())
-        {
-            long OPT = Long.parseLong(this.OTPCode.get());
-
-            // Only Digits Allowed--always true since the input always be a digit
-            checkDigits.setSelected(OPT > 0);
-
-            // maximum length from 10 digits.
-            if (checkLength != null)
-            {
-                int length = String.valueOf(OPT).length();
-
-                checkLength.setSelected(length == 6);
-            }
-
-            // always true despite that the input never includes whitespaces, letters or any special symbols.
-            checkFormat.setSelected(true);
-        }
-    }
-
-    private void validateCard(CheckBox checkAll, CheckBox checkExpiry, CheckBox checksum)
-    {
-        // All fields must be filled.
-        if (checkAll != null)
-        {
-            checkAll.setSelected(
-                    !this.cardNumber.get().isEmpty() &
-                    !this.expiryDate.get().isEmpty() &
-                    !this.cvvNumber.get().isEmpty() &
-                    this.issuerDropBox.getValue() != null
-            );
-        }
-
-        // The Expiry date must be between 2025–2035.
-        if (checkExpiry != null)
-        {
-            if (this.expiryDate.get().length() >= 4)
-            {
-                int year = Integer.parseInt(this.expiryDate.get().substring(2));
-                checkExpiry.setSelected(year > 24 && year < 35);
-            }
-            else
-                checkExpiry.setSelected(false);
-        }
-
-        // Card number must be valid, according to the Luhn sum.
-        checksum.setSelected(isValidLuhn(this.cardNumber.get()));
-    }
-*/
     // referenced from: https://simplycalc.com/luhn-source.php
     private boolean isValidLuhn(String number)
     {
@@ -939,7 +809,7 @@ public class SignInController
         // The Number is split into digits, and every second digit is doubled from right to left.
         for (int index = number.length() - 1; index >= 0; index--)
         {
-            int digit = number.charAt(index);
+            int digit = Character.getNumericValue(number.charAt(index));
 
             // every two digits, double it
             if (index % 2 == parity)
@@ -955,6 +825,7 @@ public class SignInController
 
             sum += digit;
         }
+
         // lastly, use modulo operation with the sum
         return (sum % 10 == 0);
     }

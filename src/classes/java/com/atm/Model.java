@@ -1,6 +1,5 @@
 package com.atm;
 
-import javafx.animation.Interpolator;
 import javafx.animation.PauseTransition;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.LongProperty;
@@ -234,7 +233,7 @@ public class Model
 
                 long proposedInput = this.input * 10 + character - 48;
 
-                int length = String.valueOf(proposedInput).length();
+                int length = (int) (Math.log10(proposedInput) + 1);
 
                 if (length == 1)
                 {
@@ -303,6 +302,8 @@ public class Model
 
     public void processString(String label)
     {
+
+        System.out.println("processString " + label);
         States processState = this.getState(Scene.PROCESS);
         switch (processState)
         {
@@ -330,6 +331,53 @@ public class Model
                 this.inputString += character;
                 break;
             }
+            case PROCESS_DATE:
+            {
+                char character = label.charAt(0);
+
+                // maximum input for date four
+                if (this.inputString.length() >= 4)
+                {
+                    return;
+                }
+
+                String proposedInput = this.inputString + character;
+                int length = proposedInput.length();
+
+                if (length == 1)
+                {
+                    // the first digit of the month must be '0' or '1';
+                    // default to '0' if invalid
+                    if (character != '0' && character != '1')
+                    {
+                        character = '0';
+                    }
+                }
+                else if (length == 2)
+                {
+                    String firstDigit = proposedInput.substring(0, 1);
+
+                    // If the first digit is '0', the second digit can range from '0' to '9'
+                    if (firstDigit.equals("0"))
+                    {
+                        if (character > '9')
+                        {
+                            character = '9';
+                        }
+                    }
+                    // otherwise, the second digit must be between '0' and '2'
+                    else if (firstDigit.equals("1"))
+                    {
+                        if (character > '2')
+                        {
+                            character = '2';
+                        }
+                    }
+                }
+
+                this.inputString  += character;
+                break;
+            }
             default:
                 char character = label.charAt(0);
 
@@ -349,15 +397,20 @@ public class Model
     {
         States inputState = this.getState(Scene.INPUT);
 
-        if (inputState.equals(States.INPUT_DIGIT))
+        if (inputState.equals(States.INPUT_NUMERIC))
         {
             this.input = 0;
+        }
+        else if (inputState.equals(States.INPUT_STRING_NUMERIC))
+        {
+            this.inputString = "";
         }
         else if (inputState.equals(States.INPUT_BALANCE))
         {
             this.inputBalance = 0.00f;
         }
-        else if (inputState.equals(States.INPUT_STRING)) {
+        else if (inputState.equals(States.INPUT_STRING))
+        {
             this.inputString = "";
         }
 
@@ -368,7 +421,7 @@ public class Model
     {
         States inputState = this.getState(Scene.INPUT);
 
-        if (inputState.equals(States.INPUT_DIGIT))
+        if (inputState.equals(States.INPUT_NUMERIC))
         {
             if (this.input > 0)
             {
@@ -398,6 +451,14 @@ public class Model
         if (inputState.equals(States.INPUT_STRING))
         {
             // Removing the last string based on its length - 1
+            if (!this.inputString.isEmpty())
+            {
+                this.inputString = this.inputString.substring(0, this.inputString.length() - 1);
+            }
+        }
+
+        if (inputState.equals(States.INPUT_STRING_NUMERIC))
+        {
             if (!this.inputString.isEmpty())
             {
                 this.inputString = this.inputString.substring(0, this.inputString.length() - 1);
@@ -462,7 +523,7 @@ public class Model
         // The Number is split into digits, and every second digit is doubled from right to left.
         for (int index = number.length() - 1; index >= 0; index--)
         {
-            int digit = number.charAt(index);
+            int digit = Character.getNumericValue(number.charAt(index));
 
             // every two digits, double it
             if (index % 2 == parity)
@@ -673,7 +734,7 @@ public class Model
                     break;
                 case LOGIN_TWO:
                     this.input = 0;
-                    this.setState(Scene.INPUT, States.INPUT_DIGIT);
+                    this.setState(Scene.INPUT, States.INPUT_NUMERIC);
                     this.setState(Scene.LOGIN, States.LOGIN_ONE);
                     break;
                 case LOGIN_THREE:
@@ -688,8 +749,9 @@ public class Model
             {
                 case DEFAULT:
                     this.input = 0;
+                    this.setState(Scene.SIGNIN, States.DEFAULT);
                     this.setState(Scene.LOGIN, States.LOGIN_ONE);
-                    this.setState(Scene.INPUT, States.INPUT_DIGIT); //Pin page
+                    this.setState(Scene.INPUT, States.INPUT_NUMERIC);
                     break;
                 case LOGIN_ONE:
 
@@ -706,7 +768,7 @@ public class Model
                         this.title = "Incorrect PIN";
                         this.description = loginResultPIN.getValue();
                         this.setState(Scene.NOTIFY, States.NOTIFY_SHOW);
-                        this.setState(Scene.INPUT, States.INPUT_DIGIT);
+                        this.setState(Scene.INPUT, States.INPUT_NUMERIC);
 
                         this.display();
                         return;
@@ -716,7 +778,7 @@ public class Model
 
                     this.input = 0;
 
-                    this.setState(Scene.INPUT, States.INPUT_DIGIT);
+                    this.setState(Scene.INPUT, States.INPUT_NUMERIC);
                     this.setState(Scene.LOGIN, States.LOGIN_TWO);
                     this.setState(Scene.TUTORIAL, States.DEFAULT); //Pass page
                     break;
@@ -731,7 +793,7 @@ public class Model
                         this.title = "Incorrect PASS";
                         this.description = loginResultPASS.getValue();
                         this.setState(Scene.NOTIFY, States.NOTIFY_SHOW);
-                        this.setState(Scene.INPUT, States.INPUT_DIGIT);
+                        this.setState(Scene.INPUT, States.INPUT_NUMERIC);
 
                         this.display();
                         return;
@@ -749,7 +811,7 @@ public class Model
                         this.title = "Unregistered Account";
                         this.description = "The matched information that you provided is not registered.\n\nMake sure that your PIN and PASS are correct and try again.";
                         this.setState(Scene.NOTIFY, States.NOTIFY_SHOW);
-                        this.setState(Scene.INPUT, States.INPUT_DIGIT);
+                        this.setState(Scene.INPUT, States.INPUT_NUMERIC);
 
                         this.display();
                         return;
@@ -912,15 +974,16 @@ public class Model
 
                     if (newPIN != 0)
                     {
-                        if (newPIN < 6)
+                        int length = (int) Math.log10(newPIN) + 1;
+                        if (length != 6)
                         {
-                            description += "❌ New Password must at least contain 6 digits.\n\n";
+                            description += "❌ New PIN must at least contain 6 digits.\n\n";
                             successful = false;
                         }
                     }
                     else
                     {
-                        description += "❌ New Password must be filled.\n\n";
+                        description += "❌ New PIN must be filled.\n\n";
                         successful = false;
                     }
 
@@ -994,7 +1057,7 @@ public class Model
 
                     if (OPT > 0)
                     {
-                        if (OPT == OPTgoal)
+                        if (OPT != OPTgoal)
                         {
                             description += "❌ OPT Code doesn't match.\n\n";
                             successful = false;
@@ -1026,7 +1089,7 @@ public class Model
                     successful = true;
 
                     long cardNumber = this.cardInfo.getCardNumber().get();
-                    int expirationDate = this.cardInfo.getExpirationDate().get();
+                    String expirationDate = this.cardInfo.getExpirationDate().get();
                     int cvvCode = this.cardInfo.getCVVCode().get();
                     String cardIssuer = this.cardInfo.getCardIssuer().get();
                     String accountType = this.cardInfo.getAccountType().get();
@@ -1059,13 +1122,13 @@ public class Model
                         successful = false;
                     }
 
-                    if (expirationDate > 0)
+                    if (!expirationDate.isEmpty())
                     {
-                        int length = (int) Math.log10(expirationDate) + 1;
+                        int length = expirationDate.length();
 
                         // reference from first solution: https://stackoverflow.com/questions/24641882/is-there-a-function-in-java-that-works-like-substring-function-but-for-integers
-                        int months = expirationDate / 100;
-                        int years = expirationDate % 100;
+                        String months = expirationDate.substring(0, 2);
+                        String years = expirationDate.substring(2);
 
                         if (length != 4)
                         {
@@ -1073,7 +1136,9 @@ public class Model
                             successful = false;
                         }
 
-                        if (years < 25 || years > 35)
+                        int yearInt = Integer.parseInt(years);
+
+                        if (yearInt < 25 || yearInt > 35)
                         {
                             description += "❌ Expiry Date in YY must be between 2025-2035.\n\n";
                             successful = false;
@@ -1121,26 +1186,29 @@ public class Model
                         break;
                     }
 
-
-                    //    Account newAccount = this.createAccount(name, number, password, type);
-
-                    this.bank.addAccount(
+                    boolean registeredAccount = this.bank.addAccount(
                             firstName1 + " " + lastName1,
                             this.accountNumber,
                             this.accountPassword,
                             Types.valueOf(accountType)
                     );
 
+                    System.out.println(registeredAccount);
+
+                    boolean loginAccount = this.bank.login(this.accountNumber, this.accountPassword);
+
+                    System.out.println(loginAccount);
+
                     this.input = 0;
                     this.inputString = "";
                     this.setState(Scene.SIGNIN, States.SIGN_FIVE);
                     break;
                 case SIGN_FIVE:
-                    this.input = 0;
-                    this.inputString = "";
+                    this.processClear();
                     this.personalInfo.clear();
                     this.cardInfo.clear();
 
+                    this.setState(Scene.ACCOUNT, States.HOME_PAGE);
                     this.setState(Scene.SIGNIN, States.SIGN_SIX);
                     break;
             }
