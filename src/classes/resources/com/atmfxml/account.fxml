@@ -50,22 +50,22 @@
                                        <children>
                                           <Text fx:id="accountBalance" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-large-white" text="£1,234.99" textAlignment="CENTER" />
                                           <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-small-white" text="Total balance" textAlignment="RIGHT" />
+                                          <ImageView fx:id="accountCompanyIcon" fitHeight="32.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../atmimages/mastercard.png" />
+                                             </image>
+                                          </ImageView>
                                        </children>
                                     </VBox>
-                                    <ImageView fx:id="accountCompanyIcon" fitHeight="32.0" fitWidth="34.0" layoutX="166.0" layoutY="118.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../atmimages/mastercard.png" />
-                                       </image>
-                                    </ImageView>
                                  </children>
                               </AnchorPane>
-                              <AnchorPane maxHeight="181.0" maxWidth="375.0" prefHeight="145.0" prefWidth="375.0" styleClass="anchorPane-flexible-white">
+                              <AnchorPane maxHeight="181.0" maxWidth="375.0" prefHeight="146.0" prefWidth="375.0" styleClass="anchorPane-flexible-white">
                                  <children>
                                     <VBox alignment="TOP_CENTER" maxHeight="158.0" maxWidth="375.0" prefHeight="158.0" prefWidth="375.0" spacing="10.0">
                                        <children>
                                           <HBox alignment="CENTER_LEFT" prefHeight="21.0" prefWidth="375.0" spacing="234.0">
                                              <children>
-                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-small-black" text="Features" textAlignment="CENTER" />
+                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-black" text="Features" textAlignment="CENTER" />
                                                 <Text fx:id="seeMoreFButton" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-blue" text="See more" textAlignment="CENTER" />
                                              </children>
                                              <VBox.margin>
@@ -100,7 +100,7 @@
                                                                <children>
                                                                   <ImageView fitHeight="35.0" fitWidth="31.0" pickOnBounds="true" preserveRatio="true" translateX="10.0">
                                                                      <image>
-                                                                        <Image url="@../atmimages/send-white.png" />
+                                                                        <Image url="@../atmimages/recieve-white.png" />
                                                                      </image>
                                                                   </ImageView>
                                                                   <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-white" text="Add Money" translateX="25.0" translateY="-1.0">
@@ -225,7 +225,7 @@
                                        <children>
                                           <HBox alignment="CENTER_LEFT" prefHeight="21.0" prefWidth="375.0" spacing="198.0">
                                              <children>
-                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-small-black" text="Transactions" textAlignment="CENTER" />
+                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-black" text="Transactions" textAlignment="CENTER" />
                                                 <Text fx:id="seeMoreWButton" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-blue" text="See more" textAlignment="CENTER" />
                                              </children>
                                              <VBox.margin>
@@ -771,84 +771,84 @@
             <PieChart fx:id="pieChartTransaction" labelsVisible="false" layoutX="105.0" layoutY="74.0" prefHeight="197.0" prefWidth="202.0" />
          </children>
       </AnchorPane>
-      <HBox alignment="CENTER" layoutY="830.0" prefHeight="50.0" prefWidth="200.0" spacing="50.0" styleClass="hBox-hotbar-background">
+      <HBox alignment="CENTER" layoutY="815.0" prefHeight="50.0" prefWidth="200.0" spacing="50.0" styleClass="hBox-hotbar-background">
          <children>
-            <Button mnemonicParsing="false" pickOnBounds="false" styleClass="imageButton">
-               <font>
-                  <Font size="1.0" />
-               </font>
-               <graphic>
-                  <ImageView fitHeight="45.0" fitWidth="77.0" pickOnBounds="true" preserveRatio="true" scaleX="1.5" scaleY="1.5" scaleZ="1.5" styleClass="images">
+            <BorderPane prefHeight="70.0" prefWidth="67.0">
+               <bottom>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-grey" text="Home" BorderPane.alignment="CENTER" />
+               </bottom>
+               <center>
+                  <ImageView fitHeight="49.0" fitWidth="53.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
                      <image>
                         <Image url="@../atmimages/homepage-gray.png" />
                      </image>
                   </ImageView>
-               </graphic>
-            </Button>
-            <Button mnemonicParsing="false" pickOnBounds="false" scaleX="0.9" scaleY="0.9" scaleZ="0.9" styleClass="imageButton">
-               <font>
-                  <Font size="1.0" />
-               </font>
-               <graphic>
-                  <ImageView fitHeight="45.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true" styleClass="images">
+               </center>
+            </BorderPane>
+            <BorderPane prefHeight="70.0" prefWidth="67.0">
+               <bottom>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-grey" text="Wallet" BorderPane.alignment="CENTER" />
+               </bottom>
+               <center>
+                  <ImageView fitHeight="49.0" fitWidth="53.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
                      <image>
                         <Image url="@../atmimages/wallet-gray.png" />
                      </image>
                   </ImageView>
-               </graphic>
-            </Button>
-            <Button mnemonicParsing="false" pickOnBounds="false" styleClass="imageButton">
-               <font>
-                  <Font size="1.0" />
-               </font>
-               <graphic>
-                  <ImageView fitHeight="45.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true" scaleX="0.9" scaleY="0.9" scaleZ="0.9" styleClass="images">
+               </center>
+            </BorderPane>
+            <BorderPane prefHeight="70.0" prefWidth="67.0">
+               <bottom>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-blue" text="Profile" BorderPane.alignment="CENTER" />
+               </bottom>
+               <center>
+                  <ImageView fitHeight="49.0" fitWidth="53.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
                      <image>
                         <Image url="@../atmimages/profile-grey.png" />
                      </image>
                   </ImageView>
-               </graphic>
-            </Button>
+               </center>
+            </BorderPane>
          </children>
       </HBox>
-      <HBox alignment="CENTER" layoutY="830.0" prefHeight="50.0" prefWidth="200.0" spacing="50.0" styleClass="hBox-hotbar">
+      <HBox alignment="CENTER" layoutY="815.0" maxHeight="88.0" opacity="0.55" prefHeight="50.0" prefWidth="200.0" spacing="50.0" styleClass="hBox-hotbar">
          <children>
-            <Button fx:id="homeButton" mnemonicParsing="false" styleClass="imageButton">
-               <font>
-                  <Font size="1.0" />
-               </font>
-               <graphic>
-                  <ImageView fitHeight="45.0" fitWidth="57.0" opacity="0.0" pickOnBounds="true" preserveRatio="true" scaleX="1.5" scaleY="1.5" scaleZ="1.5" styleClass="images">
+            <BorderPane prefHeight="70.0" prefWidth="67.0">
+               <bottom>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-blue" text="Home" BorderPane.alignment="CENTER" />
+               </bottom>
+               <center>
+                  <ImageView fitHeight="49.0" fitWidth="53.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
                      <image>
                         <Image url="@../atmimages/homepage-blue.png" />
                      </image>
                   </ImageView>
-               </graphic>
-            </Button>
-            <Button fx:id="walletButton" mnemonicParsing="false" opacity="0.0" styleClass="imageButton">
-               <font>
-                  <Font size="1.0" />
-               </font>
-               <graphic>
-                  <ImageView fitHeight="45.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true" scaleX="0.9" scaleY="0.9" scaleZ="0.9" styleClass="images">
+               </center>
+            </BorderPane>
+            <BorderPane prefHeight="70.0" prefWidth="67.0">
+               <bottom>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-blue" text="Wallet" BorderPane.alignment="CENTER" />
+               </bottom>
+               <center>
+                  <ImageView fitHeight="49.0" fitWidth="53.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
                      <image>
                         <Image url="@../atmimages/wallet-blue.png" />
                      </image>
                   </ImageView>
-               </graphic>
-            </Button>
-            <Button fx:id="profileButton" mnemonicParsing="false" opacity="0.0" styleClass="imageButton">
-               <font>
-                  <Font size="1.0" />
-               </font>
-               <graphic>
-                  <ImageView fitHeight="45.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true" scaleX="0.9" scaleY="0.9" scaleZ="0.9" styleClass="images">
+               </center>
+            </BorderPane>
+            <BorderPane prefHeight="70.0" prefWidth="67.0">
+               <bottom>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-blue" text="Profile" BorderPane.alignment="CENTER" />
+               </bottom>
+               <center>
+                  <ImageView fitHeight="49.0" fitWidth="53.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
                      <image>
                         <Image url="@../atmimages/profile-blue.png" />
                      </image>
                   </ImageView>
-               </graphic>
-            </Button>
+               </center>
+            </BorderPane>
          </children>
       </HBox>
       <AnchorPane fx:id="transactionReviewScene" prefHeight="732.0" prefWidth="414.0" styleClass="anchorPane-grey" translateY="896.0">

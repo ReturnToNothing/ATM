@@ -76,9 +76,9 @@
 }
 .hBox-hotbar {
       -fx-background-color: transparent;
-      -fx-max-height: 70;
+      -fx-max-height: 80;
       -fx-max-width: 414;
-      -fx-pref-height: 70;
+      -fx-pref-height: 80;
       -fx-pref-width: 414;
 
       -fx-border-radius: 8px;
@@ -87,9 +87,9 @@
 }
 .hBox-hotbar-background {
       -fx-background-color: #F2F3F3;
-      -fx-max-height: 70;
+      -fx-max-height: 80;
       -fx-max-width: 414;
-      -fx-pref-height: 70;
+      -fx-pref-height: 80;
       -fx-pref-width: 414;
 
       -fx-background-radius: 8px;
