@@ -93,6 +93,33 @@ public class Controller
         }
     }
 
+    public void processNumericalString(String action)
+    {
+        switch (action)
+        {
+            case "1":
+            case "2":
+            case "3":
+            case "4":
+            case "5":
+            case "6":
+            case "7":
+            case "8":
+            case "9":
+            case "0":
+                this.model.processString(action);
+                break;
+            case "Clear-Input":
+                this.model.processClear();
+                break;
+            case "Remove-Input":
+                this.model.processRemove();
+                break;
+            default:
+                //  this.model.processUnknownKey(action);
+        }
+    }
+
     public void processSet(String action)
     {
         PersonalInfo personalInfo = this.model.getPersonalInfo();
@@ -137,7 +164,7 @@ public class Controller
             }
             case "ExpirationDate" ->
             {
-                IntegerProperty expirationDate = cardInfo.getExpirationDate();
+                StringProperty expirationDate = cardInfo.getExpirationDate();
                 this.model.setInfo(expirationDate);
                 this.model.setState(Scene.PROCESS, States.PROCESS_DATE);
             }
@@ -204,7 +231,7 @@ public class Controller
             }
             case "ExpirationDate" ->
             {
-                IntegerProperty expirationDate = cardInfo.getExpirationDate();
+                StringProperty expirationDate = cardInfo.getExpirationDate();
                 this.model.setInfo(expirationDate, value);
             }
             case "CVV" ->
@@ -216,11 +243,13 @@ public class Controller
             {
                 StringProperty issuer = cardInfo.getCardIssuer();
                 this.model.setInfo(issuer, value);
+                this.model.display();
             }
             case "Type" ->
             {
                 StringProperty type = cardInfo.getAccountType();
                 this.model.setInfo(type, value);
+                this.model.display();
             }
             default ->
             {
@@ -261,8 +290,11 @@ public class Controller
             case "Open-Input-String":
                 this.model.processInput(States.INPUT_STRING);
                 break;
+            case "Open-Input-Numeric-String":
+                this.model.processInput(States.INPUT_STRING_NUMERIC);
+                break;
             case "Open-Input":
-                this.model.processInput(States.INPUT_DIGIT);
+                this.model.processInput(States.INPUT_NUMERIC);
                 break;
             case "Close-Input":
                 this.model.processInput(States.DEFAULT);
