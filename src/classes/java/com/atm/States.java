@@ -16,7 +16,8 @@ public enum States
     NOTIFY_SHOW,
 
     // Model's internal state for input
-    INPUT_DIGIT,
+    INPUT_NUMERIC,
+    INPUT_STRING_NUMERIC,
     INPUT_BALANCE,
     INPUT_STRING,
 
