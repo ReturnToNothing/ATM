@@ -906,7 +906,7 @@ public class AccountController
         long input = this.model.getInput();
         double balance = this.model.getInputBalance();
 
-        if (inputState.equals(States.INPUT_DIGIT))
+        if (inputState.equals(States.INPUT_NUMERIC))
         {
             String stringInput = String.valueOf(input);
 
