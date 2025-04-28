@@ -983,16 +983,9 @@ public class AccountController
         transactionContainer.getChildren().clear();
 
         String lastDate = null;
-        double total = 0;
-
-        for (History history : historyList)
-        {
-            if (!history.card().equals(currentCard))
-            {
-                break;
-            }
-            total =+ history.amount();
-        }
+        double sum = historyList.stream().
+                mapToDouble(History::amount).
+                sum();
 
         for (History history : historyList)
         {
@@ -1006,7 +999,7 @@ public class AccountController
             // If the date is different from the last date, add a date header.
             if (!currentDate.equals(lastDate))
             {
-                AnchorPane dateHeader = buildTransactionDate(currentDate, total, transactionDate);
+                AnchorPane dateHeader = buildTransactionDate(currentDate, sum, transactionDate);
                 transactionContainer.getChildren().add(dateHeader);
                 lastDate = currentDate;
             }
