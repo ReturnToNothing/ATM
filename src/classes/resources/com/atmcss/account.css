@@ -1,9 +1,12 @@
 .anchorPane {
-     -fx-background-color: #F2F2F2; /*F2F2F2*/
+     -fx-background-color: #FFFFFF; /*F2F2F2*/
      -fx-max-height: 896;
      -fx-max-width: 414;
      -fx-pref-height: 896;
      -fx-pref-width: 414;
+}
+.anchorPane-flexible-invisible {
+     -fx-background-color: invisible;
 }
 .anchorPane-flexible {
      -fx-background-color: #F2F3F3;
@@ -15,6 +18,10 @@
 }
 .anchorPane-flexible-white {
      -fx-background-color: #FFFFFF;
+     -fx-background-radius: 16;
+}
+.anchorPane-flexible-grey {
+     -fx-background-color: #F2F3F3;
      -fx-background-radius: 16;
 }
 .anchorPane-grey {
@@ -54,18 +61,18 @@
      -fx-background-border: 8;
      -fx-background-radius: 16;
      -fx-max-height: 63;
-     -fx-max-width: 365;
+     -fx-max-width: 375;
      -fx-pref-height: 63;
-     -fx-pref-width: 365;
+     -fx-pref-width: 375;
 }
 .anchorPane-transaction-date {
      -fx-background-color: #FFFFFF;
      -fx-background-border: 8;
      -fx-background-radius: 16;
      -fx-max-height: 35;
-     -fx-max-width: 365;
+     -fx-max-width: 375;
      -fx-pref-height: 35;
-     -fx-pref-width: 365;
+     -fx-pref-width: 375;
 }
 .hBox {
       -fx-background-color: transparent;
@@ -76,27 +83,19 @@
 }
 .hBox-hotbar {
       -fx-background-color: transparent;
-      -fx-max-height: 80;
+      -fx-max-height: 100;
       -fx-max-width: 414;
-      -fx-pref-height: 80;
+      -fx-pref-height: 100;
       -fx-pref-width: 414;
-
-      -fx-border-radius: 8px;
-      -fx-border-width: 2px;
-      -fx-border-color: #F2F3F3;
 }
 .hBox-hotbar-background {
-      -fx-background-color: #F2F3F3;
-      -fx-max-height: 80;
+      -fx-background-color: #FFFFFF;
+      -fx-max-height: 100;
       -fx-max-width: 414;
-      -fx-pref-height: 80;
+      -fx-pref-height: 100;
       -fx-pref-width: 414;
 
       -fx-background-radius: 8px;
-
-      -fx-border-radius: 8px;
-      -fx-border-width: 2px;
-      -fx-border-color: #F2F3F3;
 }
 .credit-card {
      -fx-background-color: #199EFF;
@@ -126,139 +125,169 @@
      -fx-pref-width: 182px;
      -fx-pref-height: 167px;
 }
+/* Custom fonts imports */
+@font-face {
+    font-family: 'Manrope';
+    src: url('/com/atmfonts/static/Manrope-Regular.ttf');
+    font-weight: normal;
+}
+@font-face {
+    font-family: 'Manrope';
+    src: url('/com/atmfonts/static/Manrope-Bold.ttf');
+    font-weight: bold;
+}
+@font-face {
+    font-family: 'Manrope';
+    src: url('/com/atmfonts/static/Manrope-ExtraBold.ttf');
+    font-weight: 800;
+}
 
 /* CSS properties for the first layer */
 .text-blue {
-     -fx-font-family: "Kanit", sans-serif;
+     -fx-font-family: "Manrope";
      -fx-font-size: 1.2em;
      -fx-line-height: 1em;
-     -fx-font-weight: 700;
+     -fx-font-weight: bold;
+     -fx-fill: #199EFF;
+}
+.text-large-blue {
+     -fx-font-family: "Manrope";
+     -fx-font-size: 1.7em;
+     -fx-line-height: 1em;
+     -fx-font-weight: bold;
      -fx-fill: #199EFF;
 }
 .text-black {
-     -fx-font-family: "Kanit", sans-serif;
+     -fx-font-family: "Manrope";
      -fx-font-size: 1.2em;
      -fx-line-height: 1em;
-     -fx-font-weight: 700;
+     -fx-font-weight: bold;
      -fx-fill: #000000;
 }
 .text-white {
-     -fx-font-family: "Kanit", sans-serif;
+     -fx-font-family: "Manrope";
      -fx-font-size: 1.2em;
      -fx-line-height: 1em;
-     -fx-font-weight: 700;
+     -fx-font-weight: bold;
      -fx-fill: #FFFFFF;
 }
 .text-white-card {
-     -fx-font-family: "Kanit", sans-serif;
+     -fx-font-family: "Manrope";
      -fx-font-size: 1.1em;
      -fx-line-height: 1em;
-     -fx-font-weight: 700;
+     -fx-font-weight: bold;
      -fx-fill: #FFFFFF;
 }
 .text-grey-card {
-     -fx-font-family: "Kanit", sans-serif;
+     -fx-font-family: "Manrope";
      -fx-font-size: 1.1em;
      -fx-line-height: 1em;
-     -fx-font-weight: 700;
+     -fx-font-weight: bold;
      -fx-fill: #999EA1;
 }
-.text-big-black {
-     -fx-font-family: "Kanit", sans-serif;
+.text-large-black {
+     -fx-font-family: "Manrope";
      -fx-font-size: 1.7em;
      -fx-line-height: 1em;
-     -fx-font-weight: 700;
+     -fx-font-weight: bold;
      -fx-fill: #000000;
 }
 .text-medium-black {
-     -fx-font-family: "Kanit", sans-serif;
+     -fx-font-family: "Manrope";
      -fx-font-size: 1.5em;
      -fx-line-height: 1em;
-     -fx-font-weight: 700;
+     -fx-font-weight: bold;
      -fx-fill: #000000;
 }
 .text-small-black {
-     -fx-font-family: "Kanit", sans-serif;
+     -fx-font-family: "Manrope";
      -fx-font-size: 1.2em;
      -fx-line-height: 1em;
-     -fx-font-weight: 700;
+     -fx-font-weight: bold;
      -fx-fill: #000000;
 }
 .text-grey {
-     -fx-font-family: "Kanit", sans-serif;
+     -fx-font-family: "Manrope";
      -fx-font-size: 1.2em;
      -fx-line-height: 1em;
-     -fx-font-weight: 700;
+     -fx-font-weight: bold;
+     -fx-fill: #999EA1;
+}
+.text-large-grey {
+     -fx-font-family: "Manrope";
+     -fx-font-size: 1.7em;
+     -fx-line-height: 1em;
+     -fx-font-weight: bold;
      -fx-fill: #999EA1;
 }
 .text-small-grey {
-     -fx-font-family: "Kanit", sans-serif;
+     -fx-font-family: "Manrope";
      -fx-font-size: 1em;
      -fx-line-height: 1em;
-     -fx-font-weight: 700;
+     -fx-font-weight: bold;
      -fx-fill: #999EA1;
 }
 .text-small-white {
-     -fx-font-family: "Kanit", sans-serif;
+     -fx-font-family: "Manrope";
      -fx-font-size: 1.2em;
      -fx-line-height: 1em;
-     -fx-font-weight: 700;
+     -fx-font-weight: bold;
      -fx-fill: #FFFFFF;
 }
 .text-smaller-white {
-     -fx-font-family: "Kanit", sans-serif;
+     -fx-font-family: "Manrope";
      -fx-font-size: 1em;
      -fx-line-height: 1em;
-     -fx-font-weight: 700;
+     -fx-font-weight: bold;
      -fx-fill: #FFFFFF;
 }
 .text-large-white {
-     -fx-font-family: "Kanit", sans-serif;
+     -fx-font-family: "Manrope";
      -fx-font-size: 3em;
      -fx-line-height: 1em;
-     -fx-font-weight: 700;
+     -fx-font-weight: bold;
      -fx-fill: #FFFFFF;
 }
 .text-small-blue {
-     -fx-font-family: "Kanit", sans-serif;
+     -fx-font-family: "Manrope";
      -fx-font-size: 1.2em;
      -fx-line-height: 1em;
-     -fx-font-weight: 700;
+     -fx-font-weight: bold;
      -fx-fill: #199EFF;
 }
 .text-big {
-     -fx-font-family: "Kanit", sans-serif;
+     -fx-font-family: "Manrope";
      -fx-font-size: 1.7em;
      -fx-line-height: 1em;
-     -fx-font-weight: 700;
+     -fx-font-weight: bold;
      -fx-fill: #199EFF;
 }
 .text-small {
-     -fx-font-family: "Kanit", sans-serif;
+     -fx-font-family: "Manrope";
      -fx-font-size: 1.3em;
      -fx-line-height: 1em;
      -fx-font-weight: 600;
      -fx-fill: #199EFF;
 }
 .invisibleButton {
-     -fx-font-family: "Kanit", sans-serif;
-     -fx-font-weight: 700;
+     -fx-font-family: "Manrope";
+     -fx-font-weight: bold;
      -fx-font-size: 1em;
 
-     -fx-background-color: #FFFFFF;
+     -fx-background-color: transparent;
      -fx-text-fill: #199EFF;
 }
 .imageButton {
-     -fx-font-family: "Kanit", sans-serif;
-     -fx-font-weight: 700;
+     -fx-font-family: "Manrope";
+     -fx-font-weight: bold;
      -fx-font-size: 1em;
 
      -fx-background-color: transparent;
      -fx-text-fill: #199EFF;
 }
 .baseButton {
-     -fx-font-family: "Kanit", sans-serif;
-     -fx-font-weight: 700;
+     -fx-font-family: "Manrope";
+     -fx-font-weight: bold;
      -fx-font-size: 1.2em;
 
      -fx-pref-width: 210px;
@@ -271,7 +300,7 @@
 }
 .exitButton {
      -fx-font-size: 0.1em;
-     -fx-background-color: #666D72;
+     -fx-background-color: #61686D;
      -fx-background-radius: 8px;
      -fx-pref-width: 69px;
      -fx-pref-height: 5px;
@@ -286,8 +315,8 @@
      -fx-background-radius: 8px;
 }
 .baseTextField {
-     -fx-font-family: "Kanit", sans-serif;
-     -fx-font-weight: 700;
+     -fx-font-family: "Manrope";
+     -fx-font-weight: bold;
      -fx-font-size: 1.2em;
 
      -fx-pref-width: 370px;
@@ -299,8 +328,8 @@
      -fx-background-radius: 8px;
 }
 .baseTextField-pinpoint {
-     -fx-font-family: "Kanit", sans-serif;
-     -fx-font-weight: 700;
+     -fx-font-family: "Manrope";
+     -fx-font-weight: bold;
      -fx-font-size: 1.2em;
 
      -fx-pref-width: 370px;
@@ -316,14 +345,14 @@
      -fx-border-radius: 0 0 8px 8px;
 }
 .anchorPane-features {
-       -fx-font-family: "Kanit", sans-serif;
-       -fx-font-weight: 700;
+       -fx-font-family: "Manrope";
+       -fx-font-weight: bold;
        -fx-font-size: 1.3em;
 
-       -fx-pref-width: 188;
+       -fx-pref-width: 158;
        -fx-pref-height: 52;
 
-       -fx-min-width: 188;
+       -fx-min-width: 158;
        -fx-min-height: 52;
 
        -fx-background-color: #F2F3F3;
@@ -332,14 +361,14 @@
        -fx-background-radius: 8px;
 }
 .anchorPane-features-blue {
-       -fx-font-family: "Kanit", sans-serif;
-       -fx-font-weight: 700;
+       -fx-font-family: "Manrope";
+       -fx-font-weight: bold;
        -fx-font-size: 1.3em;
 
-       -fx-pref-width: 188;
+       -fx-pref-width: 182;
        -fx-pref-height: 52;
 
-       -fx-min-width: 188;
+       -fx-min-width: 182;
        -fx-min-height: 52;
 
        -fx-background-color: #199EFF;
@@ -369,8 +398,8 @@
        -fx-min-height: 55;
 }
 .anchorPane-cards {
-       -fx-font-family: "Kanit", sans-serif;
-       -fx-font-weight: 700;
+       -fx-font-family: "Manrope";
+       -fx-font-weight: bold;
        -fx-font-size: 1.2em;
 
        -fx-pref-width: 181;
@@ -384,8 +413,8 @@
        -fx-background-radius: 8px;
 }
 .anchorPane-cards-grey {
-       -fx-font-family: "Kanit", sans-serif;
-       -fx-font-weight: 700;
+       -fx-font-family: "Manrope";
+       -fx-font-weight: bold;
        -fx-font-size: 1.2em;
 
        -fx-pref-width: 181;
@@ -400,8 +429,8 @@
        -fx-background-radius: 8px;
 }
 .baseButton-cards {
-       -fx-font-family: "Kanit", sans-serif;
-       -fx-font-weight: 700;
+       -fx-font-family: "Manrope";
+       -fx-font-weight: bold;
        -fx-font-size: 1.2em;
 
        -fx-pref-width: 173;
@@ -466,8 +495,8 @@
     -fx-padding: 0;
 }
 .continueButton {
-     -fx-font-family: "Kanit", sans-serif;
-     -fx-font-weight: 700;
+     -fx-font-family: "Manrope";
+     -fx-font-weight: bold;
      -fx-font-size: 1.4em;
 
      -fx-background-color: #199EFF;
@@ -485,18 +514,18 @@
 }
 .check-box {
     -fx-background-color: transparent;
-    -fx-font-family: "Kanit", sans-serif;
+    -fx-font-family: "Manrope";
     -fx-font-size: 1em;
     -fx-line-height: 1em;
-    -fx-font-weight: 700;
+    -fx-font-weight: bold;
     -fx-text-fill: #ADB6CA;
 }
 .check-box.selected {
     -fx-background-color: transparent;
-    -fx-font-family: "Kanit", sans-serif;
+    -fx-font-family: "Manrope";
     -fx-font-size: 1em;
     -fx-line-height: 1em;
-    -fx-font-weight: 700;
+    -fx-font-weight: bold;
     -fx-text-fill: #199EFF;
 }
 .check-box .box {
@@ -511,8 +540,8 @@
     -fx-border-color: #199EFF;
 }
 .baseButton {
-     -fx-font-family: "Kanit", sans-serif;
-     -fx-font-weight: 700;
+     -fx-font-family: "Manrope";
+     -fx-font-weight: bold;
      -fx-font-size: 1.4em;
 
      -fx-background-color: #F2F3F3;
@@ -524,8 +553,8 @@
      -fx-background-radius: 8px;
 }
 .baseButton-pinpoint {
-  -fx-font-family: "Kanit", sans-serif;
-     -fx-font-weight: 700;
+     -fx-font-family: "Manrope";
+     -fx-font-weight: bold;
      -fx-font-size: 1.4em;
 
      -fx-background-color: #F2F3F3;
@@ -541,8 +570,8 @@
      -fx-border-color: #199EFF;
 }
 .baseButton-blue {
-     -fx-font-family: "Kanit", sans-serif;
-     -fx-font-weight: 700;
+     -fx-font-family: "Manrope";
+     -fx-font-weight: bold;
      -fx-font-size: 1.4em;
 
      -fx-background-color: #199EFF;

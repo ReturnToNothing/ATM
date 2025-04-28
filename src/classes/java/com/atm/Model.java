@@ -617,9 +617,12 @@ public class Model
                 this.selectedPayee = null;
 
                 // add duration like 1 second
-                PauseTransition pause = new PauseTransition(Duration.seconds(1));
-                pause.setOnFinished(event -> this.setState(Scene.TRANSACTION, States.DEFAULT));
-                pause.play();
+                PauseTransition pause = new PauseTransition(Duration.seconds(2));
+                pause.setOnFinished(event -> {
+                    this.setState(Scene.TRANSACTION, States.DEFAULT);
+                    this.display();
+                });
+                pause.playFromStart();
                 break;
         }
 

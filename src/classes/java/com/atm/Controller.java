@@ -335,7 +335,7 @@ public class Controller
             case "Transaction-page-close":
                 this.model.processTransaction(true);
                 break;
-            case "Transaction-page":
+            case "Transaction-page-open":
                 this.model.processTransaction(false);
                 break;
             case "Transaction-summary-close":
