@@ -123,6 +123,8 @@ public class AccountController
 
     // transaction scene
 
+    public PanelContext transactionContext;
+
     @FXML public AnchorPane transactionScene;
     @FXML public Button exitButton;
     @FXML public Text seeMoreFButton;
@@ -200,6 +202,14 @@ public class AccountController
 
         // send cash
 
+        this.transactionContext = new PanelContext(
+                this.transactionScene,
+                this.exitButton,
+                896.0,
+                72.0,
+                States.TRANSACTION_PAGE
+        );
+
         sendButton.setId("Transaction-page-open");
         exitButton.setId("Transaction-page-close");
         recipientTextField.setId("Open-Input");
@@ -216,12 +226,11 @@ public class AccountController
         transactionScene.setTranslateY(896);
         transactionReviewScene.setTranslateY(896);
 
-        registerDraggableAnchor(this.exitButton1, this.transactionSummaryScene);
-
         BindButtons();
         BindScrolls();
         BindTextFields();
         BindHotbarContexts();
+        BindPanelContexts();
     }
 
     public void BindHotbarContexts()
@@ -236,42 +245,58 @@ public class AccountController
         }
     }
 
-    private void registerDraggableAnchor(Button exitButton, AnchorPane anchorPane)
+    public void BindPanelContexts()
+    {
+        PanelContext[] panelContexts = {
+                this.transactionContext
+        };
+
+        for (PanelContext panelContext : panelContexts)
+        {
+            registerDraggableAnchor(panelContext);
+        }
+    }
+
+    public void registerDraggableAnchor(PanelContext panelContext)
     {
         final DoubleProperty dragOffsetY = new SimpleDoubleProperty();
         final BooleanProperty hasRestarted = new SimpleBooleanProperty(false);
 
-        exitButton.setOnMousePressed(event ->
+        AnchorPane anchorPane = panelContext.panel();
+        Button pivotButton = panelContext.pivot();
+        Double start = panelContext.start();
+        Double end = panelContext.end();
+        States state = panelContext.state();
+
+        pivotButton.setOnMousePressed(event ->
         {
-            if (!this.transactionState.equals(States.TRANSACTION_SUMMARY))
+            if (this.transactionState.equals(state))
             {
-                return;
+                hasRestarted.set(false);
+
+                if (this.transactionState.equals(state))
+                {
+                    // If the panel is already open, set its goal Y transition
+                    anchorPane.setTranslateY(end);
+                }
+
+                dragOffsetY.set(event.getSceneY() - anchorPane.getTranslateY());
             }
-
-            hasRestarted.set(false);
-
-            if (this.transactionState.equals(States.TRANSACTION_SUMMARY))
-            {
-                // If the panel is already open, set its goal Y transition
-                anchorPane.setTranslateY(72);
-            }
-
-            dragOffsetY.set(event.getSceneY() - anchorPane.getTranslateY());
         });
 
-        exitButton.setOnMouseDragged(event ->
+        pivotButton.setOnMouseDragged(event ->
         {
             double newY = event.getSceneY() - dragOffsetY.get();
 
             // Clamp to allow bounds
-            newY = Math.max(72, Math.min(newY, 896));
+            newY = Math.clamp(newY, end, start);
 
             System.out.println(newY);
 
-            if (newY >= 700f && this.transactionState.equals(States.TRANSACTION_SUMMARY) && !hasRestarted.get())
+            if (newY >= 700f && !hasRestarted.get())
             {
                 hasRestarted.set(true);
-                this.controller.process(exitButton.getId());
+                this.controller.process(pivotButton.getId());
                 return;
             }
 
@@ -281,7 +306,6 @@ public class AccountController
 
     private void registerContext(HotbarContext hotbarContext)
     {
-
         Button hotbarButton = hotbarContext.hotbarButton();
         BorderPane hotbarBorderPane = hotbarContext.hotbarBorderPane();
 
@@ -434,7 +458,7 @@ public class AccountController
         };
 
         Button[] buttons = {
-                homeButton, walletButton, profileButton, exitButton, sendCashButton, sendCashButton1,
+                homeButton, walletButton, profileButton, sendCashButton, sendCashButton1,
                 exitButton2
         };
 

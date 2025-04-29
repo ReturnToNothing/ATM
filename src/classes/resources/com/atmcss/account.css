@@ -32,6 +32,14 @@
      -fx-pref-height: 818;
      -fx-pref-width: 414;
 }
+.anchorPane-white {
+     -fx-background-color: #FFFFFF;
+     -fx-background-radius: 8px;
+     -fx-max-height: 818;
+     -fx-max-width: 414;
+     -fx-pref-height: 818;
+     -fx-pref-width: 414;
+}
 .anchorPane-gradient-side-white {
      -fx-background-color: linear-gradient(from 60% 50% to 0% 50%, #FFFFFF, transparent);
      -fx-max-height: 896;
@@ -300,7 +308,7 @@
 }
 .exitButton {
      -fx-font-size: 0.1em;
-     -fx-background-color: #61686D;
+     -fx-background-color: #F2F3F3;
      -fx-background-radius: 8px;
      -fx-pref-width: 69px;
      -fx-pref-height: 5px;
@@ -309,7 +317,7 @@
      -fx-pref-width: 370px;
      -fx-pref-height: 51px;
 
-     -fx-background-color: #FFFFFF;
+     -fx-background-color: #F2F3F3;
      -fx-text-fill: #999EA1;
 
      -fx-background-radius: 8px;
@@ -322,7 +330,7 @@
      -fx-pref-width: 370px;
      -fx-pref-height: 48px;
 
-     -fx-background-color: #FFFFFF;
+     -fx-background-color: #F2F3F3;
      -fx-text-fill: #999EA1;
 
      -fx-background-radius: 8px;
@@ -451,7 +459,7 @@
      -fx-stroke-width: 0px;
 }
 .baseCircle-grey {
-     -fx-fill: #EAECEC;
+     -fx-fill: #F2F3F3;
      -fx-stroke-width: 0px;
 }
 .baseCircle-white {

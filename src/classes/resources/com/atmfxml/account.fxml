@@ -422,9 +422,10 @@
          </children>
       </HBox>
       <AnchorPane layoutX="-54.0" layoutY="-1000.0" mouseTransparent="true" pickOnBounds="false" prefHeight="200.0" prefWidth="200.0" styleClass="anchorPane-gradient-side-white" translateY="1000.0" />
-      <AnchorPane mouseTransparent="true" pickOnBounds="false" prefHeight="200.0" prefWidth="200.0" rotate="180.0" styleClass="anchorPane-gradient-side-white" translateX="1242.0" />
-      <AnchorPane fx:id="transactionScene" prefHeight="732.0" prefWidth="414.0" styleClass="anchorPane-grey" translateY="896.0">
+      <AnchorPane layoutX="-1.0" mouseTransparent="true" pickOnBounds="false" prefHeight="200.0" prefWidth="200.0" rotate="180.0" styleClass="anchorPane-gradient-side-white" translateX="1242.0" />
+      <AnchorPane fx:id="transactionScene" prefHeight="732.0" prefWidth="414.0" styleClass="anchorPane-white" translateY="896.0">
          <children>
+            <Button fx:id="exitButton" layoutX="173.0" layoutY="10.0" mnemonicParsing="false" prefHeight="16.0" prefWidth="152.0" styleClass="exitButton" text="exitButton" />
             <Text layoutX="157.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-large-black" text="Send Cash" textAlignment="CENTER" />
             <Text layoutX="21.0" layoutY="108.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-small-black" text="Select card" textAlignment="CENTER" />
             <Text layoutX="80.0" layoutY="57.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-blue" text="Instant Transfer With A Single Touch " textAlignment="CENTER" />
@@ -470,7 +471,6 @@
                <opaqueInsets>
                   <Insets />
                </opaqueInsets></TextField>
-            <Button fx:id="exitButton" layoutX="173.0" layoutY="3.0" mnemonicParsing="false" prefHeight="16.0" prefWidth="152.0" styleClass="exitButton" text="exitButton" />
             <Text layoutX="24.0" layoutY="273.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-small-black" text="Shown payees" textAlignment="CENTER" />
             <ScrollPane id="3" fitToHeight="true" hbarPolicy="ALWAYS" layoutX="21.0" layoutY="280.0" maxHeight="90.0" maxWidth="383.0" pannable="true" prefHeight="90.0" prefWidth="370.0" styleClass="scroll-pane-payees" vbarPolicy="NEVER">
                <content>
@@ -478,32 +478,32 @@
                      <children>
                         <AnchorPane minHeight="30.0" minWidth="57.0" prefHeight="55.0" prefWidth="57.0" styleClass="anchorPane-cardContainer">
                            <children>
-                              <Circle id="payeeBackground" fill="DODGERBLUE" layoutX="27.0" layoutY="27.0" radius="27.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" styleClass="baseCircle-white" />
+                              <Circle id="payeeBackground" fill="DODGERBLUE" layoutX="27.0" layoutY="27.0" radius="27.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" styleClass="baseCircle-grey" />
                            </children>
                         </AnchorPane>
                         <AnchorPane minHeight="30.0" minWidth="57.0" prefHeight="55.0" prefWidth="57.0" styleClass="anchorPane-cardContainer">
                            <children>
-                              <Circle id="payeeBackground" fill="DODGERBLUE" layoutX="27.0" layoutY="27.0" radius="27.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" styleClass="baseCircle-white" />
+                              <Circle id="payeeBackground" fill="DODGERBLUE" layoutX="27.0" layoutY="27.0" radius="27.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" styleClass="baseCircle-grey" />
                            </children>
                         </AnchorPane>
                         <AnchorPane minHeight="30.0" minWidth="57.0" prefHeight="55.0" prefWidth="57.0" styleClass="anchorPane-cardContainer">
                            <children>
-                              <Circle id="payeeBackground" fill="DODGERBLUE" layoutX="27.0" layoutY="27.0" radius="27.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" styleClass="baseCircle-white" />
+                              <Circle id="payeeBackground" fill="DODGERBLUE" layoutX="27.0" layoutY="27.0" radius="27.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" styleClass="baseCircle-grey" />
                            </children>
                         </AnchorPane>
                         <AnchorPane minHeight="30.0" minWidth="57.0" prefHeight="55.0" prefWidth="57.0" styleClass="anchorPane-cardContainer">
                            <children>
-                              <Circle id="payeeBackground" fill="DODGERBLUE" layoutX="27.0" layoutY="27.0" radius="27.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" styleClass="baseCircle-white" />
+                              <Circle id="payeeBackground" fill="DODGERBLUE" layoutX="27.0" layoutY="27.0" radius="27.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" styleClass="baseCircle-grey" />
                            </children>
                         </AnchorPane>
                         <AnchorPane minHeight="30.0" minWidth="57.0" prefHeight="55.0" prefWidth="57.0" styleClass="anchorPane-cardContainer">
                            <children>
-                              <Circle id="payeeBackground" fill="DODGERBLUE" layoutX="27.0" layoutY="27.0" radius="27.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" styleClass="baseCircle-white" />
+                              <Circle id="payeeBackground" fill="DODGERBLUE" layoutX="27.0" layoutY="27.0" radius="27.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" styleClass="baseCircle-grey" />
                            </children>
                         </AnchorPane>
                         <AnchorPane minHeight="30.0" minWidth="57.0" prefHeight="55.0" prefWidth="57.0" styleClass="anchorPane-cardContainer">
                            <children>
-                              <Circle id="payeeBackground" fill="DODGERBLUE" layoutX="27.0" layoutY="27.0" radius="27.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" styleClass="baseCircle-white" />
+                              <Circle id="payeeBackground" fill="DODGERBLUE" layoutX="27.0" layoutY="27.0" radius="27.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" styleClass="baseCircle-grey" />
                            </children>
                         </AnchorPane>
                      </children>
@@ -532,74 +532,6 @@
                                  </children>
                               </AnchorPane>
                               <AnchorPane fx:id="payeeItemBlue" minHeight="30.0" prefHeight="72.0" prefWidth="0.0" styleClass="anchorPane-payees">
-                                 <children>
-                                    <VBox alignment="BOTTOM_CENTER" prefHeight="72.0" prefWidth="43.0">
-                                       <children>
-                                          <Circle id="payeeBackground" fill="DODGERBLUE" radius="27.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" styleClass="baseCircle" />
-                                          <Text id="payeeName" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-black" text="John" textAlignment="CENTER" />
-                                       </children>
-                                    </VBox>
-                                    <ImageView id="payeeIcon" fitHeight="32.0" fitWidth="34.0" layoutX="11.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../atmimages/profile-white.png" />
-                                       </image>
-                                    </ImageView>
-                                 </children>
-                              </AnchorPane>
-                           </children>
-                        </AnchorPane>
-                        <AnchorPane fx:id="payeeItemContainer1" minHeight="30.0" minWidth="57.0" prefHeight="55.0" prefWidth="57.0" styleClass="anchorPane-cardContainer">
-                           <children>
-                              <AnchorPane fx:id="payeeItemGrey1" minHeight="30.0" prefHeight="72.0" prefWidth="0.0" styleClass="anchorPane-payees">
-                                 <children>
-                                    <VBox alignment="BOTTOM_CENTER" prefHeight="72.0" prefWidth="43.0">
-                                       <children>
-                                          <Circle fill="DODGERBLUE" radius="27.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" styleClass="baseCircle-grey" />
-                                          <Text id="payeeName" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-grey" text="John" textAlignment="CENTER" />
-                                       </children>
-                                    </VBox>
-                                    <ImageView id="payeeIcon" fitHeight="32.0" fitWidth="34.0" layoutX="11.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../atmimages/profile-white.png" />
-                                       </image>
-                                    </ImageView>
-                                 </children>
-                              </AnchorPane>
-                              <AnchorPane fx:id="payeeItemBlue1" minHeight="30.0" prefHeight="72.0" prefWidth="0.0" styleClass="anchorPane-payees">
-                                 <children>
-                                    <VBox alignment="BOTTOM_CENTER" prefHeight="72.0" prefWidth="43.0">
-                                       <children>
-                                          <Circle id="payeeBackground" fill="DODGERBLUE" radius="27.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" styleClass="baseCircle" />
-                                          <Text id="payeeName" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-black" text="John" textAlignment="CENTER" />
-                                       </children>
-                                    </VBox>
-                                    <ImageView id="payeeIcon" fitHeight="32.0" fitWidth="34.0" layoutX="11.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../atmimages/profile-white.png" />
-                                       </image>
-                                    </ImageView>
-                                 </children>
-                              </AnchorPane>
-                           </children>
-                        </AnchorPane>
-                        <AnchorPane fx:id="payeeItemContainer2" minHeight="30.0" minWidth="57.0" prefHeight="55.0" prefWidth="57.0" styleClass="anchorPane-cardContainer">
-                           <children>
-                              <AnchorPane fx:id="payeeItemGrey2" minHeight="30.0" prefHeight="72.0" prefWidth="0.0" styleClass="anchorPane-payees">
-                                 <children>
-                                    <VBox alignment="BOTTOM_CENTER" prefHeight="72.0" prefWidth="43.0">
-                                       <children>
-                                          <Circle fill="DODGERBLUE" radius="27.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" styleClass="baseCircle-grey" />
-                                          <Text id="payeeName" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-grey" text="John" textAlignment="CENTER" />
-                                       </children>
-                                    </VBox>
-                                    <ImageView id="payeeIcon" fitHeight="32.0" fitWidth="34.0" layoutX="11.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../atmimages/profile-white.png" />
-                                       </image>
-                                    </ImageView>
-                                 </children>
-                              </AnchorPane>
-                              <AnchorPane fx:id="payeeItemBlue2" minHeight="30.0" prefHeight="72.0" prefWidth="0.0" styleClass="anchorPane-payees">
                                  <children>
                                     <VBox alignment="BOTTOM_CENTER" prefHeight="72.0" prefWidth="43.0">
                                        <children>
@@ -797,7 +729,7 @@
             <Button fx:id="profileButton" mnemonicParsing="false" prefHeight="69.0" prefWidth="69.0" styleClass="invisibleButton" translateX="-2.0" />
          </children>
       </HBox>
-      <AnchorPane fx:id="transactionReviewScene" prefHeight="732.0" prefWidth="414.0" styleClass="anchorPane-grey" translateY="896.0">
+      <AnchorPane fx:id="transactionReviewScene" opacity="0.0" prefHeight="732.0" prefWidth="414.0" styleClass="anchorPane-grey" translateY="896.0">
          <children>
             <Text layoutX="173.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-large-black" text="Review" textAlignment="CENTER" />
             <Text layoutX="134.0" layoutY="57.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-blue" text="Check before sending" textAlignment="CENTER" />
