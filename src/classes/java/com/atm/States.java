@@ -16,7 +16,8 @@ public enum States
     NOTIFY_SHOW,
 
     // Model's internal state for input
-    INPUT_DIGIT,
+    INPUT_NUMERIC,
+    INPUT_STRING_NUMERIC,
     INPUT_BALANCE,
     INPUT_STRING,
 
@@ -44,6 +45,10 @@ public enum States
     PROCESS_PHONE,
     PROCESS_DATE,
     PROCESS_CVV,
+
+    PROCESS_FIRST,
+    PROCESS_LAST,
+    PROCESS_ISSUER,
 
     // Model's internal state
     ACCOUNT_NO,

@@ -1,24 +1,21 @@
 package com.atm;
 
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import javafx.beans.property.*;
 
 public class CardInfo
 {
-    private final IntegerProperty cardNumber = new SimpleIntegerProperty(0);
-    private final IntegerProperty expirationDate = new SimpleIntegerProperty(0);
+    private final LongProperty cardNumber = new SimpleLongProperty(0);
+    private final StringProperty expirationDate = new SimpleStringProperty("");
     private final IntegerProperty cvvCode = new SimpleIntegerProperty(0);
     private final StringProperty cardIssuer = new SimpleStringProperty("");
     private final StringProperty accountType = new SimpleStringProperty("");
 
-    public IntegerProperty getCardNumber()
+    public LongProperty getCardNumber()
     {
         return this.cardNumber;
     }
 
-    public IntegerProperty getExpirationDate()
+    public StringProperty getExpirationDate()
     {
         return this.expirationDate;
     }
@@ -36,5 +33,14 @@ public class CardInfo
     public StringProperty getAccountType()
     {
         return this.accountType;
+    }
+
+    public void clear()
+    {
+        this.cardNumber.set(0);
+        this.expirationDate.set("");
+        this.cvvCode.set(0);
+        this.cardIssuer.set("");
+        this.accountType.set("");
     }
 }

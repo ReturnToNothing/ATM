@@ -4,6 +4,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import javafx.scene.Scene;
@@ -48,6 +49,11 @@ public class View
         this.stage.setResizable(false);
         this.stage.setScene(this.scene);
         this.stage.show();
+
+        // Loading custom fonts for the CSS documents.
+        Font.loadFont(View.class.getResourceAsStream("/com/atmfonts/static/Manrope-Regular.ttf"), 12);
+        Font.loadFont(View.class.getResourceAsStream("/com/atmfonts/static/Manrope-Bold.ttf"), 12);
+        Font.loadFont(View.class.getResourceAsStream("/com/atmfonts/static/Manrope-ExtraBold.ttf"), 12);
 
         // Initial/Intro scene, might rename later
         IntroController introScene = (IntroController) loadScene("intro-view.fxml", "intro-view");
@@ -163,12 +169,12 @@ public class View
         TutorialController tutorialController = (TutorialController) getController("tutorial");
         tutorialController.slide(tutorialState);
 
+        SignInController signinController = (SignInController) getController("signin");
+        signinController.update();
+
         LogInController loginController = (LogInController) getController("login");
         loginController.slide(loginState);
         loginController.update(input, account);
-
-        SignInController signinController = (SignInController) getController("signin");
-        signinController.update();
 
         AccountController accountController = (AccountController) getController("account");
         accountController.slide(accountState);

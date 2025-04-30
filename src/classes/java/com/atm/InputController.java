@@ -1,6 +1,5 @@
 package com.atm;
 
-import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -116,11 +115,16 @@ public class InputController
                 return;
             }
 
+
             switch (this.state)
             {
-                case INPUT_DIGIT ->
+                case INPUT_NUMERIC ->
                 {
                     this.controller.process(action);
+                }
+                case INPUT_STRING_NUMERIC ->
+                {
+                    this.controller.processNumericalString(action);
                 }
                 case INPUT_BALANCE ->
                 {
@@ -210,13 +214,13 @@ public class InputController
 
         double targetY = switch (state)
         {
-            case INPUT_DIGIT, INPUT_BALANCE, INPUT_STRING -> 0;
+            case INPUT_NUMERIC, INPUT_STRING_NUMERIC, INPUT_BALANCE, INPUT_STRING -> 0;
             default -> 896;
         };
 
         double delay = switch (state)
         {
-            case INPUT_DIGIT, INPUT_BALANCE, INPUT_STRING -> 0;
+            case INPUT_NUMERIC, INPUT_STRING_NUMERIC, INPUT_BALANCE, INPUT_STRING -> 0;
             default -> 0;
         };
 

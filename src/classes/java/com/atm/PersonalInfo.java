@@ -1,15 +1,12 @@
 package com.atm;
 
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import javafx.beans.property.*;
 
 public class PersonalInfo
 {
     private final StringProperty firstName = new SimpleStringProperty("");
     private final StringProperty lastName = new SimpleStringProperty("");
-    private final IntegerProperty phoneNumber = new SimpleIntegerProperty(0);
+    private final LongProperty phoneNumber = new SimpleLongProperty(0);
     private final IntegerProperty pin = new SimpleIntegerProperty(0);
     private final IntegerProperty optCode = new SimpleIntegerProperty(0);
     private final IntegerProperty generatedOPTCode = new SimpleIntegerProperty(0);
@@ -29,7 +26,7 @@ public class PersonalInfo
         return this.pin;
     }
 
-    public IntegerProperty getPhoneNumber()
+    public LongProperty getPhoneNumber()
     {
         return this.phoneNumber;
     }
@@ -37,5 +34,20 @@ public class PersonalInfo
     public IntegerProperty getOTPCode()
     {
         return this.optCode;
+    }
+
+    public IntegerProperty getGeneratedOPTCode()
+    {
+        return this.generatedOPTCode;
+    }
+
+    public void clear()
+    {
+        this.firstName.set("");
+        this.lastName.set("");
+        this.pin.set(0);
+        this.phoneNumber.set(0);
+        this.optCode.set(0);
+        this.generatedOPTCode.set(0);
     }
 }

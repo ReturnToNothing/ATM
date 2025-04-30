@@ -1,8 +1,8 @@
 package com.atm;
 
-import javafx.animation.Interpolator;
 import javafx.animation.PauseTransition;
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.LongProperty;
 import javafx.beans.property.Property;
 import javafx.beans.property.StringProperty;
 import javafx.util.Duration;
@@ -109,153 +109,45 @@ public class Model
         this.view.update();
     }
 
-    public void setCardIssuer(String cardIssuer)
+    // Sets the personalInfo's property with the provided value before updating the corresponding reference.
+    public void setInfo(Property<?> property, Object value)
     {
-        if (cardIssuer.isEmpty())
+        switch (property)
         {
-            this.cardIssuer = cardIssuer;
-            this.inputString = "";
-            return;
+            case StringProperty stringProperty when value instanceof String ->
+            {
+                stringProperty.set((String) value);
+                this.inputString = stringProperty.get();
+            }
+            case IntegerProperty integerProperty when value instanceof Integer ->
+            {
+                integerProperty.set((Integer) value);
+                this.input = integerProperty.get();
+            }
+            case LongProperty longProperty when value instanceof Long ->
+            {
+                longProperty.set((Long) value);
+                this.input = longProperty.get();
+            }
+            case null, default -> throw new IllegalArgumentException("Unsupported property or value type");
         }
-        this.cardIssuer = cardIssuer;
-        this.inputString = cardIssuer;
     }
 
-    public void setAccountType(String accountType)
+    // Overloaded method: simply assigns the corresponding reference with the provided property.
+    public void setInfo(Property<?> property)
     {
-        if (accountType.isEmpty())
+        switch (property)
         {
-            this.accountType = accountType;
-            this.inputString = "";
-            return;
+            case StringProperty stringProperty -> this.inputString = stringProperty.get();
+            case IntegerProperty integerProperty -> this.input = integerProperty.get();
+            case LongProperty longProperty -> this.input = longProperty.get();
+            case null, default -> throw new IllegalArgumentException("Unsupported property");
         }
-        this.accountType = accountType;
-        this.inputString = accountType;
-    }
-
-    public void setCardNumber(String cardNumber)
-    {
-        if (cardNumber.isEmpty())
-        {
-            this.cardNumber = cardNumber;
-            this.input = 0;
-            return;
-        }
-        this.cardNumber = cardNumber;
-        this.input = Long.parseLong(cardNumber);
-    }
-
-    public void setExpiryDate(String expiryDate)
-    {
-        if (expiryDate.isEmpty())
-        {
-            this.expiryDate = expiryDate;
-            this.input = 0;
-            return;
-        }
-        this.expiryDate = expiryDate;
-        this.input = Integer.parseInt(expiryDate);
-    }
-
-    public void setCVVNumber(String cvvNumber)
-    {
-        if (cvvNumber.isEmpty())
-        {
-            this.cvvNumber = cvvNumber;
-            this.input = 0;
-            return;
-        }
-        this.cvvNumber = cvvNumber;
-        this.input = Integer.parseInt(cvvNumber);
-    }
-
-    public void setPersonalInfo(Property<?> property)
-
-    // Sets the first name to the provided input and updates the inputString reference.
-    public void setFirstName(String input)
-    {
-        StringProperty firstName = this.personalInfo.getFirstName();
-        firstName.set(input);
-        this.inputString = firstName.get();
-    }
-
-    // Overloaded method: assigns the current firstName value to inputString reference without reassignments.
-    public void setFirstName()
-    {
-        this.inputString = this.personalInfo.getFirstName().get();
-    }
-
-    public void setLastName(String input)
-    {
-        StringProperty lastName = this.personalInfo.getLastName();
-        lastName.set(input);
-        this.inputString = lastName.get();
-    }
-
-    public void setLastName()
-    {
-        this.inputString = this.personalInfo.getLastName().get();
-    }
-
-    public void setNewPIN(int input)
-    {
-        IntegerProperty newPIN = this.personalInfo.getPIN();
-        newPIN.set(input);
-        this.input = newPIN.get();
-    }
-
-    public void setNewPIN()
-    {
-        this.input = this.
-    }
-
-    public void setPassword(String password)
-    {
-        System.out.println(password);
-        if (password.isEmpty())
-        {
-            this.accountPassword = 0;
-            this.input = 0;
-            return;
-        }
-        this.accountPassword = Integer.parseInt(password);
-        this.input = Long.parseLong(password);
-    }
-
-    public void setPhoneNumber(String phoneNumber)
-    {
-        if (phoneNumber.isEmpty())
-        {
-            this.phoneNumber = phoneNumber;
-            this.input = 0;
-            return;
-        }
-
-        this.phoneNumber = phoneNumber;
-        this.input = Long.parseLong(phoneNumber);
-    }
-
-    public void setOTPCode(String OTPCode)
-    {
-        if (OTPCode.isEmpty())
-        {
-            this.OTPCode = OTPCode;
-            this.input = 0;
-            return;
-        }
-
-        this.OTPCode = OTPCode;
-        this.input = Long.parseLong(OTPCode);
     }
 
     public void setSelectedCard(Card card)
     {
         this.selectedCard = card;
-
-        if (this.bank.account != null)
-        {
-            this.bank.account.setCard(card);
-        }
     }
 
     public void setSelectedPayee(Account payee)
@@ -301,12 +193,6 @@ public class Model
         };
     }
 
-    public void processState(States state)
-    {
-        this.setState(Scene.PROCESS, state);
-        this.display();
-    }
-
     public void processBalance(String label)
     {
         char character = label.charAt(0);
@@ -347,7 +233,7 @@ public class Model
 
                 long proposedInput = this.input * 10 + character - 48;
 
-                int length = String.valueOf(proposedInput).length();
+                int length = (int) (Math.log10(proposedInput) + 1);
 
                 if (length == 1)
                 {
@@ -416,11 +302,93 @@ public class Model
 
     public void processString(String label)
     {
-        // Fetch the first character only
-        char character = label.charAt(0);
 
-        // Condition needed here
-        this.inputString += character;
+        System.out.println("processString " + label);
+        States processState = this.getState(Scene.PROCESS);
+        switch (processState)
+        {
+            case PROCESS_FIRST, PROCESS_LAST:
+            {
+                char character = label.charAt(0);
+
+                if (this.inputString.length() >= 15)
+                {
+                    return;
+                }
+
+                this.inputString += character;
+                break;
+            }
+            case PROCESS_ISSUER:
+            {
+                char character = label.charAt(0);
+
+                if (this.inputString.length() >= 20)
+                {
+                    return;
+                }
+
+                this.inputString += character;
+                break;
+            }
+            case PROCESS_DATE:
+            {
+                char character = label.charAt(0);
+
+                // maximum input for date four
+                if (this.inputString.length() >= 4)
+                {
+                    return;
+                }
+
+                String proposedInput = this.inputString + character;
+                int length = proposedInput.length();
+
+                if (length == 1)
+                {
+                    // the first digit of the month must be '0' or '1';
+                    // default to '0' if invalid
+                    if (character != '0' && character != '1')
+                    {
+                        character = '0';
+                    }
+                }
+                else if (length == 2)
+                {
+                    String firstDigit = proposedInput.substring(0, 1);
+
+                    // If the first digit is '0', the second digit can range from '0' to '9'
+                    if (firstDigit.equals("0"))
+                    {
+                        if (character > '9')
+                        {
+                            character = '9';
+                        }
+                    }
+                    // otherwise, the second digit must be between '0' and '2'
+                    else if (firstDigit.equals("1"))
+                    {
+                        if (character > '2')
+                        {
+                            character = '2';
+                        }
+                    }
+                }
+
+                this.inputString  += character;
+                break;
+            }
+            default:
+                char character = label.charAt(0);
+
+                if (this.inputString.length() >= 6)
+                {
+                    return;
+                }
+
+                this.inputString += character;
+                break;
+        }
 
         this.display();
     }
@@ -429,15 +397,20 @@ public class Model
     {
         States inputState = this.getState(Scene.INPUT);
 
-        if (inputState.equals(States.INPUT_DIGIT))
+        if (inputState.equals(States.INPUT_NUMERIC))
         {
             this.input = 0;
+        }
+        else if (inputState.equals(States.INPUT_STRING_NUMERIC))
+        {
+            this.inputString = "";
         }
         else if (inputState.equals(States.INPUT_BALANCE))
         {
             this.inputBalance = 0.00f;
         }
-        else if (inputState.equals(States.INPUT_STRING)) {
+        else if (inputState.equals(States.INPUT_STRING))
+        {
             this.inputString = "";
         }
 
@@ -448,7 +421,7 @@ public class Model
     {
         States inputState = this.getState(Scene.INPUT);
 
-        if (inputState.equals(States.INPUT_DIGIT))
+        if (inputState.equals(States.INPUT_NUMERIC))
         {
             if (this.input > 0)
             {
@@ -478,6 +451,14 @@ public class Model
         if (inputState.equals(States.INPUT_STRING))
         {
             // Removing the last string based on its length - 1
+            if (!this.inputString.isEmpty())
+            {
+                this.inputString = this.inputString.substring(0, this.inputString.length() - 1);
+            }
+        }
+
+        if (inputState.equals(States.INPUT_STRING_NUMERIC))
+        {
             if (!this.inputString.isEmpty())
             {
                 this.inputString = this.inputString.substring(0, this.inputString.length() - 1);
@@ -542,7 +523,7 @@ public class Model
         // The Number is split into digits, and every second digit is doubled from right to left.
         for (int index = number.length() - 1; index >= 0; index--)
         {
-            int digit = number.charAt(index);
+            int digit = Character.getNumericValue(number.charAt(index));
 
             // every two digits, double it
             if (index % 2 == parity)
@@ -636,9 +617,12 @@ public class Model
                 this.selectedPayee = null;
 
                 // add duration like 1 second
-                PauseTransition pause = new PauseTransition(Duration.seconds(1));
-                pause.setOnFinished(event -> this.setState(Scene.TRANSACTION, States.DEFAULT));
-                pause.play();
+                PauseTransition pause = new PauseTransition(Duration.seconds(2));
+                pause.setOnFinished(event -> {
+                    this.setState(Scene.TRANSACTION, States.DEFAULT);
+                    this.display();
+                });
+                pause.playFromStart();
                 break;
         }
 
@@ -753,7 +737,7 @@ public class Model
                     break;
                 case LOGIN_TWO:
                     this.input = 0;
-                    this.setState(Scene.INPUT, States.INPUT_DIGIT);
+                    this.setState(Scene.INPUT, States.INPUT_NUMERIC);
                     this.setState(Scene.LOGIN, States.LOGIN_ONE);
                     break;
                 case LOGIN_THREE:
@@ -768,8 +752,9 @@ public class Model
             {
                 case DEFAULT:
                     this.input = 0;
+                    this.setState(Scene.SIGNIN, States.DEFAULT);
                     this.setState(Scene.LOGIN, States.LOGIN_ONE);
-                    this.setState(Scene.INPUT, States.INPUT_DIGIT); //Pin page
+                    this.setState(Scene.INPUT, States.INPUT_NUMERIC);
                     break;
                 case LOGIN_ONE:
 
@@ -786,7 +771,7 @@ public class Model
                         this.title = "Incorrect PIN";
                         this.description = loginResultPIN.getValue();
                         this.setState(Scene.NOTIFY, States.NOTIFY_SHOW);
-                        this.setState(Scene.INPUT, States.INPUT_DIGIT);
+                        this.setState(Scene.INPUT, States.INPUT_NUMERIC);
 
                         this.display();
                         return;
@@ -796,7 +781,7 @@ public class Model
 
                     this.input = 0;
 
-                    this.setState(Scene.INPUT, States.INPUT_DIGIT);
+                    this.setState(Scene.INPUT, States.INPUT_NUMERIC);
                     this.setState(Scene.LOGIN, States.LOGIN_TWO);
                     this.setState(Scene.TUTORIAL, States.DEFAULT); //Pass page
                     break;
@@ -811,7 +796,7 @@ public class Model
                         this.title = "Incorrect PASS";
                         this.description = loginResultPASS.getValue();
                         this.setState(Scene.NOTIFY, States.NOTIFY_SHOW);
-                        this.setState(Scene.INPUT, States.INPUT_DIGIT);
+                        this.setState(Scene.INPUT, States.INPUT_NUMERIC);
 
                         this.display();
                         return;
@@ -829,7 +814,7 @@ public class Model
                         this.title = "Unregistered Account";
                         this.description = "The matched information that you provided is not registered.\n\nMake sure that your PIN and PASS are correct and try again.";
                         this.setState(Scene.NOTIFY, States.NOTIFY_SHOW);
-                        this.setState(Scene.INPUT, States.INPUT_DIGIT);
+                        this.setState(Scene.INPUT, States.INPUT_NUMERIC);
 
                         this.display();
                         return;
@@ -865,12 +850,8 @@ public class Model
                 case SIGN_ONE:
                     this.input = 0;
                     this.inputString = "";
-                    this.firstName = "";
-                    this.lastName = "";
-                    this.phoneNumber = "";
-                    this.OTPCode = "";
-                    this.expiryDate = "";
-                    this.cvvNumber = "";
+                    this.personalInfo.clear();
+                    this.cardInfo.clear();
                     this.setState(Scene.SIGNIN, States.DEFAULT);
                     break;
                 case SIGN_TWO:
@@ -902,16 +883,9 @@ public class Model
             {
                 case DEFAULT:
                     this.input = 0;
-                    this.accountPassword = 0;
-                    this.accountNumber = 0;
-                    this.cardIssuer = "";
-                    this.accountType = "";
                     this.inputString = "";
-                    this.firstName = "";
-                    this.lastName = "";
-                    this.phoneNumber = "";
-                    this.expiryDate = "";
-                    this.cvvNumber = "";
+                    this.personalInfo.clear();
+                    this.cardInfo.clear();
                     this.setState(Scene.SIGNIN, States.SIGN_ONE);
                     break;
                 case SIGN_ONE:
@@ -921,15 +895,19 @@ public class Model
                     String description = "";
                     boolean successful = true;
 
-                    if (this.firstName != null)
-                    {
-                        if (!this.firstName.isEmpty())
-                        {
-                            int length = this.firstName.length();
-                            char firstChar = this.firstName.charAt(0);
-                            String theRest = this.firstName.substring(1);
+                    String firstName = this.personalInfo.getFirstName().get();
+                    String lastName = this.personalInfo.getLastName().get();
+                    int newPIN = this.personalInfo.getPIN().get();
 
-                            if (!this.firstName.matches("[a-zA-Z]+"))
+                    if (firstName != null)
+                    {
+                        if (!firstName.isEmpty())
+                        {
+                            int length = firstName.length();
+                            char firstChar = firstName.charAt(0);
+                            String theRest = firstName.substring(1);
+
+                            if (!firstName.matches("[a-zA-Z]+"))
                             {
                                 description += "❌ First Name must only contain alphabetic.\n\n";
                                 successful = false;
@@ -959,15 +937,15 @@ public class Model
                         successful = false;
                     }
 
-                    if (this.lastName != null)
+                    if (lastName != null)
                     {
-                       if (!this.lastName.isEmpty())
+                       if (!lastName.isEmpty())
                        {
-                           int length = this.lastName.length();
-                           char firstChar = this.lastName.charAt(0);
-                           String theRest = this.lastName.substring(1);
+                           int length = lastName.length();
+                           char firstChar = lastName.charAt(0);
+                           String theRest = lastName.substring(1);
 
-                           if (!this.lastName.matches("[a-zA-Z]+"))
+                           if (!lastName.matches("[a-zA-Z]+"))
                            {
                                description += "❌ Last Name must only contain alphabetic.\n\n";
                                successful = false;
@@ -997,17 +975,18 @@ public class Model
                         successful = false;
                     }
 
-                    if (this.accountPassword != 0)
+                    if (newPIN != 0)
                     {
-                        if (this.accountPassword < 6)
+                        int length = (int) Math.log10(newPIN) + 1;
+                        if (length != 6)
                         {
-                            description += "❌ New Password must at least contain 6 digits.\n\n";
+                            description += "❌ New PIN must at least contain 6 digits.\n\n";
                             successful = false;
                         }
                     }
                     else
                     {
-                        description += "❌ New Password must be filled.\n\n";
+                        description += "❌ New PIN must be filled.\n\n";
                         successful = false;
                     }
 
@@ -1023,7 +1002,10 @@ public class Model
 
                     this.input = 0;
                     this.inputString = "";
+
                     this.accountNumber = generateAccountNumber();
+                    this.accountPassword = newPIN;
+
                     this.setState(Scene.SIGNIN, States.SIGN_TWO);
                     break;
                 case SIGN_TWO:
@@ -1033,9 +1015,12 @@ public class Model
                     description = "";
                     successful = true;
 
-                    if (this.input > 0)
+                    long phoneNumber = this.personalInfo.getPhoneNumber().get();
+                    IntegerProperty generatedOPT = this.personalInfo.getGeneratedOPTCode();
+
+                    if (phoneNumber > 0)
                     {
-                        int length = String.valueOf(this.input).length();
+                        int length = String.valueOf(phoneNumber).length();
                         if (length != 10)
                         {
                             description += "❌ Phone number must have 10 digits.\n\n";
@@ -1056,10 +1041,11 @@ public class Model
                         break;
                     }
 
-                    this.newOPTCode = generateOTP();
+                    generatedOPT.set(generateOTP());
 
                     this.input = 0;
                     this.inputString = "";
+
                     this.setState(Scene.SIGNIN, States.SIGN_THREE);
                     break;
                 case SIGN_THREE:
@@ -1069,9 +1055,12 @@ public class Model
                     description = "";
                     successful = true;
 
-                    if (!this.OTPCode.isEmpty())
+                    int OPT = this.personalInfo.getOTPCode().get();
+                    int OPTgoal = this.personalInfo.getGeneratedOPTCode().get();
+
+                    if (OPT > 0)
                     {
-                        if (!this.OTPCode.equals(this.newOPTCode))
+                        if (OPT != OPTgoal)
                         {
                             description += "❌ OPT Code doesn't match.\n\n";
                             successful = false;
@@ -1091,10 +1080,9 @@ public class Model
                         break;
                     }
 
-                    this.accountNumber = generateAccountNumber();
-
                     this.input = 0;
                     this.inputString = "";
+
                     this.setState(Scene.SIGNIN, States.SIGN_FOUR);
                     break;
                 case SIGN_FOUR:
@@ -1103,9 +1091,21 @@ public class Model
                     description = "";
                     successful = true;
 
-                    if (!this.cardNumber.isEmpty())
+                    long cardNumber = this.cardInfo.getCardNumber().get();
+                    String expirationDate = this.cardInfo.getExpirationDate().get();
+                    int cvvCode = this.cardInfo.getCVVCode().get();
+                    String cardIssuer = this.cardInfo.getCardIssuer().get();
+                    String accountType = this.cardInfo.getAccountType().get();
+
+                    String firstName1 = this.personalInfo.getFirstName().get();
+                    String lastName1 = this.personalInfo.getLastName().get();
+
+                    if (cardNumber > 0)
                     {
-                        int length = this.cardNumber.length();
+                        // Using Logarithmic approach for finding the length of digits,
+                        // instead of string conversion for performance-wise.
+                        // reference: https://www.baeldung.com/java-number-of-digits-in-int#:~:text=The%20logarithmic%20approach%20is%20significantly,extra%20object%20initialization%20or%20loops.
+                        int length = (int) Math.log10(cardNumber) + 1;
 
                         if (length != 16)
                         {
@@ -1113,7 +1113,7 @@ public class Model
                             successful = false;
                         }
 
-                        if (!isValidLuhn(this.cardNumber))
+                        if (!isValidLuhn(String.valueOf(cardNumber)))
                         {
                             description += "❌ Card Number is invalid based on Luhn.\n\n";
                             successful = false;
@@ -1125,11 +1125,13 @@ public class Model
                         successful = false;
                     }
 
-                    if (!this.expiryDate.isEmpty())
+                    if (!expirationDate.isEmpty())
                     {
-                        int length = this.expiryDate.length();
-                        String months = this.expiryDate.substring(0, 2);
-                        String years = this.expiryDate.substring(2);
+                        int length = expirationDate.length();
+
+                        // reference from first solution: https://stackoverflow.com/questions/24641882/is-there-a-function-in-java-that-works-like-substring-function-but-for-integers
+                        String months = expirationDate.substring(0, 2);
+                        String years = expirationDate.substring(2);
 
                         if (length != 4)
                         {
@@ -1137,7 +1139,9 @@ public class Model
                             successful = false;
                         }
 
-                        if (Integer.parseInt(years) < 25 || Integer.parseInt(years) > 35)
+                        int yearInt = Integer.parseInt(years);
+
+                        if (yearInt < 25 || yearInt > 35)
                         {
                             description += "❌ Expiry Date in YY must be between 2025-2035.\n\n";
                             successful = false;
@@ -1149,9 +1153,10 @@ public class Model
                         successful = false;
                     }
 
-                    if (!this.cvvNumber.isEmpty())
+                    if (cvvCode > 0)
                     {
-                        int length = this.cvvNumber.length();
+                        int length = (int) Math.log10(cvvCode) + 1;
+
                         if (length != 3)
                         {
                             description += "❌ CVV must have 3 digits.\n";
@@ -1164,6 +1169,18 @@ public class Model
                         successful = false;
                     }
 
+                    if (cardIssuer.isEmpty())
+                    {
+                        description += "❌ Issuer/Network must be included.\n\n";
+                        successful = false;
+                    }
+
+                    if (accountType.isEmpty())
+                    {
+                        description += "❌ Account Type must be included.\n\n";
+                        successful = false;
+                    }
+
                     if (!successful)
                     {
                         this.title = title;
@@ -1172,34 +1189,29 @@ public class Model
                         break;
                     }
 
-
-                    //    Account newAccount = this.createAccount(name, number, password, type);
-
-                    this.bank.addAccount(
-                            this.firstName + " " + this.lastName,
+                    boolean registeredAccount = this.bank.addAccount(
+                            firstName1 + " " + lastName1,
                             this.accountNumber,
                             this.accountPassword,
-                            Types.valueOf(this.accountType)
+                            Types.valueOf(accountType)
                     );
 
+                    System.out.println(registeredAccount);
+
+                    boolean loginAccount = this.bank.login(this.accountNumber, this.accountPassword);
+
+                    System.out.println(loginAccount);
 
                     this.input = 0;
                     this.inputString = "";
                     this.setState(Scene.SIGNIN, States.SIGN_FIVE);
                     break;
                 case SIGN_FIVE:
-                    this.input = 0;
-                    this.accountPassword = 0;
-                    this.accountNumber = 0;
-                    this.cardIssuer = "";
-                    this.accountType = "";
-                    this.inputString = "";
-                    this.firstName = "";
-                    this.lastName = "";
-                    this.phoneNumber = "";
-                    this.expiryDate = "";
-                    this.cvvNumber = "";
+                    this.processClear();
+                    this.personalInfo.clear();
+                    this.cardInfo.clear();
 
+                    this.setState(Scene.ACCOUNT, States.HOME_PAGE);
                     this.setState(Scene.SIGNIN, States.SIGN_SIX);
                     break;
             }
@@ -1209,14 +1221,14 @@ public class Model
     }
 
     // A simple 6-digits OPT generator that similarly
-    private static String generateOTP()
+    private static int generateOTP()
     {
         // Referenced: https://stackoverflow.com/questions/49460963/generating-otp-through-java
         // Using SecureRandom instead of Random class since the generated code could easily be
         // predicted via LCG.
         SecureRandom random = new SecureRandom();
         int otp = 100000 + random.nextInt(900000);
-        return String.valueOf(otp);
+        return otp;
     }
 
     private static int generateAccountNumber()

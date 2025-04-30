@@ -1,6 +1,10 @@
 package com.atm;
 
 import javafx.animation.*;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.Group;
@@ -31,12 +35,11 @@ public class AccountController
     @FXML public AnchorPane anchor;
 
     @FXML public HBox anchorHbox;
-    @FXML public Button homeButton;
-    @FXML public Button walletButton;
-    @FXML public Button profileButton;
 
     @FXML public ScrollPane verticalScroll;
     @FXML public VBox homeContainer;
+
+    // cardHolder scene
 
     @FXML public Text username;
     @FXML public Text firstName;
@@ -47,9 +50,28 @@ public class AccountController
     @FXML public Text accountCompany;
     @FXML public ImageView accountCompanyIcon;
 
+    @FXML public BorderPane homeBorderPane;
+    @FXML public BorderPane walletBorderPane;
+    @FXML public BorderPane profileBorderPane;
+
+    // Features scene
+
+    @FXML public AnchorPane addButton;
     @FXML public AnchorPane sendButton;
-    @FXML public AnchorPane receiveButton;
-    @FXML public AnchorPane rewardButton;
+    @FXML public AnchorPane depositButton;
+    @FXML public AnchorPane withdrawButton;
+
+    // Hotbar scene
+
+    @FXML public Button homeButton;
+    @FXML public Button walletButton;
+    @FXML public Button profileButton;
+
+    public HotbarContext homeContext;
+    public HotbarContext walletContext;
+    public HotbarContext profileContext;
+
+    private HotbarContext selectedHotbarContext;
 
     @FXML public VBox transactionContainer;
     @FXML public AnchorPane transactionItem;
@@ -65,6 +87,10 @@ public class AccountController
     @FXML public VBox transactionContainer1;
     @FXML public AnchorPane transactionItem1;
     @FXML public AnchorPane transactionDate1;
+
+    //temp
+    final DoubleProperty dragAnchorY = new SimpleDoubleProperty();
+    final BooleanProperty isDraggingEnabled = new SimpleBooleanProperty(false);
 
     private String[] sorts = {"All", "Income", "Expenses"};
     private int sortIndex = 0;
@@ -96,6 +122,8 @@ public class AccountController
     @FXML public AnchorPane transactionCompleteScene;
 
     // transaction scene
+
+    public PanelContext transactionContext;
 
     @FXML public AnchorPane transactionScene;
     @FXML public Button exitButton;
@@ -138,6 +166,7 @@ public class AccountController
     private Model model;
 
     private States accountState;
+    private States transactionState;
 
     private double translateX = 0;
     private double translateY = 0;
@@ -145,6 +174,7 @@ public class AccountController
     public void initialize(Controller controller, Model model)
     {
         this.accountState = States.DEFAULT;
+        this.transactionState = States.DEFAULT;
 
         this.controller = controller;
         this.model = model;
@@ -153,23 +183,44 @@ public class AccountController
         walletButton.setId("Wallet-page");
         profileButton.setId("Profile-page");
 
-        sendButton.setId("Transaction-page");
-        //receiveButton.setId("Transaction-page2");
-       // rewardButton.setId("Transaction-page2");
+        this.homeContext = new HotbarContext(
+                this.homeButton,
+                this.homeBorderPane
+        );
+        this.walletContext = new HotbarContext(
+                this.walletButton,
+                this.walletBorderPane
+        );
+        this.profileContext = new HotbarContext(
+                this.profileButton,
+                this.profileBorderPane
+        );
 
         seeMoreFButton.setId("Transaction-list");
         seeMoreWButton.setId("Transaction-summary");
         seeMoreDButton.setId("Transaction-list");
 
+        // send cash
+
+        this.transactionContext = new PanelContext(
+                this.transactionScene,
+                this.exitButton,
+                896.0,
+                72.0,
+                States.TRANSACTION_PAGE
+        );
+
+        sendButton.setId("Transaction-page-open");
         exitButton.setId("Transaction-page-close");
         recipientTextField.setId("Open-Input");
         amountTextField.setId("Open-Input-Balance");
-        sendCashButton.setId("Transaction-page");
+        sendCashButton.setId("Transaction-page-open");
+        sendCashButton1.setId("Transaction-page-open");
+        exitButton2.setId("Transaction-page-close");
+
+        // summary
 
         exitButton1.setId("Transaction-summary-close");
-
-        exitButton2.setId("Transaction-page-close");
-        sendCashButton1.setId("Transaction-page");
 
         anchor.setTranslateX(464);
         transactionScene.setTranslateY(896);
@@ -178,6 +229,144 @@ public class AccountController
         BindButtons();
         BindScrolls();
         BindTextFields();
+        BindHotbarContexts();
+        BindPanelContexts();
+    }
+
+    public void BindHotbarContexts()
+    {
+        HotbarContext[] hotbarContexts = {
+                this.homeContext, this.walletContext, this.profileContext
+        };
+
+        for (HotbarContext hotbarContext : hotbarContexts)
+        {
+            registerContext(hotbarContext);
+        }
+    }
+
+    public void BindPanelContexts()
+    {
+        PanelContext[] panelContexts = {
+                this.transactionContext
+        };
+
+        for (PanelContext panelContext : panelContexts)
+        {
+            registerDraggableAnchor(panelContext);
+        }
+    }
+
+    public void registerDraggableAnchor(PanelContext panelContext)
+    {
+        final DoubleProperty dragOffsetY = new SimpleDoubleProperty();
+        final BooleanProperty hasRestarted = new SimpleBooleanProperty(false);
+
+        AnchorPane anchorPane = panelContext.panel();
+        Button pivotButton = panelContext.pivot();
+        Double start = panelContext.start();
+        Double end = panelContext.end();
+        States state = panelContext.state();
+
+        pivotButton.setOnMousePressed(event ->
+        {
+            if (this.transactionState.equals(state))
+            {
+                hasRestarted.set(false);
+
+                if (this.transactionState.equals(state))
+                {
+                    // If the panel is already open, set its goal Y transition
+                    anchorPane.setTranslateY(end);
+                }
+
+                dragOffsetY.set(event.getSceneY() - anchorPane.getTranslateY());
+            }
+        });
+
+        pivotButton.setOnMouseDragged(event ->
+        {
+            double newY = event.getSceneY() - dragOffsetY.get();
+
+            // Clamp to allow bounds
+            newY = Math.clamp(newY, end, start);
+
+            System.out.println(newY);
+
+            if (newY >= 700f && !hasRestarted.get())
+            {
+                hasRestarted.set(true);
+                this.controller.process(pivotButton.getId());
+                return;
+            }
+
+            anchorPane.setTranslateY(newY);
+        });
+    }
+
+    private void registerContext(HotbarContext hotbarContext)
+    {
+        Button hotbarButton = hotbarContext.hotbarButton();
+        BorderPane hotbarBorderPane = hotbarContext.hotbarBorderPane();
+
+        Timeline hoverIn = new Timeline(
+                new KeyFrame(Duration.seconds(.2),
+                        new KeyValue(hotbarBorderPane.opacityProperty(), 1, new SineInterpolator())
+                )
+        );
+
+        Timeline hoverOut = new Timeline(
+                new KeyFrame(Duration.seconds(.2),
+                        new KeyValue(hotbarBorderPane.opacityProperty(), 0, new SineInterpolator())
+                )
+        );
+
+        hotbarButton.setOnMouseEntered(event ->
+        {
+            if (hotbarContext != this.selectedHotbarContext)
+            {
+                hoverIn.playFromStart();
+            }
+        });
+
+        hotbarButton.setOnMouseExited(event ->
+        {
+            if (hotbarContext != this.selectedHotbarContext)
+            {
+                hoverOut.playFromStart();
+            }
+        });
+
+        hotbarButton.setOnMouseClicked(event ->
+        {
+            if (hotbarContext != this.selectedHotbarContext)
+            {
+                // iterate through any hotbarContexts before fading them.
+
+                HotbarContext[] hotbarContexts = {
+                        this.homeContext, this.walletContext, this.profileContext
+                };
+
+                for (HotbarContext otherHotbarContext : hotbarContexts)
+                {
+                    if (otherHotbarContext != hotbarContext)
+                    {
+                        Timeline fadeOutOthers = new Timeline(
+                                new KeyFrame(Duration.seconds(.2),
+                                        new KeyValue(otherHotbarContext.hotbarBorderPane().opacityProperty(), 0, new SineInterpolator())
+                                )
+                        );
+                        fadeOutOthers.playFromStart();
+                    }
+                }
+
+                // The selected HotbarContext should instead fade-in
+                hoverIn.playFromStart();
+
+                this.selectedHotbarContext = hotbarContext;
+                this.controller.process(hotbarButton.getId());
+            }
+        });
     }
 
     public void BindScrolls()
@@ -264,13 +453,13 @@ public class AccountController
     public void BindButtons()
     {
 
-        Button[] buttons = {
-                homeButton, walletButton, profileButton, exitButton, sendCashButton, sendCashButton1,
-                exitButton1, exitButton2
+        AnchorPane[] anchors = {
+                addButton, sendButton, depositButton, withdrawButton
         };
 
-        AnchorPane[] anchors = {
-                sendButton
+        Button[] buttons = {
+                homeButton, walletButton, profileButton, sendCashButton, sendCashButton1,
+                exitButton2
         };
 
         Text[] texts = {
@@ -282,14 +471,14 @@ public class AccountController
             registerButton(button);
         }
 
-        for (AnchorPane anchor : anchors)
-        {
-            registerAnchor(anchor);
-        }
-
         for (Text text : texts)
         {
             registerText(text);
+        }
+
+        for (AnchorPane anchorPane : anchors)
+        {
+            registerAnchorpane(anchorPane);
         }
 
         registerSort();
@@ -306,79 +495,26 @@ public class AccountController
         }
     }
 
-    private void hoverText(Text text)
+    private void hoverNode(Node node, double start, double end)
     {
+        // Simplified version compared to other separate methods that strictly require
+        // a different type of arguments.
+
+        // Node should at least solve this by accepting any instances.
         Timeline hoverAnimation = new Timeline(
-                new KeyFrame(Duration.seconds(.2),
-                        new KeyValue(text.opacityProperty(), .6, new SineInterpolator())
+                new KeyFrame(Duration.seconds(0.2),
+                        new KeyValue(node.opacityProperty(), start, new SineInterpolator())
                 )
         );
 
         Timeline exitAnimation = new Timeline(
-                new KeyFrame(Duration.seconds(.2),
-                        new KeyValue(text.opacityProperty(), 1, new SineInterpolator())
+                new KeyFrame(Duration.seconds(0.2),
+                        new KeyValue(node.opacityProperty(), end, new SineInterpolator())
                 )
         );
 
-        text.setOnMouseEntered(event -> {
-            hoverAnimation.playFromStart();
-        });
-        text.setOnMouseExited(event -> {
-            exitAnimation.playFromStart();
-        });
-    }
-
-    private void hoverButton(Button button)
-    {
-        // Initially ensuring that the buttons are unselected (with the greyed-out effect)
-        button.setOpacity(0);
-
-        // Timelines for hover and exit (transition from gray to blue)
-        Timeline hoverAnimation = new Timeline(
-                new KeyFrame(Duration.seconds(.2),
-                        new KeyValue(button.opacityProperty(), 1, new SineInterpolator())
-                )
-        );
-
-        Timeline exitAnimation = new Timeline(
-                new KeyFrame(Duration.seconds(.2),
-                        new KeyValue(button.opacityProperty(), 0, new SineInterpolator())
-                )
-        );
-
-        // I had tried to find different solutions, although implementing them are quite complicated,
-        // in which I decided to practically create two buttons, where the top one fades in or out.
-
-        button.setOnMouseEntered(event -> {
-            hoverAnimation.playFromStart();
-        });
-        button.setOnMouseExited(event -> {
-            exitAnimation.playFromStart();
-        });
-    }
-
-    private void hoverAnchor(AnchorPane anchor)
-    {
-        anchor.setOpacity(0);
-
-        Timeline hoverAnimation = new Timeline(
-                new KeyFrame(Duration.seconds(.2),
-                        new KeyValue(anchor.opacityProperty(), 1, new SineInterpolator())
-                )
-        );
-
-        Timeline exitAnimation = new Timeline(
-                new KeyFrame(Duration.seconds(.2),
-                        new KeyValue(anchor.opacityProperty(), 0, new SineInterpolator())
-                )
-        );
-
-        anchor.setOnMouseEntered(event -> {
-            hoverAnimation.playFromStart();
-        });
-        anchor.setOnMouseExited(event -> {
-            exitAnimation.playFromStart();
-        });
+        node.setOnMouseEntered(event -> hoverAnimation.playFromStart());
+        node.setOnMouseExited(event -> exitAnimation.playFromStart());
     }
 
     // Similar to hoverButton, but exclusively for any other elements
@@ -519,7 +655,7 @@ public class AccountController
 
     public void registerText(Text text)
     {
-        hoverText(text);
+        hoverNode(text, 0.6, 1);
 
         text.setOnMouseClicked(event ->
         {
@@ -527,9 +663,20 @@ public class AccountController
         });
     }
 
+    public void registerAnchorpane(AnchorPane anchorpane)
+    {
+        hoverNode(anchorpane, 1, 0);
+
+        anchorpane.setOnMouseClicked(event ->
+        {
+            System.out.println(anchorpane.getId());
+            controller.process(anchorpane.getId());
+        });
+    }
+
     public void registerSort()
     {
-        hoverText(sortButton);
+        hoverNode(sortButton, 1, 0);
 
         sortButton.setOnMouseClicked(event ->
         {
@@ -565,25 +712,19 @@ public class AccountController
    // MGA2D007256184545
     private void registerButton(Button button)
     {
+        hoverNode(button, 1, 0);
+
         //TODO: Add ripple effect
         button.setOnMousePressed(event ->
         {
             this.controller.process(button.getId());
         });
-        hoverButton(button);
-    }
-
-    private void registerAnchor(AnchorPane anchor)
-    {
-        anchor.setOnMousePressed(event ->
-        {
-            this.controller.process(anchor.getId());
-        });
-        hoverAnchor(anchor);
     }
 
     private void slideTransaction(States transactionState)
     {
+        this.transactionState = transactionState;
+
         double targetY = switch (transactionState)
         {
             case TRANSACTION_PAGE, TRANSACTION_CONFIRM, TRANSACTION_COMPLETE -> 72;
@@ -703,8 +844,14 @@ public class AccountController
         PieChart.Data gainData = new PieChart.Data("Gain", sumGain);
         PieChart.Data lossData = new PieChart.Data("Loss", sumLoss);
 
-        gainData.getNode().setStyle("-fx-pie-color: #199EFF;");
-        lossData.getNode().setStyle("-fx-pie-color: #E66100;");
+        if (gainData.getNode() != null)
+        {
+            gainData.getNode().setStyle("-fx-pie-color: #199EFF;");
+        }
+        if (lossData.getNode() != null)
+        {
+            lossData.getNode().setStyle("-fx-pie-color: #E66100;");
+        }
 
         pieChartTransaction.getData().addAll(gainData, lossData);
 
@@ -860,19 +1007,13 @@ public class AccountController
         transactionContainer.getChildren().clear();
 
         String lastDate = null;
-        double total = 0;
+        double sum = historyList.stream().
+                mapToDouble(History::amount).
+                sum();
 
         for (History history : historyList)
         {
-            if (!history.card().equals(currentCard))
-            {
-                break;
-            }
-            total =+ history.amount();
-        }
 
-        for (History history : historyList)
-        {
             if (!history.card().equals(currentCard))
             {
                 break;
@@ -882,7 +1023,7 @@ public class AccountController
             // If the date is different from the last date, add a date header.
             if (!currentDate.equals(lastDate))
             {
-                AnchorPane dateHeader = buildTransactionDate(currentDate, total, transactionDate);
+                AnchorPane dateHeader = buildTransactionDate(currentDate, sum, transactionDate);
                 transactionContainer.getChildren().add(dateHeader);
                 lastDate = currentDate;
             }
@@ -906,7 +1047,7 @@ public class AccountController
         long input = this.model.getInput();
         double balance = this.model.getInputBalance();
 
-        if (inputState.equals(States.INPUT_DIGIT))
+        if (inputState.equals(States.INPUT_NUMERIC))
         {
             String stringInput = String.valueOf(input);
 
@@ -1188,16 +1329,19 @@ public class AccountController
     {
         Node copy = null;
 
-        if (node instanceof Text original) {
+        if (node instanceof Text original)
+        {
             Text text = new Text(original.getText());
             text.setId(original.getId());
             text.setLayoutX(original.getLayoutX());
             text.setLayoutY(original.getLayoutY());
             text.setOpacity(original.getOpacity());
+            text.setTextAlignment(original.getTextAlignment());
             text.getStyleClass().addAll(original.getStyleClass());
             copy = text;
-
-        } else if (node instanceof AnchorPane original) {
+        }
+        else if (node instanceof AnchorPane original)
+        {
             AnchorPane pane = new AnchorPane();
             pane.setId(original.getId());
             pane.setPrefHeight(original.getPrefHeight());
@@ -1207,7 +1351,6 @@ public class AccountController
             pane.getStyleClass().addAll(original.getStyleClass());
             pane.setPadding(original.getPadding());
             copy = pane;
-
         } else if (node instanceof ImageView original) {
             ImageView image = new ImageView();
             image.setId(original.getId());
@@ -1218,7 +1361,6 @@ public class AccountController
             image.setPreserveRatio(original.isPreserveRatio());
             image.getStyleClass().addAll(original.getStyleClass());
             copy = image;
-
         } else if (node instanceof Circle original) {
             Circle circle = new Circle();
             circle.setId(original.getId());
@@ -1227,8 +1369,8 @@ public class AccountController
             circle.setLayoutY(original.getLayoutY());
             circle.getStyleClass().addAll(original.getStyleClass());
             copy = circle;
-
-        } else if (node instanceof Button original) {
+        } else if (node instanceof Button original)
+        {
             Button button = new Button();
             button.setId(original.getId());
             button.setPrefWidth(original.getPrefWidth());
@@ -1236,8 +1378,9 @@ public class AccountController
             button.setLayoutY(original.getLayoutY());
             button.getStyleClass().addAll(original.getStyleClass());
             copy = button;
-
-        } else if (node instanceof VBox original) {
+        }
+        else if (node instanceof VBox original)
+        {
             VBox vbox = new VBox();
             vbox.setId(original.getId());
             vbox.setPrefWidth(original.getPrefWidth());
@@ -1247,9 +1390,41 @@ public class AccountController
             vbox.setAlignment(original.getAlignment());
             vbox.setPadding(original.getPadding());
             vbox.getStyleClass().addAll(original.getStyleClass());
-            copy = vbox;
 
-        } else if (node instanceof BorderPane original) {
+            if (original.getChildren() != null)
+            {
+                for (Node child : original.getChildren())
+                {
+                    vbox.getChildren().add(cloneNode(child));
+                }
+            }
+
+            copy = vbox;
+        }
+        else if (node instanceof HBox original)
+        {
+            HBox hbox = new HBox();
+            hbox.setId(original.getId());
+            hbox.setPrefWidth(original.getPrefWidth());
+            hbox.setPrefHeight(original.getPrefHeight());
+            hbox.setLayoutX(original.getLayoutX());
+            hbox.setLayoutY(original.getLayoutY());
+            hbox.setAlignment(original.getAlignment());
+            hbox.setPadding(original.getPadding());
+            hbox.getStyleClass().addAll(original.getStyleClass());
+
+            if (original.getChildren() != null)
+            {
+                for (Node child : original.getChildren())
+                {
+                    hbox.getChildren().add(cloneNode(child));
+                }
+            }
+
+            copy = hbox;
+        }
+        else if (node instanceof BorderPane original)
+        {
             BorderPane border = new BorderPane();
             border.setId(original.getId());
             border.setPrefWidth(original.getPrefWidth());
@@ -1259,27 +1434,34 @@ public class AccountController
             border.getStyleClass().addAll(original.getStyleClass());
             border.setPadding(original.getPadding());
 
-            if (original.getTop() != null) border.setTop(cloneNode(original.getTop()));
-            if (original.getBottom() != null) border.setBottom(cloneNode(original.getBottom()));
-            if (original.getLeft() != null) border.setLeft(cloneNode(original.getLeft()));
-            if (original.getRight() != null) border.setRight(cloneNode(original.getRight()));
-            if (original.getCenter() != null) border.setCenter(cloneNode(original.getCenter()));
+            if (original.getTop() != null)
+                border.setTop(cloneNode(original.getTop()));
+            if (original.getBottom() != null)
+                border.setBottom(cloneNode(original.getBottom()));
+            if (original.getLeft() != null)
+                border.setLeft(cloneNode(original.getLeft()));
+            if (original.getRight() != null)
+                border.setRight(cloneNode(original.getRight()));
+            if (original.getCenter() != null)
+                border.setCenter(cloneNode(original.getCenter()));
 
             copy = border;
         }
 
         // Try copying margin if the parent exists and the parent uses it.
-        if (copy != null && node.getParent() != null) {
+        if (copy != null && node.getParent() != null)
+        {
             Insets margin = null;
 
-            if (node.getParent() instanceof VBox) {
+            if (node.getParent() instanceof VBox)
+            {
                 margin = VBox.getMargin(node);
                 if (margin != null) VBox.setMargin(copy, margin);
-            } else if (node.getParent() instanceof HBox) {
+            }
+            else if (node.getParent() instanceof HBox)
+            {
                 margin = HBox.getMargin(node);
                 if (margin != null) HBox.setMargin(copy, margin);
-            } else if (node.getParent() instanceof BorderPane) {
-                // BorderPane doesn't use margin the same way.
             }
         }
 
@@ -1292,12 +1474,16 @@ public class AccountController
         pane.getStyleClass().addAll(template.getStyleClass());
         pane.setPrefSize(template.getPrefWidth(), template.getPrefHeight());
 
+        int majorUnit = (int) amount;
+        int minorUnit = (int) Math.round((amount - majorUnit) * 100);
+
         for (Node instance : template.getChildren())
         {
             Node copy = cloneNode(instance);
 
             switch (copy)
             {
+                // assume that the payee container has their name, date, time, and amount.
                 case Text text -> {
                     if (text.getId().equals("transactionName"))
                     {
@@ -1311,13 +1497,28 @@ public class AccountController
                     {
                         text.setText(time);
                     }
-                    if (text.getId().equals("transactionAmount"))
+                }
+                case HBox hBox ->
+                {
+                    for (Node child : hBox.getChildren())
                     {
-                        DecimalFormat formatter = new DecimalFormat("#,###.##"); // might add into time formatter
+                        if (child instanceof Text text)
+                        {
+                            if (text.getId().equals("transactionMajorUnit"))
+                            {
+                                DecimalFormat formatter = new DecimalFormat("#,###");
 
-                        String formatted = formatter.format(amount);
+                                String formattedMajor = formatter.format(majorUnit);
 
-                        text.setText("+ £" + formatted);
+                                text.setText("+ £" + formattedMajor);
+                            }
+                            if (text.getId().equals("transactionMinorUnit"))
+                            {
+                                String formattedMinor = "." + String.format("%02d", minorUnit);
+
+                                text.setText(formattedMinor);
+                            }
+                        }
                     }
                 }
                 case ImageView imageView when imageView.getId().equals("transactionIcon") ->
@@ -1340,24 +1541,64 @@ public class AccountController
         pane.getStyleClass().addAll(template.getStyleClass());
         pane.setPrefSize(template.getPrefWidth(), template.getPrefHeight());
 
+        int majorUnit = (int) total; // whole part (e.g., pounds)
+        int minorUnit = (int) Math.round((total - majorUnit) * 100); // fractional part (e.g., pence)
+
         for (Node instance : template.getChildren())
         {
             Node copy = cloneNode(instance);
 
-            if (copy instanceof Text text) {
-                if (text.getId().equals("transactionDate"))
-                {
-                    text.setText(date);
-                }
-                if (text.getId().equals("transactionTotal"))
-                {
-                    DecimalFormat formatter = new DecimalFormat("#,###.##"); // might add into time formatter
+            if (copy instanceof BorderPane borderPane)
+            {
+                Node leftNode = borderPane.getLeft();
+                Node rightNode = borderPane.getRight();
 
-                    String formatted = formatter.format(total);
+                // assume that the rightNode is the date of the transaction
+                // (added HBox container since the alignment behavior doesn't copy if parented with the borderPane)
 
-                    text.setText("£" + formatted);
+                if (leftNode instanceof HBox hbox)
+                {
+                    for (Node child : hbox.getChildren())
+                    {
+                        if (child instanceof Text text)
+                        {
+                            if (text.getId().equals("transactionDate"))
+                            {
+                                text.setText(date);
+                            }
+                        }
+                    }
                 }
+
+                // assume that the rightNode is a container that has both major and minor units.
+                if (rightNode instanceof HBox hbox)
+                {
+                    for (Node child : hbox.getChildren())
+                    {
+                        if (child instanceof Text text)
+                        {
+                            if (text.getId().equals("transactionMajorUnit"))
+                            {
+                                DecimalFormat formatter = new DecimalFormat("#,###");
+
+                                String formattedMajor = formatter.format(majorUnit);
+
+                                // major unit (e.g., "£1,234")
+                                text.setText("+ £" + formattedMajor);
+                            }
+                            if (text.getId().equals("transactionMinorUnit"))
+                            {
+                                // Always show 2 digits (e.g., "07", "89")
+                                String formattedMinor = "." + String.format("%02d", minorUnit);
+
+                                // minor unit (e.g., ".99" pence)
+                                text.setText(formattedMinor);
+                            }
+                        }
+                    }
+                };
             }
+
 
             pane.getChildren().add(copy);
         }

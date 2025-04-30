@@ -287,29 +287,68 @@
                                     <Image url="@../atmimages/cardBackground.png" />
                                  </image>
                               </ImageView>
-                              <Text fx:id="type" layoutX="1.0" layoutY="4.0" opacity="0.75" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-smaller-white" text="Basic Account" translateX="5.0" translateY="15.0" />
-                              <Text fx:id="fullname" layoutX="220.0" layoutY="18.0" opacity="0.75" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-smaller-white" text="First Last" textAlignment="RIGHT" />
-                              <Text fx:id="number" layoutX="176.0" layoutY="119.0" opacity="0.75" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-smaller-white" text="**-**-** ********" textAlignment="RIGHT" />
-                              <Text fx:id="company" layoutX="5.0" layoutY="120.0" opacity="0.75" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-smaller-white" text="Mastercard" />
-                              <VBox alignment="CENTER" layoutX="37.0" layoutY="31.0" prefHeight="32.0" prefWidth="209.0">
-                                 <children>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-large-white" text="£1,234.56" textAlignment="CENTER" />
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-smaller-white" text="Total balance" textAlignment="RIGHT" />
-                                 </children>
-                              </VBox>
-                              <ImageView fx:id="companyIcon" fitHeight="32.0" fitWidth="34.0" layoutX="125.0" layoutY="93.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../atmimages/mastercard.png" />
-                                 </image>
-                              </ImageView>
+                              <BorderPane maxHeight="200.0" maxWidth="283.0" prefHeight="126.0" prefWidth="283.0">
+                                 <center>
+                                    <VBox alignment="CENTER" prefHeight="32.0" prefWidth="209.0" BorderPane.alignment="CENTER">
+                                       <children>
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-large-white" text="£1,234.56" textAlignment="CENTER" />
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-smaller-white" text="Total balance" textAlignment="RIGHT" />
+                                          <ImageView fx:id="companyIcon" fitHeight="32.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../atmimages/mastercard.png" />
+                                             </image>
+                                          </ImageView>
+                                       </children>
+                                    </VBox>
+                                 </center>
+                                 <top>
+                                    <BorderPane prefHeight="20.0" prefWidth="283.0" BorderPane.alignment="CENTER">
+                                       <left>
+                                          <Text fx:id="type" opacity="0.75" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-smaller-white" text="Basic Account" BorderPane.alignment="CENTER">
+                                             <BorderPane.margin>
+                                                <Insets left="5.0" />
+                                             </BorderPane.margin>
+                                          </Text>
+                                       </left>
+                                       <right>
+                                          <Text fx:id="fullname" opacity="0.75" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-smaller-white" text="First Name" textAlignment="RIGHT" BorderPane.alignment="CENTER">
+                                             <BorderPane.margin>
+                                                <Insets right="5.0" />
+                                             </BorderPane.margin>
+                                          </Text>
+                                       </right>
+                                    </BorderPane>
+                                 </top>
+                                 <bottom>
+                                    <BorderPane prefHeight="0.0" prefWidth="283.0" translateY="-7.0" BorderPane.alignment="CENTER">
+                                       <right>
+                                          <Text fx:id="number" opacity="0.75" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-smaller-white" text="**-**-** ********" textAlignment="RIGHT" BorderPane.alignment="CENTER">
+                                             <BorderPane.margin>
+                                                <Insets right="5.0" />
+                                             </BorderPane.margin>
+                                          </Text>
+                                       </right>
+                                       <left>
+                                          <Text fx:id="company" opacity="0.75" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-smaller-white" text="Mastercard" BorderPane.alignment="CENTER">
+                                             <BorderPane.margin>
+                                                <Insets left="5.0" />
+                                             </BorderPane.margin>
+                                          </Text>
+                                       </left>
+                                       <padding>
+                                          <Insets bottom="-5.0" />
+                                       </padding>
+                                    </BorderPane>
+                                 </bottom>
+                              </BorderPane>
                            </children>
                         </AnchorPane>
                      </center>
                   </BorderPane>
-                  <ChoiceBox fx:id="issuerDropBox" layoutX="22.0" layoutY="314.0" prefWidth="150.0" styleClass="dropBox" />
+                  <ChoiceBox fx:id="issuerDropBox" layoutX="22.0" layoutY="314.0" prefHeight="44.0" prefWidth="187.0" styleClass="dropBox" />
                   <Button alignment="CENTER" contentDisplay="CENTER" layoutX="31.0" layoutY="302.0" mnemonicParsing="false" styleClass="InvisButton" text="Card Issuer" textAlignment="CENTER" />
-                  <ChoiceBox fx:id="accountTypeDropBox" layoutX="244.0" layoutY="314.0" prefWidth="150.0" styleClass="dropBox" />
-                  <Button alignment="CENTER" contentDisplay="CENTER" layoutX="253.0" layoutY="302.0" mnemonicParsing="false" styleClass="InvisButton" text="Account Type" textAlignment="CENTER" />
+                  <ChoiceBox fx:id="accountTypeDropBox" layoutX="207.0" layoutY="314.0" prefHeight="44.0" prefWidth="187.0" styleClass="dropBox" />
+                  <Button alignment="CENTER" contentDisplay="CENTER" layoutX="225.0" layoutY="302.0" mnemonicParsing="false" styleClass="InvisButton" text="Account Type" textAlignment="CENTER" />
                </children>
             </AnchorPane>
             <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="anchorPane-Welcome">
@@ -320,10 +359,10 @@
                         <Text fx:id="username" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-blue" text="User" textAlignment="CENTER" />
                      </children>
                   </VBox>
-                  <Button alignment="CENTER" contentDisplay="CENTER" layoutX="29.0" layoutY="745.0" mnemonicParsing="false" styleClass="baseButton-pinpoint" text="Log In" textAlignment="CENTER" />
-                  <Button fx:id="loginButton2" alignment="CENTER" contentDisplay="CENTER" layoutX="29.0" layoutY="745.0" mnemonicParsing="false" opacity="0.0" styleClass="logInButton" text="Log In" textAlignment="CENTER" />
-                  <Text layoutX="86.0" layoutY="817.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-small-black" text="Want to know more about?" textAlignment="CENTER" />
-                  <Button fx:id="registerButton2" alignment="CENTER" contentDisplay="CENTER" layoutX="241.0" layoutY="800.0" mnemonicParsing="false" styleClass="registerButton" text="Learn more" textAlignment="CENTER" />
+                  <Button alignment="CENTER" contentDisplay="CENTER" layoutX="30.0" layoutY="769.0" mnemonicParsing="false" styleClass="baseButton-pinpoint" text="Log In" textAlignment="CENTER" />
+                  <Button fx:id="loginButton2" alignment="CENTER" contentDisplay="CENTER" layoutX="30.0" layoutY="769.0" mnemonicParsing="false" opacity="0.0" styleClass="logInButton" text="Log In" textAlignment="CENTER" />
+                  <Text layoutX="87.0" layoutY="841.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-small-black" text="Want to know more about?" textAlignment="CENTER" />
+                  <Button fx:id="registerButton2" alignment="CENTER" contentDisplay="CENTER" layoutX="242.0" layoutY="824.0" mnemonicParsing="false" styleClass="registerButton" text="Learn more" textAlignment="CENTER" />
                   <VBox alignment="CENTER" layoutX="22.0" layoutY="238.0" prefHeight="201.0" prefWidth="373.0" spacing="8.0" styleClass="vBox">
                      <children>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-version" text="MyHome" textAlignment="CENTER" wrappingWidth="194.0" />
