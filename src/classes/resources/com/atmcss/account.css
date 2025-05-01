@@ -32,6 +32,13 @@
      -fx-pref-height: 818;
      -fx-pref-width: 414;
 }
+.anchorPane-invisible {
+     -fx-background-color: invisible;
+     -fx-max-height: 818;
+     -fx-max-width: 414;
+     -fx-pref-height: 818;
+     -fx-pref-width: 414;
+}
 .anchorPane-white {
      -fx-background-color: #FFFFFF;
      -fx-background-radius: 8px;
@@ -133,6 +140,7 @@
      -fx-pref-width: 182px;
      -fx-pref-height: 167px;
 }
+
 /* Custom fonts imports */
 @font-face {
     font-family: 'Manrope';
