@@ -12,6 +12,8 @@ public enum States
     TRANSACTION_COMPLETE,
     TRANSACTION_SUMMARY,
 
+    FEATURES_PAGE,
+
     // Model's internal state for notification
     NOTIFY_SHOW,
 
