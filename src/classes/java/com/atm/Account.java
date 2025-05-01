@@ -25,7 +25,7 @@ public class Account implements Cloneable
         this.cards = new ArrayList<>();
 
         this.addCard(new Card("53-23-65", "1124513", 1000.99, "Mastercard", Types.Physical));
-        this.addCard(new Card("20-71-69","737612", 199.50, "Visa", Types.Virtual)); // visa
+        this.addCard(new Card("20-71-69","737612", 199.50, "Visa", Types.Virtual));
         this.addCard(new Card("92-13-95","257346", 10.00, "HSBC", Types.Debit));
     }
 
