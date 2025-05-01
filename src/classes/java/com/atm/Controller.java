@@ -332,6 +332,12 @@ public class Controller
             case "Profile-page":
                 this.model.processAccount(States.PROFILE_PAGE);
                 break;
+            case "Features-menu-open":
+                this.model.processFeatures(false);
+                break;
+            case "Features-menu-close":
+                this.model.processFeatures(true);
+                break;
             case "Transaction-page-close":
                 this.model.processTransaction(true);
                 break;
