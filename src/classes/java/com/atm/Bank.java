@@ -132,6 +132,18 @@ public class Bank  //make it protected
         this.account = null;
     }
 
+    public Status setCard(Card card)
+    {
+        if (this.IsLogged())
+        {
+            return Status.UNSUCCESSFUL;
+        }
+
+        this.account.setCard(card);
+
+        return Status.SUCCESSFUL;
+    }
+
     public Status transfer(Account payee, double amount)
     {
         if (this.IsLogged())
@@ -148,9 +160,9 @@ public class Bank  //make it protected
         double payerBalance = payerCard.getCardBalance();
         double payeeBalance = payeeCard.getCardBalance();
 
-        // Verifying if the card's balance is over than 0.01,
+        // Verifying if the card's balance is enough,
         // hence 1 exchanged as 0.01
-        if (payerBalance >= 1)
+        if (payerBalance > amount)
         {
             payerCard.setCardBalance(payerBalance - amount);
             payeeCard.setCardBalance(payeeBalance + amount);
