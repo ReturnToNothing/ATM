@@ -12,22 +12,30 @@ public class Entry extends Application
     private String[] names = {
             "John doe",
             "Jane doe",
-            "Bob doe"
+            "Bob doe",
+            "Doe John",
+            "Johnny doe"
     };
     private int[] numbers = {
             112233,
             795321,
-            785321
+            785321,
+            983452,
+            230583
     };
     private int[] passwords = {
             112233,
             795321,
-            785321
+            785321,
+            983452,
+            230583
     };
     private Types[] types = {
             Types.BASIC,
             Types.PRIME,
             Types.PRIME,
+            Types.BASIC,
+            Types.BASIC
     };
 
     public static void main(String[] args)
@@ -45,6 +53,7 @@ public class Entry extends Application
             int number = numbers[index];
             int password = passwords[index];
             Types type = types[index];
+
             bank.addAccount(name, number, password, type);
         }
 
@@ -56,5 +65,4 @@ public class Entry extends Application
         model.view = new View(stage, controller, model);
         model.display();
     }
-
 }

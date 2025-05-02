@@ -179,26 +179,26 @@
                                                 </AnchorPane>
                                                 <AnchorPane minHeight="37.0" prefHeight="40.0" prefWidth="200.0" styleClass="anchorPane-features" GridPane.columnIndex="1" GridPane.rowIndex="1">
                                                    <children>
-                                                      <HBox alignment="CENTER_LEFT" layoutY="2.0" prefHeight="53.0" prefWidth="189.0" spacing="15.0">
+                                                      <HBox alignment="CENTER_LEFT" prefHeight="53.0" prefWidth="189.0" spacing="10.0">
                                                          <children>
                                                             <ImageView fitHeight="35.0" fitWidth="31.0" pickOnBounds="true" preserveRatio="true" translateX="10.0">
                                                                <image>
                                                                   <Image url="@../atmimages/send.png" />
                                                                </image>
                                                             </ImageView>
-                                                            <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-black" text="Withdrawal" translateX="25.0" translateY="-1.0" />
+                                                            <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-black" text="Remove Card" translateX="25.0" />
                                                          </children>
                                                       </HBox>
-                                                      <AnchorPane fx:id="withdrawButton" layoutY="2.0" minHeight="28.0" opacity="0.0" prefHeight="28.0" prefWidth="189.0" styleClass="anchorPane-features-blue">
+                                                      <AnchorPane fx:id="withdrawButton" minHeight="28.0" opacity="0.0" prefHeight="28.0" prefWidth="189.0" styleClass="anchorPane-features-blue">
                                                          <children>
-                                                            <HBox alignment="CENTER_LEFT" prefHeight="53.0" prefWidth="189.0" spacing="15.0">
+                                                            <HBox alignment="CENTER_LEFT" prefHeight="53.0" prefWidth="189.0" spacing="10.0">
                                                                <children>
                                                                   <ImageView fitHeight="35.0" fitWidth="31.0" pickOnBounds="true" preserveRatio="true" translateX="10.0">
                                                                      <image>
                                                                         <Image url="@../atmimages/send-white.png" />
                                                                      </image>
                                                                   </ImageView>
-                                                                  <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-white" text="Withdrawal" translateX="25.0" translateY="-1.0">
+                                                                  <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-white" text="Remove Card" translateX="25.0">
                                                                      <font>
                                                                         <Font size="15.0" />
                                                                      </font>
@@ -752,7 +752,7 @@
             <AnchorPane layoutY="300.0" maxHeight="519.0" maxWidth="414.0" prefHeight="519.0" prefWidth="414.0" styleClass="anchorPane-flexible-white" />
             <AnchorPane layoutX="20.0" layoutY="300.0" maxHeight="519.0" maxWidth="375.0" prefHeight="519.0" prefWidth="375.0" styleClass="anchorPane-flexible-white">
                <children>
-                  <VBox alignment="TOP_CENTER" maxWidth="375.0" prefHeight="519.0" prefWidth="375.0" spacing="5.0">
+                  <VBox alignment="TOP_CENTER" maxWidth="375.0" prefHeight="519.0" prefWidth="375.0">
                      <children>
                         <Button fx:id="exitButton3" minHeight="5.0" minWidth="69.0" mnemonicParsing="false" prefHeight="5.0" prefWidth="69.0" styleClass="exitButton" text="exitButton" translateY="-5.0" />
                         <BorderPane prefHeight="24.0" prefWidth="375.0">
@@ -765,7 +765,7 @@
                         </BorderPane>
                         <ScrollPane id="3" fx:id="featureVerticalScroll" hbarPolicy="NEVER" maxHeight="470.0" maxWidth="391.0" pannable="true" prefHeight="470.0" prefWidth="391.0" styleClass="scroll-pane-transaction" translateX="-5.0" vbarPolicy="ALWAYS">
                            <content>
-                              <VBox fx:id="featureContainer" alignment="TOP_CENTER" prefHeight="800.0" prefWidth="373.0" spacing="3.0">
+                              <VBox fx:id="featureContainer" alignment="TOP_CENTER" prefHeight="800.0" prefWidth="373.0" spacing="10.0">
                                  <opaqueInsets>
                                     <Insets />
                                  </opaqueInsets>
@@ -782,7 +782,7 @@
                                                 <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-black" text="Add Money" translateX="25.0" translateY="-1.0" />
                                              </children>
                                           </HBox>
-                                          <AnchorPane fx:id="addButton1" opacity="0.0" prefHeight="200.0" prefWidth="375.0" styleClass="anchorPane-features-blue">
+                                          <AnchorPane fx:id="addButton1" opacity="0.0" prefHeight="200.0" prefWidth="375.0" styleClass="anchorPane-features-blue-menu">
                                              <children>
                                                 <HBox alignment="CENTER_LEFT" prefHeight="53.0" prefWidth="373.0" spacing="15.0">
                                                    <children>
@@ -792,6 +792,102 @@
                                                          </image>
                                                       </ImageView>
                                                       <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-white" text="Add Money" translateX="25.0" translateY="-1.0">
+                                                         <font>
+                                                            <Font size="15.0" />
+                                                         </font>
+                                                      </Text>
+                                                   </children>
+                                                </HBox>
+                                             </children>
+                                          </AnchorPane>
+                                       </children>
+                                    </AnchorPane>
+                                    <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="anchorPane-features">
+                                       <children>
+                                          <HBox alignment="CENTER_LEFT" prefHeight="53.0" prefWidth="373.0" spacing="15.0">
+                                             <children>
+                                                <ImageView fitHeight="35.0" fitWidth="31.0" pickOnBounds="true" preserveRatio="true" translateX="10.0">
+                                                   <image>
+                                                      <Image url="@../atmimages/recieve.png" />
+                                                   </image>
+                                                </ImageView>
+                                                <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-black" text="Send Money" translateX="25.0" translateY="-1.0" />
+                                             </children>
+                                          </HBox>
+                                          <AnchorPane fx:id="addButton11" opacity="0.0" prefHeight="200.0" prefWidth="375.0" styleClass="anchorPane-features-blue-menu">
+                                             <children>
+                                                <HBox alignment="CENTER_LEFT" prefHeight="53.0" prefWidth="373.0" spacing="15.0">
+                                                   <children>
+                                                      <ImageView fitHeight="35.0" fitWidth="31.0" pickOnBounds="true" preserveRatio="true" translateX="10.0">
+                                                         <image>
+                                                            <Image url="@../atmimages/recieve-white.png" />
+                                                         </image>
+                                                      </ImageView>
+                                                      <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-white" text="Send Money" translateX="25.0" translateY="-1.0">
+                                                         <font>
+                                                            <Font size="15.0" />
+                                                         </font>
+                                                      </Text>
+                                                   </children>
+                                                </HBox>
+                                             </children>
+                                          </AnchorPane>
+                                       </children>
+                                    </AnchorPane>
+                                    <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="anchorPane-features">
+                                       <children>
+                                          <HBox alignment="CENTER_LEFT" prefHeight="53.0" prefWidth="373.0" spacing="15.0">
+                                             <children>
+                                                <ImageView fitHeight="35.0" fitWidth="31.0" pickOnBounds="true" preserveRatio="true" translateX="10.0">
+                                                   <image>
+                                                      <Image url="@../atmimages/recieve.png" />
+                                                   </image>
+                                                </ImageView>
+                                                <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-black" text="Add Card" translateX="25.0" translateY="-1.0" />
+                                             </children>
+                                          </HBox>
+                                          <AnchorPane fx:id="addButton12" opacity="0.0" prefHeight="200.0" prefWidth="375.0" styleClass="anchorPane-features-blue-menu">
+                                             <children>
+                                                <HBox alignment="CENTER_LEFT" prefHeight="53.0" prefWidth="373.0" spacing="15.0">
+                                                   <children>
+                                                      <ImageView fitHeight="35.0" fitWidth="31.0" pickOnBounds="true" preserveRatio="true" translateX="10.0">
+                                                         <image>
+                                                            <Image url="@../atmimages/recieve-white.png" />
+                                                         </image>
+                                                      </ImageView>
+                                                      <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-white" text="Add Card" translateX="25.0" translateY="-1.0">
+                                                         <font>
+                                                            <Font size="15.0" />
+                                                         </font>
+                                                      </Text>
+                                                   </children>
+                                                </HBox>
+                                             </children>
+                                          </AnchorPane>
+                                       </children>
+                                    </AnchorPane>
+                                    <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="anchorPane-features">
+                                       <children>
+                                          <HBox alignment="CENTER_LEFT" prefHeight="53.0" prefWidth="373.0" spacing="15.0">
+                                             <children>
+                                                <ImageView fitHeight="35.0" fitWidth="31.0" pickOnBounds="true" preserveRatio="true" translateX="10.0">
+                                                   <image>
+                                                      <Image url="@../atmimages/recieve.png" />
+                                                   </image>
+                                                </ImageView>
+                                                <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-black" text="Remove Card" translateX="25.0" translateY="-1.0" />
+                                             </children>
+                                          </HBox>
+                                          <AnchorPane fx:id="addButton13" opacity="0.0" prefHeight="200.0" prefWidth="375.0" styleClass="anchorPane-features-blue-menu">
+                                             <children>
+                                                <HBox alignment="CENTER_LEFT" prefHeight="53.0" prefWidth="373.0" spacing="15.0">
+                                                   <children>
+                                                      <ImageView fitHeight="35.0" fitWidth="31.0" pickOnBounds="true" preserveRatio="true" translateX="10.0">
+                                                         <image>
+                                                            <Image url="@../atmimages/recieve-white.png" />
+                                                         </image>
+                                                      </ImageView>
+                                                      <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-white" text="Remove Card" translateX="25.0" translateY="-1.0">
                                                          <font>
                                                             <Font size="15.0" />
                                                          </font>
