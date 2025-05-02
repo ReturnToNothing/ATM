@@ -392,6 +392,22 @@
 
        -fx-background-radius: 8px;
 }
+.anchorPane-features-blue-menu {
+       -fx-font-family: "Manrope";
+       -fx-font-weight: bold;
+       -fx-font-size: 1.3em;
+
+       -fx-pref-width: 373;
+       -fx-pref-height: 52;
+
+       -fx-min-width: 373;
+       -fx-min-height: 52;
+
+       -fx-background-color: #199EFF;
+       -fx-text-fill: #FFFFFF;
+
+       -fx-background-radius: 8px;
+}
 .anchorPane-cardContainer {
        -fx-background-color: transparent;
 }
