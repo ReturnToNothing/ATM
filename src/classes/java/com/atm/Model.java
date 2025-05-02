@@ -589,7 +589,7 @@ public class Model
                     successful = false;
                 }
 
-                if (inputBalance <= 1)
+                if (this.inputBalance <= 1)
                 {
                     description += String.format("❌ Minimum amount is £0.01. (%s)\n\n", this.getInputBalance());
                     successful = false;
@@ -603,12 +603,30 @@ public class Model
                     break;
                 }
 
+                /*
+                 a very unsafe method,
+                 I assume that if the previous payer's card was registered, it could potentially
+                 allow the current payer to use their card accidentally.
+                 */
+                this.bank.setCard(this.selectedCard);
+
                 // If successful, move onto the confirmation scene
                 this.setState(Scene.TRANSACTION, States.TRANSACTION_CONFIRM);
                 break;
             case TRANSACTION_CONFIRM:
                 // Confirmation
-                this.bank.transfer(this.selectedPayee, this.getInputBalance());
+                Status status = this.bank.transfer(this.selectedPayee, this.getInputBalance());
+
+                if (status.equals(Status.INSUFFICIENT_FUNDS))
+                {
+                    this.title = "Insufficient funds";
+                    this.description = "Your funds for your current card isn't sufficient enough";
+                    this.setState(Scene.NOTIFY, States.NOTIFY_SHOW);
+
+                    this.setState(Scene.TRANSACTION, States.TRANSACTION_PAGE);
+                    break;
+                }
+
                 this.setState(Scene.TRANSACTION, States.TRANSACTION_COMPLETE);
 
                 this.input = 0;
@@ -623,6 +641,28 @@ public class Model
                     this.display();
                 });
                 pause.playFromStart();
+                break;
+        }
+
+        this.display();
+    }
+
+    public void processFeatures(boolean close)
+    {
+        if (close)
+        {
+            this.setState(Scene.TRANSACTION, States.DEFAULT);
+            this.display();
+            return;
+        }
+
+        switch (this.transactionState)
+        {
+            case DEFAULT:
+                this.setState(Scene.TRANSACTION, States.FEATURES_PAGE);
+                break;
+            case FEATURES_PAGE:
+                this.setState(Scene.TRANSACTION, States.DEFAULT);
                 break;
         }
 
