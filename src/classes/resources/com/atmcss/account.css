@@ -6,7 +6,7 @@
      -fx-pref-width: 414;
 }
 .anchorPane-flexible-invisible {
-     -fx-background-color: invisible;
+     -fx-background-color: transparent;
 }
 .anchorPane-flexible {
      -fx-background-color: #F2F3F3;
@@ -33,7 +33,7 @@
      -fx-pref-width: 414;
 }
 .anchorPane-invisible {
-     -fx-background-color: invisible;
+     -fx-background-color: transparent;
      -fx-max-height: 818;
      -fx-max-width: 414;
      -fx-pref-height: 818;
