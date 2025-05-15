@@ -162,6 +162,8 @@ public class View
         States inputState = this.model.getState(com.atm.Scene.INPUT);
         States accountState = this.model.getState(com.atm.Scene.ACCOUNT);
 
+        //TODO: each controller should only be called via update() instead of calling slide
+
         NotifyController notifyScene = (NotifyController) getController("notify");
         notifyScene.slide(notifyState);
         notifyScene.update(title, description);
